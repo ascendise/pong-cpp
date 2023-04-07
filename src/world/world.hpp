@@ -11,9 +11,9 @@ namespace pong {
 
         class Entity {
             public: 
-                Entity(long id, std::unique_ptr<std::vector<std::unique_ptr<Component>>> components);
+                Entity(long id, std::unique_ptr<Component> components[]);
                 long getId();
-                std::vector<Component&>& getComponents();
+                Component&[] getComponents();
         };
 
         class System {
@@ -24,9 +24,9 @@ namespace pong {
 
         class World {
             public: 
-                Entity& registerEntity(std::unique_ptr<std::vector<std::unique_ptr<Component>>> components);
+                Entity& registerEntity(std::unique_ptr<Component> components[]);
                 void removeEntity(long id);
-                std::vector<Entity&>& getEntities();
+                Entity&[] getEntities();
                 void registerSystem(std::unique_ptr<System> system);
                 void removeSystem(System& system);
                 void run();
