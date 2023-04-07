@@ -6,14 +6,16 @@ namespace pong {
 
         class Component { 
             public:
-                virtual ~Component();
+                virtual ~Component() {}
         };
 
         class Entity {
+            private:
+                long id;
             public: 
                 Entity(long id, std::unique_ptr<Component> components[]);
                 long getId();
-                Component&[] getComponents();
+                Component** getComponents();
         };
 
         class System {
@@ -26,7 +28,7 @@ namespace pong {
             public: 
                 Entity& registerEntity(std::unique_ptr<Component> components[]);
                 void removeEntity(long id);
-                Entity&[] getEntities();
+                Entity** getEntities();
                 void registerSystem(std::unique_ptr<System> system);
                 void removeSystem(System& system);
                 void run();

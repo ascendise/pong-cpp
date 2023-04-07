@@ -4,6 +4,7 @@ cmake_minimum_required(VERSION 3.21)
 set(CMAKE_CXX_STANDARD 14)
 project(Pong)
 add_subdirectory(src)
+include_directories(src)
 
 enable_testing()
 add_subdirectory(tests)
