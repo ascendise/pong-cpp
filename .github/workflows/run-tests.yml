@@ -15,11 +15,16 @@ jobs:
           submodules: 'true'
       - name: Install CMake
         uses: lukka/get-cmake@v3.25.2
+      - name: Create directory for build
+        run: mkdir build
       - name: Create build files
-        run: cmake .
+        working-directory: ./build
+        run: cmake ..
       - name: Build project
+        working-directory: ./build 
         run: make
       - name: Run tests
+        working-directory: ./build 
         run: ctest
 
       
