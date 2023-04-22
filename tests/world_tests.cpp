@@ -3,8 +3,8 @@
 #include <memory>
 
 #include <world/world.hpp>
-#include "fake_doubles/fakes/fake_component.cpp"
-#include "fake_doubles/fakes/fake_system.cpp"
+#include "test_doubles/fakes/fake_component.cpp"
+#include "test_doubles/fakes/fake_system.cpp"
 
 using ::testing::Eq;
 using namespace pong::world;
