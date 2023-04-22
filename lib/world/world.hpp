@@ -41,6 +41,7 @@ namespace pong {
             std::vector<std::unique_ptr<System>> systems;
         public: 
             std::shared_ptr<Entity> registerEntity(std::vector<std::shared_ptr<Component>> components);
+            void removeEntity(long entityId);
             void registerSystem(std::unique_ptr<System> system);
             void run();
         };

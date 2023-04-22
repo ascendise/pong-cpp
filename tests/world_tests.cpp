@@ -36,7 +36,7 @@ TEST(WorldTests, RegisterEntity_ShouldCreateEntityWithUniqueId) {
     auto component2 = std::make_shared<FakeComponent>(FakeComponent());
     auto components2 = std::vector<std::shared_ptr<Component>>();
     components2.push_back(std::move(component2));
-    auto world = pong::world::World();
+    auto world = World();
     //Act
     auto entity1 = world.registerEntity(components1);
     auto entity2 = world.registerEntity(components2);
@@ -45,11 +45,31 @@ TEST(WorldTests, RegisterEntity_ShouldCreateEntityWithUniqueId) {
     EXPECT_THAT(entity2.get()->getId(), Eq(1));
 }
 
+TEST(WorldTests, RemoveEntity_ShouldRemoveEntity) {
+    //Arrange
+    auto world = World();
+    auto components = std::vector<std::shared_ptr<Component>>();
+    components.push_back(std::make_shared<FakeComponent>(FakeComponent()));
+    auto entity = world.registerEntity(components);
+    //Act
+    world.removeEntity(entity.get()->getId());
+    //Assert
+    EXPECT_THAT(entity.use_count(), 1);
+}
+
+TEST(WorldTests, RemoveEntity_ShouldIgnoreWhenEntityDoesNotExist) {
+    //Arrange
+    auto world = World();
+    //Act
+    //Assert
+    ASSERT_NO_THROW(world.removeEntity(9999));
+}
+
 TEST(WorldTests, Run_ShouldRunSystemThatModifiesComponents) {
     //Arrange
     auto components = std::vector<std::shared_ptr<Component>>();
     components.push_back(std::make_shared<FakeComponent>(FakeComponent()));
-    auto world = pong::world::World();
+    auto world = World();
     //Act
     world.registerSystem(std::make_unique<FakeSystem>(FakeSystem(100)));
     auto entity = world.registerEntity(components);
