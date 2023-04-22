@@ -2,6 +2,9 @@
 #include <vector>
 #include <algorithm>
 
+#ifndef WORLD_HPP
+#define WORLD_HPP
+
 namespace pong {
     namespace world {
 
@@ -48,3 +51,5 @@ namespace pong {
 
     }
 }
+
+#endif

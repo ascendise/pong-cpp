@@ -3,30 +3,11 @@
 #include <memory>
 
 #include <world/world.hpp>
+#include "fake_doubles/fakes/fake_component.cpp"
+#include "fake_doubles/fakes/fake_system.cpp"
 
 using ::testing::Eq;
 using namespace pong::world;
-
-class FakeComponent : public Component {
-private:
-    int value;
-public:
-    void setValue(int value) { this->value = value; };
-    int getValue() { return value; };
-};
-
-class FakeSystem : public System {
-private:
-    int value;
-public:
-    FakeSystem(int value) { this->value = value; };
-    void run(std::vector<std::shared_ptr<Entity>> entities) {
-        for (auto& entity : entities) {
-            auto component = entity.get()->getComponent<FakeComponent>();
-            component.get()->setValue(value);
-        }
-    }
-};
 
 TEST(WorldTests, RegisterEntity_ShouldCreateEntityWithUniqueId) {
     //Arrange
