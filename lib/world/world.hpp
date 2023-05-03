@@ -1,9 +1,9 @@
+#ifndef WORLD_HPP
+#define WORLD_HPP
+
 #include <memory>
 #include <vector>
 #include <algorithm>
-
-#ifndef WORLD_HPP
-#define WORLD_HPP
 
 namespace pong {
     namespace world {
