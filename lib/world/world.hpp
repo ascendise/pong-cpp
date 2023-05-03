@@ -25,10 +25,10 @@ namespace pong {
                 for (auto& componentPtr : this->components) {
                     auto derived = std::dynamic_pointer_cast<T>(componentPtr);
                     if (derived != nullptr) {
-
                         return std::shared_ptr<T>(derived);
                     }
                 }
+                return std::shared_ptr<T>(nullptr);
             }
         };
 
