@@ -22,7 +22,7 @@ namespace pong {
         public:
             static Texture& LoadTexture(SDL_Renderer* renderer, std::string path);
             Texture(const Texture&) = delete;
-            Texture(const Texture&& other) { this->texture = texture; }
+            Texture(const Texture&& other) noexcept { this->texture = texture; }
             Texture& operator=(const Texture&) = delete;
             Texture& operator=(const Texture&& other) noexcept {
                 if (this != &other) {
@@ -33,6 +33,7 @@ namespace pong {
             ~Texture() {
                 SDL_DestroyTexture(this->texture);
             };
+            SDL_Texture* GetTexture() { return this->texture; }
 
         };
 
@@ -40,8 +41,9 @@ namespace pong {
         private:
             std::shared_ptr<Texture> texture;
             int spriteCount;
-            int currentAnimation;
-            const SDL_Rect** animations;
+            int currentSprite;
+            std::vector<SDL_Rect> sprites;
+            std::vector<SDL_Rect> GetAnimationRects();
         public:
             Sprite(std::shared_ptr<Texture> texture, int spriteCount);
             const SDL_Rect* GetNextRect();
