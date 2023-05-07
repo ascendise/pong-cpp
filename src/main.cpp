@@ -19,7 +19,7 @@ int main(int argc, char* argv[]) {
         return -1;  
     }
     auto backgroundImg = IMG_Load("../assets/Background.png");
-    auto backgroundTexture = SDL_CreateTextureFromSurface(renderer, backgroundImg);
+    const auto backgroundTexture = SDL_CreateTextureFromSurface(renderer, backgroundImg);
     SDL_RenderClear(renderer);
     SDL_RenderCopy(renderer, backgroundTexture, NULL, NULL);
     SDL_RenderPresent(renderer);

@@ -15,19 +15,37 @@ namespace pong {
             void run(std::vector<std::shared_ptr<world::Entity>> entities);
         };
 
-        class Sprite : world::Component {
+        class Texture {
         private:
             SDL_Texture* texture;
-            int animationCount;
-            int currentAnimation;
-            SDL_Rect** animations;
+            Texture() = default;
         public:
-            Sprite(const std::string& spritePath, int animationCount);
-            Sprite(const Sprite&);
-            Sprite(const Sprite&&);
-            Sprite& operator=(const Sprite&);
-            Sprite& operator = (const Sprite&&);
-            SDL_Rect* GetNextRect();
+            static Texture& LoadTexture(SDL_Renderer* renderer, std::string path);
+            Texture(const Texture&) = delete;
+            Texture(const Texture&& other) { this->texture = texture; }
+            Texture& operator=(const Texture&) = delete;
+            Texture& operator=(const Texture&& other) noexcept {
+                if (this != &other) {
+                    this->texture = other.texture;
+                }
+                return *this;
+            }
+            ~Texture() {
+                SDL_DestroyTexture(this->texture);
+            };
+
+        };
+
+        class Sprite : world::Component {
+        private:
+            std::shared_ptr<Texture> texture;
+            int spriteCount;
+            int currentAnimation;
+            const SDL_Rect** animations;
+        public:
+            Sprite(std::shared_ptr<Texture> texture, int spriteCount);
+            const SDL_Rect* GetNextRect();
+            std::shared_ptr<Texture> GetTexture();
         };
     }
 }

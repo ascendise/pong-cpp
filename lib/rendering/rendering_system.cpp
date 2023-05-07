@@ -9,7 +9,7 @@ namespace pong {
         }
 
         void RenderingSystem::run(std::vector<std::shared_ptr<world::Entity>> entities) {
-            std::runtime_error("Not implemented");
+            throw std::runtime_error("Not implemented");
         }
     }
 }
