@@ -1,9 +1,9 @@
 add_executable(Tests 
-tests.cpp 
-world_tests.cpp 
-entity_tests.cpp
-test_doubles/fakes/fake_component.cpp
-test_doubles/fakes/fake_system.cpp)
+"tests.cpp"
+"world/world_tests.cpp" 
+"world/entity_tests.cpp"
+"world/test_doubles/fakes/fake_component.cpp"
+"world/test_doubles/fakes/fake_system.cpp")
 
 target_link_libraries(Tests PRIVATE PongLib GTest::gtest_main gmock_main)
 

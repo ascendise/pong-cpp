@@ -3,6 +3,7 @@
 
 #include "../world/world.hpp"
 #include <SDL.h>
+#include <string>
 
 namespace pong {
     namespace rendering {
