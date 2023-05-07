@@ -12,8 +12,7 @@ namespace pong {
         public:
             RenderingSystem(SDL_Renderer *renderer);
             void run(std::vector<std::shared_ptr<world::Entity>> entities);
-        }; 
-
+        };
     }
 }
 
