@@ -22,7 +22,9 @@ namespace pong {
         public:
             static Texture& LoadTexture(SDL_Renderer* renderer, std::string path);
             Texture(const Texture&) = delete;
-            Texture(const Texture&& other) noexcept { this->texture = texture; }
+            Texture(const Texture&& other) noexcept { 
+                this->texture = other.texture; 
+            }
             Texture& operator=(const Texture&) = delete;
             Texture& operator=(const Texture&& other) noexcept {
                 if (this != &other) {
@@ -37,7 +39,7 @@ namespace pong {
 
         };
 
-        class Sprite : world::Component {
+        class Sprite : public world::Component {
         private:
             std::shared_ptr<Texture> texture;
             int spriteCount;

@@ -11,6 +11,10 @@ namespace pong {
 			int x = 0;
 			int y = 0;
 		public:
+			Position(int x, int y) { 
+				setX(x);
+				setY(y);
+			}
 			void setX(int x) { this->x = x; }
 			int getX() { return this->x; }
 			void setY(int y) { this->y = y; }
