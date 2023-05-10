@@ -3,6 +3,12 @@
 #include <stdexcept>
 #include <SDL.h>
 #include <SDL_image.h>
+#include <world/world.hpp>
+#include <world/components.hpp>
+#include <rendering/rendering.hpp>   
+
+using namespace pong::world;
+using namespace pong::rendering;
 
 int main(int argc, char* argv[]) {
     SDL_Init(SDL_INIT_VIDEO|SDL_INIT_AUDIO);
@@ -18,21 +24,22 @@ int main(int argc, char* argv[]) {
         SDL_DestroyWindow(window);
         return -1;  
     }
-    auto backgroundImg = IMG_Load("../assets/Background.png");
-    auto backgroundTexture = SDL_CreateTextureFromSurface(renderer, backgroundImg);
-    SDL_RenderClear(renderer);
-    SDL_RenderCopy(renderer, backgroundTexture, NULL, NULL);
-    SDL_RenderPresent(renderer);
+    World world;
+    auto backgroundComponents = std::vector<std::shared_ptr<Component>>();
+    backgroundComponents.push_back(std::make_shared<Position>(Position(0, 0)));
+    auto texture = Texture::loadTexture(renderer, "../assets/Background.png");
+    Sprite sprite(texture, 1);
+    backgroundComponents.push_back(std::make_shared<Sprite>(sprite));
+    world.registerEntity(backgroundComponents);
+    world.registerSystem(std::make_unique<RenderingSystem>(RenderingSystem(renderer)));
     SDL_Event event;
     while(true) {
         SDL_RenderClear(renderer);
-        SDL_RenderCopy(renderer, backgroundTexture, NULL, NULL);
+        world.run();
         SDL_RenderPresent(renderer);
         while(SDL_PollEvent(&event)) {
         }
     }
-    SDL_FreeSurface(backgroundImg);
-    SDL_DestroyTexture(backgroundTexture);
     SDL_DestroyWindow(window);
     SDL_DestroyRenderer(renderer);
     SDL_Quit();

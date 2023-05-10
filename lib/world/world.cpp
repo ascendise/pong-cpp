@@ -13,7 +13,7 @@ namespace pong {
         }
 
         void World::removeEntity(long entityId) {
-            auto has_id = [entityId](std::shared_ptr<Entity> e) { return e.get()->getId() == entityId; };
+            auto has_id = [entityId](std::shared_ptr<Entity> e) { return e->getId() == entityId; };
             auto remove_if_has_id = std::remove_if(this->entities.begin(), this->entities.end(), has_id);
             this->entities.erase(remove_if_has_id, this->entities.end());
         }
@@ -24,7 +24,7 @@ namespace pong {
 
         void World::run() {
             for (auto& system : this->systems) {
-                system.get()->run(this->entities);
+                system->run(this->entities);
             }
         }
     }

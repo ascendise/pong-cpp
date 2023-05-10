@@ -1,9 +1,9 @@
+#ifndef WORLD_HPP
+#define WORLD_HPP
+
 #include <memory>
 #include <vector>
 #include <algorithm>
-
-#ifndef WORLD_HPP
-#define WORLD_HPP
 
 namespace pong {
     namespace world {
@@ -34,7 +34,7 @@ namespace pong {
 
         class System {
         public:
-            virtual void run(std::vector<std::shared_ptr<Entity>> entities) {}
+            virtual void run(std::vector<std::shared_ptr<Entity>> entities) = 0;
         };
 
         class World {

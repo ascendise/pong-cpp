@@ -8,4 +8,4 @@ if (WIN32)
     )
 endif()
 
-target_link_libraries(Pong PRIVATE SDL2::SDL2-static SDL2main SDL2_image::SDL2_image-static)
+target_link_libraries(Pong PRIVATE PongLib SDL2::SDL2-static SDL2main SDL2_image::SDL2_image-static)

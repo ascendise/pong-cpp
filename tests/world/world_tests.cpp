@@ -22,8 +22,8 @@ TEST(WorldTests, RegisterEntity_ShouldCreateEntityWithUniqueId) {
     auto entity1 = world.registerEntity(components1);
     auto entity2 = world.registerEntity(components2);
     //Assert
-    EXPECT_THAT(entity1.get()->getId(), Eq(0));
-    EXPECT_THAT(entity2.get()->getId(), Eq(1));
+    EXPECT_THAT(entity1->getId(), Eq(0));
+    EXPECT_THAT(entity2->getId(), Eq(1));
 }
 
 TEST(WorldTests, RemoveEntity_ShouldRemoveEntity) {
@@ -33,7 +33,7 @@ TEST(WorldTests, RemoveEntity_ShouldRemoveEntity) {
     components.push_back(std::make_shared<FakeComponent>(FakeComponent()));
     auto entity = world.registerEntity(components);
     //Act
-    world.removeEntity(entity.get()->getId());
+    world.removeEntity(entity->getId());
     //Assert
     EXPECT_THAT(entity.use_count(), 1);
 }
@@ -56,6 +56,6 @@ TEST(WorldTests, Run_ShouldRunSystemThatModifiesComponents) {
     auto entity = world.registerEntity(components);
     world.run();
     //Assert
-    auto entity_comp = entity.get()->getComponent<FakeComponent>();
-    EXPECT_THAT(entity_comp.get()->getValue(), Eq(100));
+    auto entity_comp = entity->getComponent<FakeComponent>();
+    EXPECT_THAT(entity_comp->getValue(), Eq(100));
 }
