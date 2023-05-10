@@ -11,5 +11,18 @@ namespace pong {
 			SDL_FreeSurface(surface);
 			return texture;
 		}
+
+		Texture::Texture(const Texture&& other) noexcept { 
+                this->texture = other.texture; 
+            }
+		Texture& Texture::operator=(const Texture&& other) noexcept {
+			if (this != &other) {
+				this->texture = other.texture;
+			}
+			return *this;
+		}
+		Texture::~Texture() {
+			SDL_DestroyTexture(this->texture);
+		};
 	}
 }

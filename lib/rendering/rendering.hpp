@@ -24,18 +24,9 @@ namespace pong {
             static std::shared_ptr<Texture> loadTexture(SDL_Renderer* renderer, std::string path);
             Texture(const Texture&) = delete;
             Texture& operator=(const Texture&) = delete;
-            Texture(const Texture&& other) noexcept { 
-                this->texture = other.texture; 
-            }
-            Texture& operator=(const Texture&& other) noexcept {
-                if (this != &other) {
-                    this->texture = other.texture;
-                }
-                return *this;
-            }
-            ~Texture() {
-                SDL_DestroyTexture(this->texture);
-            };
+            Texture(const Texture&&) noexcept;
+            Texture& operator=(const Texture&&) noexcept;
+            ~Texture();
             SDL_Texture* getSDLTexture() { return this->texture; }
 
         };
