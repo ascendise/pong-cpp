@@ -14,8 +14,8 @@ namespace pong {
                 auto position = entity->getComponent<pong::world::Position>();
                 auto sprite = entity->getComponent<pong::rendering::Sprite>();
                 if (position && sprite) {
-                    auto sdlTexture = sprite->GetTexture()->GetTexture();
-                    auto textureRect = sprite->GetNextRect();
+                    auto sdlTexture = sprite->getTexture()->getSDLTexture();
+                    auto textureRect = sprite->getNextRect();
                     SDL_Rect renderRect = { 
                         position->getX(), 
                         position->getY(), 

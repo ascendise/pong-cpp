@@ -4,7 +4,7 @@
 namespace pong {
 	namespace rendering {
 
-		std::shared_ptr<Texture> Texture::LoadTexture(SDL_Renderer* renderer, std::string path) {
+		std::shared_ptr<Texture> Texture::loadTexture(SDL_Renderer* renderer, std::string path) {
 			auto texture = std::make_shared<Texture>(Texture());
 			auto surface = IMG_Load(path.c_str());
 			texture->texture = SDL_CreateTextureFromSurface(renderer, surface);

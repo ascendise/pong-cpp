@@ -8,10 +8,10 @@ namespace pong {
 			this->texture = texture;
 			this->spriteCount = spriteCount;
 			this->currentSprite = 0;
-			this->sprites = GetAnimationRects();
+			this->sprites = getAnimationRects();
 		}
 
-		std::vector<SDL_Rect> Sprite::GetAnimationRects() {
+		std::vector<SDL_Rect> Sprite::getAnimationRects() {
 			SDL_Rect textureSize = getTextureSize();
 			auto rects = std::vector<SDL_Rect>();
 			for (int i = 1; i <= this->spriteCount; i++) {
@@ -26,12 +26,12 @@ namespace pong {
 
 		SDL_Rect Sprite::getTextureSize() {
 			SDL_Rect size = { 0, 0, 0, 0};
-			SDL_QueryTexture(texture->GetTexture(), NULL, NULL, &size.w, &size.h);
+			SDL_QueryTexture(texture->getSDLTexture(), NULL, NULL, &size.w, &size.h);
 			return size;
 		}
 
 
-		const SDL_Rect Sprite::GetNextRect() {
+		const SDL_Rect Sprite::getNextRect() {
 			auto rect = this->sprites[this->currentSprite];
 			this->currentSprite++;
 			if (this->currentSprite >= this->spriteCount) {
@@ -40,7 +40,7 @@ namespace pong {
 			return rect;
 		}
 
-		std::shared_ptr<Texture> Sprite::GetTexture() {
+		std::shared_ptr<Texture> Sprite::getTexture() {
 			return this->texture;
 		}
 

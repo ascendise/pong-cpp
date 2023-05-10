@@ -27,7 +27,7 @@ int main(int argc, char* argv[]) {
     World world;
     auto backgroundComponents = std::vector<std::shared_ptr<Component>>();
     backgroundComponents.push_back(std::make_shared<Position>(Position(0, 0)));
-    auto texture = Texture::LoadTexture(renderer, "../assets/Background.png");
+    auto texture = Texture::loadTexture(renderer, "../assets/Background.png");
     Sprite sprite(texture, 1);
     backgroundComponents.push_back(std::make_shared<Sprite>(sprite));
     world.registerEntity(backgroundComponents);
