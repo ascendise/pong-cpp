@@ -13,7 +13,7 @@ namespace pong {
 
 		std::vector<SDL_Rect> Sprite::getAnimationRects() {
 			SDL_Rect textureSize = texture->getTextureSize();
-			auto rects = std::vector<SDL_Rect>();
+			std::vector<SDL_Rect> rects;
 			for (int i = 1; i <= this->spriteCount; i++) {
 				SDL_Rect sprite{};
 				sprite.w = textureSize.w  / this->spriteCount;
