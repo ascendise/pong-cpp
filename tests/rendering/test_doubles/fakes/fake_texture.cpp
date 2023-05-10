@@ -5,7 +5,7 @@
 
 namespace pong {
     namespace rendering {
-        class FakeTexture : ITexture {
+        class FakeTexture : public ITexture {
         private:
             SDL_Rect size;
         public:
@@ -18,7 +18,7 @@ namespace pong {
             SDL_Rect getTextureSize() {
                 return size;
             };
-        }
+        };
     }
 }
 
