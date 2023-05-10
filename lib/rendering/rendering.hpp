@@ -16,7 +16,13 @@ namespace pong {
             void run(std::vector<std::shared_ptr<pong::world::Entity>> entities);
         };
 
-        class Texture {
+        class ITexture {
+            public:
+            virtual SDL_Texture* getSDLTexture() = 0;
+            virtual SDL_Rect getTextureSize() = 0;
+        };
+
+        class Texture : public ITexture {
         private:
             SDL_Texture* texture;
             Texture() { };
@@ -34,16 +40,16 @@ namespace pong {
 
         class Sprite : public world::Component {
         private:
-            std::shared_ptr<Texture> texture;
+            std::shared_ptr<ITexture> texture;
             int spriteCount;
             int currentSprite;
             std::vector<SDL_Rect> sprites;
             std::vector<SDL_Rect> getAnimationRects();
             SDL_Rect getTextureSize();
         public:
-            Sprite(std::shared_ptr<Texture> texture, int spriteCount);
+            Sprite(std::shared_ptr<ITexture> texture, int spriteCount);
             const SDL_Rect getNextRect();
-            std::shared_ptr<Texture> getTexture();
+            std::shared_ptr<ITexture> getTexture();
         };
     }
 }

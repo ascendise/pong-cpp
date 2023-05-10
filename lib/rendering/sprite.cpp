@@ -4,7 +4,7 @@
 namespace pong {
 	namespace rendering {
 
-		Sprite::Sprite(std::shared_ptr<Texture> texture, int spriteCount) {
+		Sprite::Sprite(std::shared_ptr<ITexture> texture, int spriteCount) {
 			this->texture = texture;
 			this->spriteCount = spriteCount;
 			this->currentSprite = 0;
@@ -34,7 +34,7 @@ namespace pong {
 			return rect;
 		}
 
-		std::shared_ptr<Texture> Sprite::getTexture() {
+		std::shared_ptr<ITexture> Sprite::getTexture() {
 			return this->texture;
 		}
 
