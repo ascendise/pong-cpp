@@ -28,6 +28,7 @@ namespace pong {
             Texture& operator=(const Texture&&) noexcept;
             ~Texture();
             SDL_Texture* getSDLTexture() { return this->texture; }
+            SDL_Rect getTextureSize();
 
         };
 

@@ -12,6 +12,12 @@ namespace pong {
 			return texture;
 		}
 
+		SDL_Rect Texture::getTextureSize() {
+			SDL_Rect size = { 0, 0, 0, 0};
+			SDL_QueryTexture(texture, NULL, NULL, &size.w, &size.h);
+			return size;
+		}
+
 		Texture::Texture(const Texture&& other) noexcept { 
                 this->texture = other.texture; 
             }
