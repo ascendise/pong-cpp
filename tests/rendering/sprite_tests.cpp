@@ -56,3 +56,20 @@ TEST(SpriteTests, GetNextRect_SpriteSheet_ShouldReturnCorrectSizes) {
     EXPECT_EQ(rect3.h, 50);
     EXPECT_EQ(rect3.w, 100);
 }
+
+TEST(SpriteTests, GetNextRec_LoopThroughSpriteSheet_ShouldStartAtBeginningAgain) {
+    //Arrange
+    SDL_Rect size = { };
+    size.h = 50;
+    size.w = 200;
+    Sprite sut(std::make_shared<FakeTexture>(FakeTexture(size)), 2);
+    //Act
+    sut.getNextRect();
+    sut.getNextRect();
+    auto rect = sut.getNextRect();
+    //Assert
+    EXPECT_EQ(rect.x, 0);
+    EXPECT_EQ(rect.y, 0);
+    EXPECT_EQ(rect.h, 50);
+    EXPECT_EQ(rect.w, 100);
+}
