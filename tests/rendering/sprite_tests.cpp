@@ -12,8 +12,7 @@ TEST(SpriteTests, GetNextRect_SingleImageRect_ShouldReturnCorrectSize) {
     SDL_Rect size{};
     size.w = 64;
     size.h = 64;
-    FakeTexture texture(size);
-    Sprite sut(std::make_shared<FakeTexture>(texture), 1);
+    Sprite sut(std::make_shared<FakeTexture>(FakeTexture(size)), 1);
     //Act
     auto rect1 = sut.getNextRect();
     auto rect2 = sut.getNextRect();
@@ -28,4 +27,32 @@ TEST(SpriteTests, GetNextRect_SingleImageRect_ShouldReturnCorrectSize) {
     EXPECT_EQ(rect2.y, 0);
     EXPECT_EQ(rect2.h, 64);
     EXPECT_EQ(rect2.w, 64);
+}
+
+TEST(SpriteTests, GetNextRect_SpriteSheet_ShouldReturnCorrectSizes) {
+    //Arrange
+    SDL_Rect size{};
+    size.w = 300;
+    size.h = 50;
+    Sprite sut(std::make_shared<FakeTexture>(FakeTexture(size)), 3);
+    //Act
+    auto rect1 = sut.getNextRect();
+    auto rect2 = sut.getNextRect();
+    auto rect3 = sut.getNextRect();
+    //Assert
+        //First Rect
+    EXPECT_EQ(rect1.x, 0);
+    EXPECT_EQ(rect1.y, 0);
+    EXPECT_EQ(rect1.h, 50);
+    EXPECT_EQ(rect1.w, 100);
+        //Second Rect
+    EXPECT_EQ(rect2.x, 100);
+    EXPECT_EQ(rect2.y, 0);
+    EXPECT_EQ(rect2.h, 50);
+    EXPECT_EQ(rect2.w, 100);
+        //Third Rect
+    EXPECT_EQ(rect3.x, 200);
+    EXPECT_EQ(rect3.y, 0);
+    EXPECT_EQ(rect3.h, 50);
+    EXPECT_EQ(rect3.w, 100);
 }

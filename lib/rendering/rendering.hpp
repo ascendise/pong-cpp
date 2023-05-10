@@ -41,11 +41,10 @@ namespace pong {
         class Sprite : public world::Component {
         private:
             std::shared_ptr<ITexture> texture;
-            int spriteCount;
-            int currentSprite;
+            int spriteCount = 0;
+            int currentSprite = 0;
             std::vector<SDL_Rect> sprites;
             std::vector<SDL_Rect> getAnimationRects();
-            SDL_Rect getTextureSize();
         public:
             Sprite(std::shared_ptr<ITexture> texture, int spriteCount);
             const SDL_Rect getNextRect();

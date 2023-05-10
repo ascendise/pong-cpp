@@ -16,9 +16,9 @@ namespace pong {
 			auto rects = std::vector<SDL_Rect>();
 			for (int i = 1; i <= this->spriteCount; i++) {
 				SDL_Rect sprite{};
-				sprite.w = textureSize.w * i;
-				sprite.h = textureSize.h * i;
-				sprite.x = textureSize.w * (i - 1);
+				sprite.w = textureSize.w  / this->spriteCount;
+				sprite.h = textureSize.h;
+				sprite.x = sprite.w * (i - 1);
 				rects.push_back(sprite);
 			}
 			return rects;
@@ -26,7 +26,7 @@ namespace pong {
 
 
 		const SDL_Rect Sprite::getNextRect() {
-			auto rect = this->sprites[this->currentSprite];
+			auto& rect = this->sprites[this->currentSprite];
 			this->currentSprite++;
 			if (this->currentSprite >= this->spriteCount) {
 				this->currentSprite = 0;
