@@ -24,14 +24,14 @@ int main(int argc, char* argv[]) {
         SDL_DestroyWindow(window);
         return -1;  
     }
-    auto world = pong::world::World();
+    World world;
     auto backgroundComponents = std::vector<std::shared_ptr<Component>>();
-    backgroundComponents.push_back(std::make_shared<Component>(Position(0, 0)));
-    auto& texture = Texture::LoadTexture(renderer, "../assets/Background.png");
-    auto sprite = Sprite(std::make_shared<Texture>(std::move(texture)), 1);
-    //auto sprite = Sprite(std::make_shared<Texture>(std::move(texture)), 1);
-    //backgroundComponents.push_back(std::make_shared<Component>(sprite));
+    backgroundComponents.push_back(std::make_shared<Position>(Position(0, 0)));
+    auto texture = Texture::LoadTexture(renderer, "../assets/Background.png");
+    Sprite sprite(texture, 1);
+    backgroundComponents.push_back(std::make_shared<Sprite>(sprite));
     world.registerEntity(backgroundComponents);
+    world.registerSystem(std::make_unique<RenderingSystem>(RenderingSystem(renderer)));
     SDL_Event event;
     while(true) {
         SDL_RenderClear(renderer);

@@ -4,28 +4,29 @@
 #include "../world/world.hpp"
 #include <SDL.h>
 #include <string>
+#include <stdexcept>
 
 namespace pong {
     namespace rendering {
-        class RenderingSystem : world::System { 
+        class RenderingSystem : public world::System { 
         private:
             SDL_Renderer *renderer;
         public:
             RenderingSystem(SDL_Renderer *renderer);
-            void run(std::vector<std::shared_ptr<world::Entity>> entities);
+            void run(std::vector<std::shared_ptr<pong::world::Entity>> entities);
         };
 
         class Texture {
         private:
             SDL_Texture* texture;
-            Texture() = default;
+            Texture() { };
         public:
-            static Texture& LoadTexture(SDL_Renderer* renderer, std::string path);
+            static std::shared_ptr<Texture> LoadTexture(SDL_Renderer* renderer, std::string path);
             Texture(const Texture&) = delete;
+            Texture& operator=(const Texture&) = delete;
             Texture(const Texture&& other) noexcept { 
                 this->texture = other.texture; 
             }
-            Texture& operator=(const Texture&) = delete;
             Texture& operator=(const Texture&& other) noexcept {
                 if (this != &other) {
                     this->texture = other.texture;
@@ -46,9 +47,10 @@ namespace pong {
             int currentSprite;
             std::vector<SDL_Rect> sprites;
             std::vector<SDL_Rect> GetAnimationRects();
+            SDL_Rect getTextureSize();
         public:
             Sprite(std::shared_ptr<Texture> texture, int spriteCount);
-            const SDL_Rect* GetNextRect();
+            const SDL_Rect GetNextRect();
             std::shared_ptr<Texture> GetTexture();
         };
     }

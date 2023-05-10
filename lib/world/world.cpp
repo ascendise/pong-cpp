@@ -24,7 +24,7 @@ namespace pong {
 
         void World::run() {
             for (auto& system : this->systems) {
-                system.get()->run(this->entities);
+                system->run(this->entities);
             }
         }
     }
