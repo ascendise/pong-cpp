@@ -9,7 +9,10 @@ using pong::rendering::Sprite;
 
 TEST(SpriteTests, GetNextRect_SingleImageRect_ShouldReturnCorrectSize) {
     //Arrange
-    FakeTexture texture(SDL_Rect { .w = 64, .h = 64 });
+    SDL_Rect size{};
+    size.w = 64;
+    size.h = 64;
+    FakeTexture texture(size);
     Sprite sut(std::make_shared<FakeTexture>(texture), 1);
     //Act
     auto rect1 = sut.getNextRect();

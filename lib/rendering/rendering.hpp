@@ -25,7 +25,7 @@ namespace pong {
         class Texture : public ITexture {
         private:
             SDL_Texture* texture;
-            Texture() { };
+            Texture() { texture = nullptr; };
         public:
             static std::shared_ptr<Texture> loadTexture(SDL_Renderer* renderer, std::string path);
             Texture(const Texture&) = delete;
