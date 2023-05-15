@@ -6,7 +6,8 @@
 #include "test_doubles/fakes/fake_component.cpp"
 
 using ::testing::Eq;
-using namespace pong::world;
+using pong::world::Component;
+using pong::world::Entity;
 
 TEST(EntityTests, GetComponent_ComponentExists_ShouldReturnComponent) {
     //Arrange

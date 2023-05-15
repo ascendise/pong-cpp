@@ -7,7 +7,8 @@
 #include "test_doubles/fakes/fake_system.cpp"
 
 using ::testing::Eq;
-using namespace pong::world;
+using pong::world::Component;
+using pong::world::World;
 
 TEST(WorldTests, RegisterEntity_ShouldCreateEntityWithUniqueId) {
     //Arrange

@@ -7,8 +7,12 @@
 #include <world/components.hpp>
 #include <rendering/rendering.hpp>   
 
-using namespace pong::world;
-using namespace pong::rendering;
+using pong::world::Component;
+using pong::world::World;
+using pong::world::Position;
+using pong::rendering::Texture;
+using pong::rendering::Sprite;
+using pong::rendering::RenderingSystem;
 
 int main(int argc, char* argv[]) {
     SDL_Init(SDL_INIT_VIDEO|SDL_INIT_AUDIO);
