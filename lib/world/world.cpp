@@ -2,9 +2,15 @@
 
 #include <stdexcept>
 #include <algorithm>
+#include <iostream>
 
 namespace pong {
     namespace world {
+
+        World::World() {
+            this->clock = std::make_shared<Clock>(Clock());
+            this->clock->start();
+        }
 
         std::shared_ptr<Entity> World::registerEntity(std::vector<std::shared_ptr<Component>> components) {
             auto entity = std::make_shared<Entity>(Entity(this->idCounter++, components));
@@ -23,9 +29,15 @@ namespace pong {
         }
 
         void World::run() {
+            std::cout << clock->getFrameTimeDelta() << std::endl;
             for (auto& system : this->systems) {
                 system->run(this->entities);
             }
+            clock->nextFrame();
+        }
+
+        std::shared_ptr<IReadOnlyClock> World::getClock() {
+            return this->clock;
         }
     }
 }

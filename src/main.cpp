@@ -6,6 +6,7 @@
 #include <world/world.hpp>
 #include <world/components.hpp>
 #include <rendering/rendering.hpp>   
+#include <physics/physics.hpp>
 
 using pong::world::Component;
 using pong::world::World;
@@ -13,6 +14,8 @@ using pong::world::Position;
 using pong::rendering::Texture;
 using pong::rendering::Sprite;
 using pong::rendering::RenderingSystem;
+using pong::physics::PhysicsSystem;
+using pong::physics::RigidBody;
 
 int main(int argc, char* argv[]) {
     SDL_Init(SDL_INIT_VIDEO|SDL_INIT_AUDIO);
@@ -29,12 +32,24 @@ int main(int argc, char* argv[]) {
         return -1;  
     }
     World world;
-    auto backgroundComponents = std::vector<std::shared_ptr<Component>>();
+        //Background
+    std::vector<std::shared_ptr<Component>> backgroundComponents;
     backgroundComponents.push_back(std::make_shared<Position>(Position(0, 0)));
     auto texture = Texture::loadTexture(renderer, "../assets/Background.png");
-    Sprite sprite(texture, 1);
-    backgroundComponents.push_back(std::make_shared<Sprite>(sprite));
+    backgroundComponents.push_back(std::make_shared<Sprite>(Sprite(texture, 1)));
     world.registerEntity(backgroundComponents);
+        //Ball
+    std::vector<std::shared_ptr<Component>> ballComponents;
+    ballComponents.push_back(std::make_shared<Position>(Position(100, 100)));
+    auto ballTexture = Texture::loadTexture(renderer, "../assets/anim_test.png");
+    ballComponents.push_back(std::make_shared<Sprite>(Sprite(ballTexture, 4)));
+    RigidBody ballBody;
+    ballBody.getVelocity()->x = 5;
+    ballBody.getVelocity()->y = 5;
+    ballComponents.push_back(std::make_shared<RigidBody>(std::move(ballBody)));
+    world.registerEntity(ballComponents);
+        //Systems
+    world.registerSystem(std::make_unique<PhysicsSystem>(PhysicsSystem(world.getClock())));
     world.registerSystem(std::make_unique<RenderingSystem>(RenderingSystem(renderer)));
     SDL_Event event;
     while(true) {

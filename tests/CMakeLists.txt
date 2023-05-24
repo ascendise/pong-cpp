@@ -5,7 +5,11 @@ add_executable(Tests
 "world/test_doubles/fakes/fake_component.cpp"
 "world/test_doubles/fakes/fake_system.cpp"
 "rendering/test_doubles/fakes/fake_texture.cpp"
-"rendering/sprite_tests.cpp")
+"rendering/sprite_tests.cpp" 
+"vector2d_tests.cpp" 
+"physics/physics_tests.cpp"
+"physics/test_doubles/stub/clock_stub.cpp"
+)
 
 target_link_libraries(Tests PRIVATE PongLib SDL2::SDL2-static SDL2_image::SDL2_image-static GTest::gtest_main gmock_main)
 

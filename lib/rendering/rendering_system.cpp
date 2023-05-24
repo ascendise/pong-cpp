@@ -17,8 +17,8 @@ namespace pong {
                     auto sdlTexture = sprite->getTexture()->getSDLTexture();
                     auto textureRect = sprite->getNextRect();
                     SDL_Rect renderRect = { 
-                        position->getX(), 
-                        position->getY(), 
+                        (int)position->x, 
+                        (int)position->y, 
                         textureRect.w, 
                         textureRect.h 
                     };

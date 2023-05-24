@@ -2,23 +2,15 @@
 #define COMPONENTS_HPP
 
 #include "world.hpp"
+#include "../math.hpp"
 
 namespace pong {
 	namespace world {
 
-		class Position : public Component {
-		private:
-			int x = 0;
-			int y = 0;
+		class Position : public Component, public pong::math::Vector2D 
+		{
 		public:
-			Position(int x, int y) { 
-				setX(x);
-				setY(y);
-			}
-			void setX(int x) { this->x = x; }
-			int getX() { return this->x; }
-			void setY(int y) { this->y = y; }
-			int getY() { return this->y; }
+			Position(int x, int y) : pong::math::Vector2D(x, y) { }
 		};
 
 	}
