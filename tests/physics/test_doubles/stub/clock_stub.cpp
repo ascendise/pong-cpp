@@ -16,6 +16,10 @@ namespace pong {
             float getFrameTimeDelta() {
                 return fixedTimeDelta;
             };
+
+            time_point<high_resolution_clock, nanoseconds> now() {
+                return time_point<high_resolution_clock, nanoseconds>();
+            }
         };
 
     }
