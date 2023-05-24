@@ -36,16 +36,16 @@ int main(int argc, char* argv[]) {
     std::vector<std::shared_ptr<Component>> backgroundComponents;
     backgroundComponents.push_back(std::make_shared<Position>(Position(0, 0)));
     auto texture = Texture::loadTexture(renderer, "../assets/Background.png");
-    backgroundComponents.push_back(std::make_shared<Sprite>(Sprite(texture, 1)));
+    backgroundComponents.push_back(std::make_shared<Sprite>(Sprite(texture, 1, 0)));
     world.registerEntity(backgroundComponents);
         //Ball
     std::vector<std::shared_ptr<Component>> ballComponents;
     ballComponents.push_back(std::make_shared<Position>(Position(100, 100)));
     auto ballTexture = Texture::loadTexture(renderer, "../assets/anim_test.png");
-    ballComponents.push_back(std::make_shared<Sprite>(Sprite(ballTexture, 4)));
+    ballComponents.push_back(std::make_shared<Sprite>(Sprite(ballTexture, 4, 1)));
     RigidBody ballBody;
-    ballBody.getVelocity()->x = 5;
-    ballBody.getVelocity()->y = 5;
+    ballBody.getVelocity()->x = 50;
+    ballBody.getVelocity()->y = 50;
     ballComponents.push_back(std::make_shared<RigidBody>(std::move(ballBody)));
     world.registerEntity(ballComponents);
         //Systems

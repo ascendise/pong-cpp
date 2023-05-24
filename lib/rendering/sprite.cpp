@@ -1,14 +1,19 @@
 #include "rendering.hpp"
 #include <stdexcept>
+#include <chrono>
+#include <iostream>
+
+using std::chrono::milliseconds;
 
 namespace pong {
 	namespace rendering {
 
-		Sprite::Sprite(std::shared_ptr<ITexture> texture, int spriteCount) {
+		Sprite::Sprite(std::shared_ptr<ITexture> texture, int spriteCount, float duration) {
 			this->texture = texture;
 			this->spriteCount = spriteCount;
 			this->currentSprite = 0;
 			this->sprites = getAnimationRects();
+			this->avgFrameTime = duration / (float)spriteCount;
 		}
 
 		std::vector<SDL_Rect> Sprite::getAnimationRects() {
@@ -25,13 +30,24 @@ namespace pong {
 		}
 
 
-		const SDL_Rect Sprite::getNextRect() {
+		const SDL_Rect Sprite::getNextRect(time_point<high_resolution_clock, nanoseconds> time) {
 			auto& rect = this->sprites[this->currentSprite];
-			this->currentSprite++;
-			if (this->currentSprite >= this->spriteCount) {
-				this->currentSprite = 0;
+			if(isPastFrameTime(time)){
+				this->currentSprite++;
+				if (this->currentSprite >= this->spriteCount) {
+					this->currentSprite = 0;
+				}				
+				lastUpdate = time;
 			}
 			return rect;
+		}
+
+		bool Sprite::isPastFrameTime(time_point<high_resolution_clock, nanoseconds> time) {
+			auto duration = time - lastUpdate;
+			auto millis = std::chrono::duration_cast<milliseconds>(duration);
+			auto t = millis.count() / 1000.0;
+			std::cout << t << std::endl;
+			return t > this->avgFrameTime;
 		}
 
 		std::shared_ptr<ITexture> Sprite::getTexture() {

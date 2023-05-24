@@ -29,7 +29,6 @@ namespace pong {
         }
 
         void World::run() {
-            std::cout << clock->getFrameTimeDelta() << std::endl;
             for (auto& system : this->systems) {
                 system->run(this->entities);
             }
