@@ -29,6 +29,17 @@ namespace pong {
 			RigidBody();
 			std::shared_ptr<Vector2D> getVelocity();
 		};
+
+		class BoxCollider : public Component {
+		private:
+			Position position;
+			Vector2D area;
+		public:
+			BoxCollider(Position position, Vector2D area);
+			Position getPosition();
+			Vector2D getArea();
+			bool intersects(const BoxCollider& collider);
+		};
 	}
 }
 
