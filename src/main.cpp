@@ -17,6 +17,8 @@ using pong::rendering::RenderingSystem;
 using pong::physics::PhysicsSystem;
 using pong::physics::RigidBody;
 
+void runGameLoop(SDL_Renderer* renderer, World& world);
+
 int main(int argc, char* argv[]) {
     SDL_Init(SDL_INIT_VIDEO|SDL_INIT_AUDIO);
     auto window = SDL_CreateWindow("Pong", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1280, 720, 0);
@@ -51,16 +53,24 @@ int main(int argc, char* argv[]) {
         //Systems
     world.registerSystem(std::make_unique<PhysicsSystem>(PhysicsSystem(world.getClock())));
     world.registerSystem(std::make_unique<RenderingSystem>(RenderingSystem(renderer)));
+    runGameLoop(renderer, world);
+    SDL_DestroyWindow(window);
+    SDL_DestroyRenderer(renderer);
+    SDL_Quit();
+    return 0;
+}
+
+void runGameLoop(SDL_Renderer* renderer, World& world) {
     SDL_Event event;
     while(true) {
         SDL_RenderClear(renderer);
         world.run();
         SDL_RenderPresent(renderer);
         while(SDL_PollEvent(&event)) {
+            switch(event.type) {
+                case SDL_QUIT:
+                    return;
+            }
         }
     }
-    SDL_DestroyWindow(window);
-    SDL_DestroyRenderer(renderer);
-    SDL_Quit();
-    return 0;
 }
