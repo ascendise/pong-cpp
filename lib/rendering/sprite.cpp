@@ -45,9 +45,8 @@ namespace pong {
 		bool Sprite::isPastFrameTime(time_point<high_resolution_clock, nanoseconds> time) {
 			auto duration = time - lastUpdate;
 			auto millis = std::chrono::duration_cast<milliseconds>(duration);
-			auto t = millis.count() / 1000.0;
-			std::cout << t << std::endl;
-			return t > this->avgFrameTime;
+			auto seconds = millis.count() / 1000.0;
+			return seconds > this->avgFrameTime;
 		}
 
 		std::shared_ptr<ITexture> Sprite::getTexture() {
