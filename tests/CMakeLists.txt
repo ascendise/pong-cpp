@@ -8,6 +8,7 @@ add_executable(Tests
 "rendering/sprite_tests.cpp" 
 "vector2d_tests.cpp" 
 "physics/physics_tests.cpp"
+"physics/box_collider_tests.cpp"
 "physics/test_doubles/stub/clock_stub.cpp"
 )
 

@@ -1,13 +1,16 @@
 #ifndef PHYSICS_HPP
 #define PHYSICS_HPP
 
-#include <world/world.hpp>
-#include <math.hpp>
+#include "../world/world.hpp"
+#include "../rendering/rendering.hpp"
+#include "../math.hpp"
+#include "../world/components.hpp"
 
 using pong::world::System;
 using pong::world::Component;
 using pong::world::Entity;
 using pong::world::IReadOnlyClock;
+using pong::world::Position;
 using pong::math::Vector2D;
 
 namespace pong {
@@ -32,8 +35,8 @@ namespace pong {
 
 		class BoxCollider : public Component {
 		private:
-			Position position;
-			Vector2D area;
+			std::unique_ptr<Position> position;
+			std::unique_ptr<Vector2D> area;
 		public:
 			BoxCollider(Position position, Vector2D area);
 			Position getPosition();

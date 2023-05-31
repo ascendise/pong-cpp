@@ -12,6 +12,7 @@ add_library(PongLib STATIC
     "physics/physics.hpp"  
     "physics/physics_system.cpp" 
     "physics/rigidbody.cpp"
+    "physics/box_collider.cpp"
 )
 
 target_include_directories(PongLib PUBLIC .)
