@@ -7,6 +7,7 @@ namespace pong {
     namespace rendering {
         RenderingSystem::RenderingSystem(SDL_Renderer* renderer) {
             this->renderer = renderer;
+            this->clock.start();
         }
 
         void RenderingSystem::run(std::vector<std::shared_ptr<pong::world::Entity>> entities) {
@@ -15,7 +16,7 @@ namespace pong {
                 auto sprite = entity->getComponent<pong::rendering::Sprite>();
                 if (position && sprite) {
                     auto sdlTexture = sprite->getTexture()->getSDLTexture();
-                    auto textureRect = sprite->getNextRect();
+                    auto textureRect = sprite->getNextRect(clock.now());
                     SDL_Rect renderRect = { 
                         (int)position->x, 
                         (int)position->y, 

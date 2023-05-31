@@ -45,6 +45,7 @@ namespace pong {
         class IReadOnlyClock {
         public:
             virtual float getFrameTimeDelta() = 0;
+            virtual time_point<high_resolution_clock, nanoseconds> now() = 0;
         };
         
         class Clock : public IReadOnlyClock {
@@ -53,6 +54,7 @@ namespace pong {
             time_point<high_resolution_clock, nanoseconds> timeLastFrame;
         public:
             float getFrameTimeDelta();
+            time_point<high_resolution_clock, nanoseconds> now();
             void start();
             void nextFrame();
         };

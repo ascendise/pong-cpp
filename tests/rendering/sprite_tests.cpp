@@ -12,10 +12,10 @@ TEST(SpriteTests, GetNextRect_SingleImageRect_ShouldReturnCorrectSize) {
     SDL_Rect size{};
     size.w = 64;
     size.h = 64;
-    Sprite sut(std::make_shared<FakeTexture>(FakeTexture(size)), 1);
+    Sprite sut(std::make_shared<FakeTexture>(FakeTexture(size)), 1, 0);
     //Act
-    auto rect1 = sut.getNextRect();
-    auto rect2 = sut.getNextRect();
+    auto rect1 = sut.getNextRect(time_point<high_resolution_clock, nanoseconds>());
+    auto rect2 = sut.getNextRect(time_point<high_resolution_clock, nanoseconds>());
     //Assert
         //First Rect
     EXPECT_EQ(rect1.x, 0);
@@ -34,11 +34,23 @@ TEST(SpriteTests, GetNextRect_SpriteSheet_ShouldReturnCorrectSizes) {
     SDL_Rect size{};
     size.w = 300;
     size.h = 50;
-    Sprite sut(std::make_shared<FakeTexture>(FakeTexture(size)), 3);
+    Sprite sut(std::make_shared<FakeTexture>(FakeTexture(size)), 3, 2);
+    std:tm time {
+        .tm_sec = 0,
+        .tm_min = 0,
+        .tm_hour = 12,
+        .tm_mday = 1,
+        .tm_mon = 1,
+        .tm_year = 2000,
+        .tm_wday = 6,
+        .tm_yday = 0,
+     };
     //Act
-    auto rect1 = sut.getNextRect();
-    auto rect2 = sut.getNextRect();
-    auto rect3 = sut.getNextRect();
+    auto rect1 = sut.getNextRect(std::chrono::high_resolution_clock::from_time_t(std::mktime(&time)));
+    time.tm_sec = 1;
+    auto rect2 = sut.getNextRect(std::chrono::high_resolution_clock::from_time_t(std::mktime(&time)));
+    time.tm_sec = 2;
+    auto rect3 = sut.getNextRect(std::chrono::high_resolution_clock::from_time_t(std::mktime(&time)));
     //Assert
         //First Rect
     EXPECT_EQ(rect1.x, 0);
@@ -62,11 +74,11 @@ TEST(SpriteTests, GetNextRec_LoopThroughSpriteSheet_ShouldStartAtBeginningAgain)
     SDL_Rect size = { };
     size.h = 50;
     size.w = 200;
-    Sprite sut(std::make_shared<FakeTexture>(FakeTexture(size)), 2);
+    Sprite sut(std::make_shared<FakeTexture>(FakeTexture(size)), 2, 0);
     //Act
-    sut.getNextRect();
-    sut.getNextRect();
-    auto rect = sut.getNextRect();
+    sut.getNextRect(time_point<high_resolution_clock, nanoseconds>());
+    sut.getNextRect(time_point<high_resolution_clock, nanoseconds>());
+    auto rect = sut.getNextRect(time_point<high_resolution_clock, nanoseconds>());
     //Assert
     EXPECT_EQ(rect.x, 0);
     EXPECT_EQ(rect.y, 0);

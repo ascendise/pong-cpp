@@ -6,11 +6,14 @@
 #include <string>
 #include <stdexcept>
 
+using pong::world::Clock;
+
 namespace pong {
     namespace rendering {
         class RenderingSystem : public world::System { 
         private:
             SDL_Renderer *renderer;
+            Clock clock;
         public:
             RenderingSystem(SDL_Renderer *renderer);
             void run(std::vector<std::shared_ptr<pong::world::Entity>> entities);
@@ -45,9 +48,12 @@ namespace pong {
             int currentSprite = 0;
             std::vector<SDL_Rect> sprites;
             std::vector<SDL_Rect> getAnimationRects();
+            float avgFrameTime = 0;
+            time_point<high_resolution_clock, nanoseconds> lastUpdate;
+            bool isPastFrameTime(time_point<high_resolution_clock, nanoseconds> time);
         public:
-            Sprite(std::shared_ptr<ITexture> texture, int spriteCount);
-            const SDL_Rect getNextRect();
+            Sprite(std::shared_ptr<ITexture> texture, int spriteCount, float duration);
+            const SDL_Rect getNextRect(time_point<high_resolution_clock, nanoseconds> currentTime);
             std::shared_ptr<ITexture> getTexture();
         };
     }

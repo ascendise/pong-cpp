@@ -18,7 +18,6 @@ void PhysicsSystem::run(std::vector<std::shared_ptr<Entity>> entities) {
 		auto rigidBody = entity->getComponent<RigidBody>();
 		if(position && rigidBody) {
 			*position += *rigidBody->getVelocity() * clock->getFrameTimeDelta();
-			std::cout << position->x << " " << position->y << std::endl;
 		}
 	}
 }
