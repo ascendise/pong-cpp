@@ -5,6 +5,9 @@
 #include <vector>
 #include <algorithm>
 #include <chrono>
+#include <type_traits>
+#include "events/events.hpp"
+#include <world/events/events.hpp>
 
 using std::chrono::high_resolution_clock;
 using std::chrono::time_point;
@@ -40,12 +43,14 @@ namespace pong {
         class System {
         public:
             virtual void run(std::vector<std::shared_ptr<Entity>> entities) = 0;
+            virtual ~System() {};
         };
 
         class IReadOnlyClock {
         public:
             virtual float getFrameTimeDelta() = 0;
             virtual time_point<high_resolution_clock, nanoseconds> now() = 0;
+            virtual ~IReadOnlyClock() {};
         };
         
         class Clock : public IReadOnlyClock {
@@ -64,12 +69,14 @@ namespace pong {
             long idCounter = 0;
             std::vector<std::shared_ptr<Entity>> entities;
             std::vector<std::unique_ptr<System>> systems;
+            std::shared_ptr<events::IEventQueue> eventQueue;
             std::shared_ptr<Clock> clock;
         public: 
-            World();
+            World(std::shared_ptr<events::IEventQueue> eventQueue);
             std::shared_ptr<Entity> registerEntity(std::vector<std::shared_ptr<Component>> components);
             void removeEntity(long entityId);
             void registerSystem(std::unique_ptr<System> system);
+            std::shared_ptr<events::IEventQueuePort> getEventQueue();
             std::shared_ptr<IReadOnlyClock> getClock();
             void run();
         };

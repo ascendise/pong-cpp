@@ -8,6 +8,18 @@ RigidBody::RigidBody() {
 	this->velocity = std::make_shared<Vector2D>(std::move(Vector2D(0, 0)));
 }
 
+float RigidBody::getBounce() {
+	return this->bounce;
+}
+
+void RigidBody::setBounce(float bounce) {
+	this->bounce = bounce;
+}
+
+void RigidBody::setVelocity(Vector2D v) {
+	this->velocity = std::make_shared<Vector2D>(std::move(v));
+}
+
 std::shared_ptr<Vector2D> RigidBody::getVelocity() {
 	return this->velocity;
 }

@@ -3,9 +3,9 @@
 #include "test_doubles/stub/clock_stub.cpp"
 #include <gtest/gtest.h>
 #include <memory>
+#include "../world/events/spy_eventqueueport.cpp"
 
-using pong::physics::PhysicsSystem;
-using pong::physics::RigidBody;
+using namespace pong::physics;
 using pong::world::Position;
 using pong::world::Entity;
 using pong::world::ClockStub;

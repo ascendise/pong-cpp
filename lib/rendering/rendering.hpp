@@ -1,7 +1,8 @@
 #ifndef RENDERING_HPP
 #define RENDERING_HPP
 
-#include "../world/world.hpp"
+#include <world/world.hpp>
+#include <rendering/utils.hpp>
 #include <SDL.h>
 #include <string>
 #include <stdexcept>
@@ -13,7 +14,9 @@ namespace pong {
         class RenderingSystem : public world::System { 
         private:
             SDL_Renderer *renderer;
+            std::unique_ptr<ScreenPositionCalculator> screenCalc;
             Clock clock;
+            static std::shared_ptr<Surface> getSurface(SDL_Renderer* renderer);
         public:
             RenderingSystem(SDL_Renderer *renderer);
             void run(std::vector<std::shared_ptr<pong::world::Entity>> entities);

@@ -7,7 +7,14 @@ namespace pong {
     namespace rendering {
         RenderingSystem::RenderingSystem(SDL_Renderer* renderer) {
             this->renderer = renderer;
+            this->screenCalc = std::make_unique<ScreenPositionCalculator>(getSurface(renderer));
             this->clock.start();
+        }
+
+        std::shared_ptr<Surface> RenderingSystem::getSurface(SDL_Renderer* renderer) {
+            auto window = SDL_RenderGetWindow(renderer);
+            auto sdlSurface = SDL_GetWindowSurface(window);
+            return std::make_shared<Surface>(sdlSurface);
         }
 
         void RenderingSystem::run(std::vector<std::shared_ptr<pong::world::Entity>> entities) {
@@ -17,12 +24,11 @@ namespace pong {
                 if (position && sprite) {
                     auto sdlTexture = sprite->getTexture()->getSDLTexture();
                     auto textureRect = sprite->getNextRect(clock.now());
-                    SDL_Rect renderRect = { 
-                        (int)position->x, 
-                        (int)position->y, 
-                        textureRect.w, 
-                        textureRect.h 
-                    };
+                    auto renderRect = screenCalc->toScreenPosition(*position);
+                    renderRect.x -= textureRect.w / 2;
+                    renderRect.y -= textureRect.h / 2;
+                    renderRect.w = textureRect.w;
+                    renderRect.h = textureRect.h;
                     SDL_RenderCopy(renderer, sdlTexture, &textureRect, &renderRect);
                 }
             }

@@ -7,15 +7,11 @@
 #include <world/components.hpp>
 #include <rendering/rendering.hpp>   
 #include <physics/physics.hpp>
+#include <world/events/events.hpp>
 
-using pong::world::Component;
-using pong::world::World;
-using pong::world::Position;
-using pong::rendering::Texture;
-using pong::rendering::Sprite;
-using pong::rendering::RenderingSystem;
-using pong::physics::PhysicsSystem;
-using pong::physics::RigidBody;
+using namespace pong::world;
+using namespace pong::physics;
+using namespace pong::rendering;
 
 void runGameLoop(SDL_Renderer* renderer, World& world);
 
@@ -33,26 +29,44 @@ int main(int argc, char* argv[]) {
         SDL_DestroyWindow(window);
         return -1;  
     }
-    World world;
+        //World + EventQueue
+    EventQueue eventQueue;
+    eventQueue.registerProcessor(std::make_unique<CollisionEventProcessor>(CollisionEventProcessor()));
+    World world(std::make_unique<EventQueue>(std::move(eventQueue)));
         //Background
     std::vector<std::shared_ptr<Component>> backgroundComponents;
-    backgroundComponents.push_back(std::make_shared<Position>(Position(0, 0)));
+    backgroundComponents.push_back(std::make_shared<Position>(0, 0));
     auto texture = Texture::loadTexture(renderer, "../assets/Background.png");
-    backgroundComponents.push_back(std::make_shared<Sprite>(Sprite(texture, 1, 0)));
+    backgroundComponents.push_back(std::make_shared<Sprite>(texture, 1, 0));
     world.registerEntity(backgroundComponents);
         //Ball
     std::vector<std::shared_ptr<Component>> ballComponents;
-    ballComponents.push_back(std::make_shared<Position>(Position(100, 100)));
+    ballComponents.push_back(std::make_shared<Position>(0, 0));
     auto ballTexture = Texture::loadTexture(renderer, "../assets/anim_test.png");
-    ballComponents.push_back(std::make_shared<Sprite>(Sprite(ballTexture, 4, 1)));
+    ballComponents.push_back(std::make_shared<Sprite>(ballTexture, 4, 1));
     RigidBody ballBody;
+    ballBody.setBounce(1);
+    ballBody.getVelocity()->x = 0;
     ballBody.getVelocity()->x = 50;
     ballBody.getVelocity()->y = 50;
     ballComponents.push_back(std::make_shared<RigidBody>(std::move(ballBody)));
+    ballComponents.push_back(std::make_shared<BoxCollider>(Position(0, 0), Vector2D(64, 64)));
     world.registerEntity(ballComponents);
+        //Invisible Middle Wall (Vertical)
+    std::vector<std::shared_ptr<Component>> wallComponents;
+    wallComponents.push_back(std::make_shared<Position>(300, 0));
+    RigidBody wallBody;
+    wallBody.setBounce(1);
+    wallBody.setVelocity(Vector2D(0, 0));
+    wallComponents.push_back(std::make_shared<RigidBody>(std::move(wallBody)));
+    wallComponents.push_back(std::make_shared<BoxCollider>(Position(300, 0), Vector2D(64, 64)));
+    auto wallTexture = Texture::loadTexture(renderer, "../assets/wall.png");
+    wallComponents.push_back(std::make_shared<Sprite>(wallTexture, 1, 0));
+    world.registerEntity(wallComponents);
         //Systems
     world.registerSystem(std::make_unique<PhysicsSystem>(PhysicsSystem(world.getClock())));
     world.registerSystem(std::make_unique<RenderingSystem>(RenderingSystem(renderer)));
+    world.registerSystem(std::make_unique<CollisionSystem>(CollisionSystem(world.getEventQueue())));
     runGameLoop(renderer, world);
     SDL_DestroyWindow(window);
     SDL_DestroyRenderer(renderer);

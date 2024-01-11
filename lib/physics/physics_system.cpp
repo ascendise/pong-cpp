@@ -13,11 +13,17 @@ PhysicsSystem::PhysicsSystem(std::shared_ptr<IReadOnlyClock> clock) {
 }
 
 void PhysicsSystem::run(std::vector<std::shared_ptr<Entity>> entities) {
-	for(auto& entity : entities) {
+	for (int i = 0; i <= entities.size() - 1; i++) {
+		auto& entity = entities[i];
 		auto position = entity->getComponent<Position>();
 		auto rigidBody = entity->getComponent<RigidBody>();
 		if(position && rigidBody) {
-			*position += *rigidBody->getVelocity() * clock->getFrameTimeDelta();
+			auto positionDifference = *rigidBody->getVelocity() * clock->getFrameTimeDelta();
+			*position += positionDifference;
+			auto collider = entity->getComponent<BoxCollider>();
+			if (collider) {
+				*collider->getPosition() += positionDifference;
+			}
 		}
 	}
 }

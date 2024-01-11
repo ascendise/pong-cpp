@@ -36,14 +36,14 @@ TEST(SpriteTests, GetNextRect_SpriteSheet_ShouldReturnCorrectSizes) {
     size.h = 50;
     Sprite sut(std::make_shared<FakeTexture>(FakeTexture(size)), 3, 2);
     std:tm time {
-        .tm_sec = 0,
-        .tm_min = 0,
-        .tm_hour = 12,
-        .tm_mday = 1,
-        .tm_mon = 1,
-        .tm_year = 2000,
-        .tm_wday = 6,
-        .tm_yday = 0,
+        0,
+        0,
+        12,
+        1,
+        1,
+        2000,
+        6,
+        0,
      };
     //Act
     auto rect1 = sut.getNextRect(std::chrono::high_resolution_clock::from_time_t(std::mktime(&time)));
