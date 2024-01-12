@@ -1,26 +1,19 @@
 add_executable(Tests 
-"tests.cpp"
-"world/world_tests.cpp" 
-"world/entity_tests.cpp"
-"world/events/eventqueue_tests.cpp"
-"world/events/fake_event.cpp"
-"world/events/fake_eventprocessor.cpp"
-"world/events/spy_eventqueueport.cpp"
-"world/test_doubles/fakes/fake_component.cpp"
-"world/test_doubles/fakes/fake_system.cpp"
-"rendering/test_doubles/fakes/fake_texture.cpp"
-"rendering/sprite_tests.cpp" 
-"vector2d_tests.cpp" 
-"physics/physics_tests.cpp"
-"physics/box_collider_tests.cpp"
-"physics/test_doubles/stub/clock_stub.cpp"
-"physics/collision_eventprocessor_tests.cpp"
-"physics/collision_system_tests.cpp" 
-"rendering/test_doubles/fakes/fake_surface.cpp" 
-"rendering/screen_position_calculator_tests.cpp"
-"radian_degree_tests.cpp"
-"test_utility.hpp"
-"test_utility.cpp")
+"src/tests.cpp"
+"src/world/world_tests.cpp" 
+"src/world/entity_tests.cpp"
+"src/world/events/eventqueue_tests.cpp"
+"src/rendering/sprite_tests.cpp" 
+"src/vector2d_tests.cpp" 
+"src/physics/physics_tests.cpp"
+"src/physics/box_collider_tests.cpp"
+"src/physics/collision_eventprocessor_tests.cpp"
+"src/physics/collision_system_tests.cpp" 
+"src/rendering/screen_position_calculator_tests.cpp"
+"src/radian_degree_tests.cpp"
+"src/test_utility.cpp")
+
+target_include_directories(Tests PRIVATE includes/)
 
 target_link_libraries(Tests 
 	PRIVATE PongLib 
