@@ -28,28 +28,21 @@ TEST(SpriteTests, GetNextRect_SingleImageRect_ShouldReturnCorrectSize) {
     EXPECT_EQ(rect2.w, 64);
 }
 
+std::chrono::high_resolution_clock::time_point getTimePointFromZero(float seconds) {
+    auto duration = std::chrono::high_resolution_clock::duration((int)(seconds * 1000 * 1000 * 1000));
+    return std::chrono::high_resolution_clock::time_point(duration);
+}
+
 TEST(SpriteTests, GetNextRect_SpriteSheet_ShouldReturnCorrectSizes) {
     //Arrange
     SDL_Rect size{};
     size.w = 300;
     size.h = 50;
-    Sprite sut(std::make_shared<FakeTexture>(FakeTexture(size)), 3, 2);
-    std:tm time {
-        0,
-        0,
-        12,
-        1,
-        1,
-        2000,
-        6,
-        0,
-     };
+    Sprite sut(std::make_shared<FakeTexture>(size), 3, 2);
     //Act
-    auto rect1 = sut.getNextRect(std::chrono::high_resolution_clock::from_time_t(std::mktime(&time)));
-    time.tm_sec = 1;
-    auto rect2 = sut.getNextRect(std::chrono::high_resolution_clock::from_time_t(std::mktime(&time)));
-    time.tm_sec = 2;
-    auto rect3 = sut.getNextRect(std::chrono::high_resolution_clock::from_time_t(std::mktime(&time)));
+    auto rect1 = sut.getNextRect(getTimePointFromZero(0));
+    auto rect2 = sut.getNextRect(getTimePointFromZero(1));
+    auto rect3 = sut.getNextRect(getTimePointFromZero(2));
     //Assert
         //First Rect
     EXPECT_EQ(rect1.x, 0);

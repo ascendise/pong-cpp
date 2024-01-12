@@ -31,7 +31,6 @@ namespace pong {
 
 
 		const SDL_Rect Sprite::getNextRect(time_point<high_resolution_clock, nanoseconds> time) {
-			auto& rect = this->sprites[this->currentSprite];
 			if(isPastFrameTime(time)){
 				this->currentSprite++;
 				if (this->currentSprite >= this->spriteCount) {
@@ -39,6 +38,7 @@ namespace pong {
 				}				
 				lastUpdate = time;
 			}
+			auto& rect = this->sprites[this->currentSprite];
 			return rect;
 		}
 

@@ -46,7 +46,7 @@ int main(int argc, char* argv[]) {
     std::vector<std::shared_ptr<Component>> ballComponents;
     ballComponents.push_back(std::make_shared<Position>(0, 0));
     auto ballTexture = Texture::loadTexture(renderer, "../assets/anim_test.png");
-    ballComponents.push_back(std::make_shared<Sprite>(ballTexture, 4, 1));
+    ballComponents.push_back(std::make_shared<Sprite>(ballTexture, 4, 0.1));
     RigidBody ballBody;
     ballBody.setBounce(1);
     ballBody.getVelocity()->x = 0;
