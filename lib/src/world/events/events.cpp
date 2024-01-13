@@ -4,7 +4,7 @@ namespace pong {
     namespace world {
         namespace events {
             
-            void EventQueue::enqueue(Event&& event) {
+            void EventQueue::enqueue(std::shared_ptr<Event>&& event) {
                 this->events.push(std::move(event));
             }
 
@@ -16,7 +16,7 @@ namespace pong {
                 while(!this->events.empty()) {
                     auto& event = events.front();
                     for(auto& processor : this->processors) {
-                        processor->process(event);
+                        processor->process(*event);
                     }
                     events.pop();
                 }

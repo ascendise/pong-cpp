@@ -31,7 +31,7 @@ public:
 
 class StubEventQueue : public IEventQueue {
     void registerProcessor(std::unique_ptr<EventProcessor>&& processor) { }
-    void enqueue(Event&& event) { }
+    void enqueue(std::shared_ptr<Event>&& event) { }
     void processEvents() { }
 };
 

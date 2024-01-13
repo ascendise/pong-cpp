@@ -67,11 +67,10 @@ TEST(WorldTests, Run_ShouldRunEventQueue) {
     auto eventQueue = std::make_shared<events::EventQueue>(events::EventQueue());
     eventQueue->registerProcessor(std::make_unique<FakeEventProcessor>());
     World world(eventQueue);
-    FakeEvent event;
-    int* spyFakeEventCount = event.spyOnProcessCount();
+    int processCount = 0;
     //Act
-    world.getEventQueue()->enqueue(std::move(event));
+    world.getEventQueue()->enqueue(std::make_shared<FakeEvent>(&processCount));
     world.run();
     //Assert
-    ASSERT_EQ(*spyFakeEventCount, 1);
+    ASSERT_EQ(processCount, 1);
 }

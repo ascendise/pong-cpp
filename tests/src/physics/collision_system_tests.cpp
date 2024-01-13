@@ -67,6 +67,6 @@ TEST(CollisionSystem, Collision_Always_ShouldPassCollisionAngleOf90) {
 	//Act
 	sut.run(std::vector<std::shared_ptr<Entity>> { entity1, entity2 });
 	//Assert
-	auto& event = dynamic_cast<CollisionEvent const&>(spyEventQueue->getEvents().front());
+	auto& event = dynamic_cast<CollisionEvent const&>(*spyEventQueue->getEvents().front());
 	EXPECT_EQ(event.getAngle(), 90);
 }

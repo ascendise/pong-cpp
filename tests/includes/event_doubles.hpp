@@ -8,19 +8,18 @@ using namespace pong::world::events;
 
 class FakeEvent : public Event {
 private:
+    int base = 0;
     int* processCount;
 public:
+    FakeEvent(): processCount(&base) { }
+    FakeEvent(int* processCountSpy): processCount(processCountSpy) { }
 
     void process() {
-        *processCount++;
+        (*processCount)++;
     }
 
     int getProcessCount() const {
         return *processCount;
-    }
-
-    int* spyOnProcessCount() const {
-        return processCount;
     }
 };
 
@@ -40,13 +39,13 @@ public:
 
 class SpyEventQueuePort : public IEventQueuePort {
 private:
-    std::vector<Event> events;
+    std::vector<std::shared_ptr<Event>> events;
 public:
-    void enqueue(Event&& event) {
-        this->events.push_back(event);
+    void enqueue(std::shared_ptr<Event>&& event) {
+        this->events.push_back(std::move(event));
     }
 
-    std::vector<Event> const& getEvents() const {
+    std::vector<std::shared_ptr<Event>> const& getEvents() const {
         return this->events;
     }
 };

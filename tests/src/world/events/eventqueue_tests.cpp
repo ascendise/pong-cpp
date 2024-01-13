@@ -9,12 +9,11 @@ TEST(EventQueueTests, ProcessEvents_ProcessorRegistered_ShouldSendEventToCorrect
     EventQueue queue;
     queue.registerProcessor(std::make_unique<FakeEventProcessor>());
     //Act
-    FakeEvent fakeEvent;
-    int* fakeEventCountSpy = fakeEvent.spyOnProcessCount();
-    queue.enqueue(std::move(fakeEvent));
+    int processCount = 0;
+    queue.enqueue(std::make_shared<FakeEvent>(&processCount));
     queue.processEvents();
     //Assert
-    EXPECT_EQ(*fakeEventCountSpy, 1) << "Event has not been processed";
+    EXPECT_EQ(processCount, 1) << "Event has not been processed";
 }
 
 TEST(EventQueueTests, ProcessEvents_ProcessorRegistered_ShouldSendEventToAllProcessors) {
@@ -22,11 +21,10 @@ TEST(EventQueueTests, ProcessEvents_ProcessorRegistered_ShouldSendEventToAllProc
     EventQueue queue;
     queue.registerProcessor(std::make_unique<FakeEventProcessor>());
     queue.registerProcessor(std::make_unique<FakeEventProcessor>());
-    FakeEvent event;
-    int* fakeEventCountSpy = event.spyOnProcessCount();
-    queue.enqueue(std::move(event));
+    int processCount = 0;
+    queue.enqueue(std::make_shared<FakeEvent>(&processCount));
     //Act
     queue.processEvents();
     //Assert
-    ASSERT_EQ(*fakeEventCountSpy, 2) << "Event has not been processed by all registered EventProcessors";
+    ASSERT_EQ(processCount, 2) << "Event has not been processed by all registered EventProcessors";
 }

@@ -22,25 +22,24 @@ namespace pong {
 
             class IEventQueuePort {
             public:
-                virtual void enqueue(Event&& event) = 0;
+                virtual void enqueue(std::shared_ptr<Event>&& event) = 0;
             };
 
             class IEventQueue : public IEventQueuePort{
                 public:
                     virtual void registerProcessor(std::unique_ptr<EventProcessor>&& processor) = 0;
-                    virtual void enqueue(Event&& event) = 0;
                     virtual void processEvents() = 0;
                     virtual ~IEventQueue() {}
             };
 
             class EventQueue : public IEventQueue{
                 private:
-                    std::queue<Event> events;
+                    std::queue<std::shared_ptr<Event>> events;
                     std::vector<std::unique_ptr<EventProcessor>> processors;
                 public:
                     EventQueue() {}
                     void registerProcessor(std::unique_ptr<EventProcessor>&& processor);
-                    void enqueue(Event&& event);
+                    void enqueue(std::shared_ptr<Event>&& event);
                     void processEvents();
             };
         }
