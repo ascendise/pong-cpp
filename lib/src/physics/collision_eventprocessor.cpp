@@ -9,17 +9,21 @@ namespace pong {
 
         Vector2D calculateVelocityAfterCollision(const CollisionEvent& e);
         
-        void CollisionEventProcessor::process(std::shared_ptr<Event> event) {
-            auto collision = std::dynamic_pointer_cast<CollisionEvent>(event);
-            if (collision == nullptr) {
+        void CollisionEventProcessor::process(Event& event) {
+            try {
+                auto& collision = dynamic_cast<CollisionEvent&>(event);
+                auto body = collision.getTarget()->getComponent<RigidBody>();
+                if (body == nullptr) {
+                    return;
+                }
+                auto newVelocity = calculateVelocityAfterCollision(collision);
+                body->setVelocity(newVelocity);
+            }
+            catch (const std::bad_cast&) {
+                //Event is of different type than required by processor.
+                //Not my business, just return
                 return;
             }
-            auto body = collision->getTarget()->getComponent<RigidBody>();
-            if (body == nullptr) {
-                return;
-            }
-            auto newVelocity = calculateVelocityAfterCollision(*collision);
-            body->setVelocity(newVelocity);
         }
 
         Vector2D calculateVelocityAfterCollision(const CollisionEvent& e) { 

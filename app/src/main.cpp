@@ -34,7 +34,7 @@ int main(int argc, char* argv[]) {
     }
         //World + EventQueue
     EventQueue eventQueue;
-    eventQueue.registerProcessor(std::make_unique<CollisionEventProcessor>(CollisionEventProcessor()));
+    eventQueue.registerProcessor(std::make_unique<CollisionEventProcessor>());
     World world(std::make_unique<EventQueue>(std::move(eventQueue)));
         //Background
     std::vector<std::shared_ptr<Component>> backgroundComponents;

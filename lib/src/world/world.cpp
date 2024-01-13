@@ -7,10 +7,9 @@
 namespace pong {
     namespace world {
 
-        World::World(std::shared_ptr<events::IEventQueue> eventQueue) {
+        World::World(std::shared_ptr<events::IEventQueue>&& eventQueue): eventQueue(eventQueue) {
             this->clock = std::make_shared<Clock>(Clock());
             this->clock->start();
-            this->eventQueue = std::move(eventQueue);
         }
 
         std::shared_ptr<Entity> World::registerEntity(std::vector<std::shared_ptr<Component>> components) {

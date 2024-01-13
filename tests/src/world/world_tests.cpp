@@ -18,7 +18,7 @@ TEST(WorldTests, RegisterEntity_ShouldCreateEntityWithUniqueId) {
     auto component2 = std::make_shared<FakeComponent>(FakeComponent());
     auto components2 = std::vector<std::shared_ptr<Component>>();
     components2.push_back(std::move(component2));
-    auto world = World(std::make_unique<StubEventQueue>(StubEventQueue()));
+    auto world = World(std::make_shared<StubEventQueue>());
     //Act
     auto entity1 = world.registerEntity(components1);
     auto entity2 = world.registerEntity(components2);
@@ -29,7 +29,7 @@ TEST(WorldTests, RegisterEntity_ShouldCreateEntityWithUniqueId) {
 
 TEST(WorldTests, RemoveEntity_ShouldRemoveEntity) {
     //Arrange
-    auto world = World(std::make_unique<StubEventQueue>(StubEventQueue()));
+    auto world = World(std::make_shared<StubEventQueue>());
     auto components = std::vector<std::shared_ptr<Component>>();
     components.push_back(std::make_shared<FakeComponent>(FakeComponent()));
     auto entity = world.registerEntity(components);
@@ -41,7 +41,7 @@ TEST(WorldTests, RemoveEntity_ShouldRemoveEntity) {
 
 TEST(WorldTests, RemoveEntity_ShouldIgnoreWhenEntityDoesNotExist) {
     //Arrange
-    auto world = World(std::make_unique<StubEventQueue>(StubEventQueue()));
+    auto world = World(std::make_shared<StubEventQueue>());
     //Act
     //Assert
     ASSERT_NO_THROW(world.removeEntity(9999));
@@ -50,8 +50,8 @@ TEST(WorldTests, RemoveEntity_ShouldIgnoreWhenEntityDoesNotExist) {
 TEST(WorldTests, Run_ShouldRunSystemThatModifiesComponents) {
     //Arrange
     auto components = std::vector<std::shared_ptr<Component>>();
-    components.push_back(std::make_shared<FakeComponent>(FakeComponent()));
-    auto world = World(std::make_unique<StubEventQueue>(StubEventQueue()));
+    components.push_back(std::make_shared<FakeComponent>());
+    auto world = World(std::make_shared<StubEventQueue>());
     //Act
     world.registerSystem(std::make_unique<FakeSystem>(FakeSystem(100)));
     auto entity = world.registerEntity(components);
@@ -64,13 +64,14 @@ TEST(WorldTests, Run_ShouldRunSystemThatModifiesComponents) {
 
 TEST(WorldTests, Run_ShouldRunEventQueue) {
     //Arrange
-    auto eventQueue = std::make_unique<events::EventQueue>(events::EventQueue());
-    eventQueue->registerProcessor(std::make_unique<FakeEventProcessor>(FakeEventProcessor()));
-    World world(std::move(eventQueue));
-    auto event = std::make_shared<FakeEvent>(FakeEvent());
+    auto eventQueue = std::make_shared<events::EventQueue>(events::EventQueue());
+    eventQueue->registerProcessor(std::make_unique<FakeEventProcessor>());
+    World world(eventQueue);
+    FakeEvent event;
+    int* spyFakeEventCount = event.spyOnProcessCount();
     //Act
-    world.getEventQueue()->enqueue(event);
+    world.getEventQueue()->enqueue(std::move(event));
     world.run();
     //Assert
-    ASSERT_EQ(event->getProcessCount(), 1);
+    ASSERT_EQ(*spyFakeEventCount, 1);
 }

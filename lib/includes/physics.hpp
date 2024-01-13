@@ -66,7 +66,7 @@ namespace pong {
 
 		class CollisionEventProcessor : public EventProcessor {
 		public:
-			void process(std::shared_ptr<Event> event);
+			void process(Event& event);
 		};
 
 		class CollisionSystem : public System {

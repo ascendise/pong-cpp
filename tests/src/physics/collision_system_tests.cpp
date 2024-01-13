@@ -26,7 +26,7 @@ TEST(CollisionSystem, Collision_ShouldPushEventForBothEntities) {
 	//Act
 	sut.run(std::vector<std::shared_ptr<Entity>> { entity1, entity2 });
 	//Assert
-	ASSERT_EQ(spyEventQueue->getEvents()->size(), 2);
+	ASSERT_EQ(spyEventQueue->getEvents().size(), 2);
 }
 
 
@@ -47,7 +47,7 @@ TEST(CollisionSystem, Collision_IncludesEntityWithoutCollider_ShouldPushEventOnl
 	//Act
 	sut.run(std::vector<std::shared_ptr<Entity>> { entity_block, entity1, entity2 });
 	//Assert
-	ASSERT_EQ(spyEventQueue->getEvents()->size(), 2);
+	ASSERT_EQ(spyEventQueue->getEvents().size(), 2);
 }
 
 //TODO: Change the collision system to use dynamic angle
@@ -67,6 +67,6 @@ TEST(CollisionSystem, Collision_Always_ShouldPassCollisionAngleOf90) {
 	//Act
 	sut.run(std::vector<std::shared_ptr<Entity>> { entity1, entity2 });
 	//Assert
-	auto event = std::dynamic_pointer_cast<CollisionEvent>(spyEventQueue->getEvents()->front());
-	EXPECT_EQ(event->getAngle(), 90);
+	auto& event = dynamic_cast<CollisionEvent const&>(spyEventQueue->getEvents().front());
+	EXPECT_EQ(event.getAngle(), 90);
 }

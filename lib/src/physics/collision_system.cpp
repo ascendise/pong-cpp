@@ -31,5 +31,5 @@ void CollisionSystem::pushCollisionEvent(std::shared_ptr<Entity> target, std::sh
 	auto hurdleRigidBody = hurdle->getComponent<RigidBody>();
 	auto targetRigidBody = target->getComponent<RigidBody>();
 	auto bounce = hurdleRigidBody ? hurdleRigidBody->getBounce() : 0;
-	eventQueue->enqueue(std::make_shared<CollisionEvent>(target, 90, bounce));
+	eventQueue->enqueue(CollisionEvent(target, 90, bounce));
 }

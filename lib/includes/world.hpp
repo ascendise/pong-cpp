@@ -71,7 +71,7 @@ namespace pong {
             std::shared_ptr<events::IEventQueue> eventQueue;
             std::shared_ptr<Clock> clock;
         public: 
-            World(std::shared_ptr<events::IEventQueue> eventQueue);
+            World(std::shared_ptr<events::IEventQueue>&& eventQueue);
             std::shared_ptr<Entity> registerEntity(std::vector<std::shared_ptr<Component>> components);
             void removeEntity(long entityId);
             void registerSystem(std::unique_ptr<System> system);

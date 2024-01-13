@@ -21,7 +21,7 @@ TEST(CollisionEventProcessorTests, Process_FrontalCollisionAgainstStaticObject_S
     auto entity = std::make_shared<Entity>(Entity(1, components));
     //Act
     CollisionEvent event(entity, 90, 1);
-    sut.process(std::make_shared<CollisionEvent>(event));
+    sut.process(event);
     //Assert
     EXPECT_EQ(rigidBody->getVelocity()->x, -1);
     EXPECT_EQ(test_utility::roundTo(rigidBody->getVelocity()->y, 4), 0);
@@ -40,7 +40,7 @@ TEST(CollisionEventProcessorTests, Process_FrontalCollisionAgainstStickyObject_S
     auto entity = std::make_shared<Entity>(Entity(1, components));
     //Act
     CollisionEvent event(entity, 90, 0.5);
-    sut.process(std::make_shared<CollisionEvent>(event));
+    sut.process(event);
     //Assert
     EXPECT_EQ(rigidBody->getVelocity()->x, -0.5);
     EXPECT_EQ(test_utility::roundTo(rigidBody->getVelocity()->y, 4), 0);
@@ -59,7 +59,7 @@ TEST(CollisionEventProcessorTests, Process_FrontalCollisionAgainstStickyObject_S
     auto entity = std::make_shared<Entity>(Entity(1, components));
     //Act
     CollisionEvent event(entity, 90, 0.2);
-    sut.process(std::make_shared<CollisionEvent>(event));
+    sut.process(event);
     //Assert
     EXPECT_EQ(rigidBody->getVelocity()->x, -2);
     EXPECT_EQ(test_utility::roundTo(rigidBody->getVelocity()->y, 4), 0);
@@ -78,7 +78,7 @@ TEST(CollisionEventProcessorTests, Process_DifferentAngles_ShouldChangeVelocityA
     auto entity = std::make_shared<Entity>(Entity(1, components));
     //Act
     CollisionEvent event(entity, 30, 1);
-    sut.process(std::make_shared<CollisionEvent>(event));
+    sut.process(event);
     //Assert
     EXPECT_EQ(test_utility::roundTo(rigidBody->getVelocity()->x, 6), 8.660254f);
     EXPECT_EQ(test_utility::roundTo(rigidBody->getVelocity()->y, 6), 5);
