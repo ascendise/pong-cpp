@@ -11,62 +11,72 @@ using namespace pong::physics;
 using pong::world::Position;
 using pong::world::Entity;
 
-TEST(CollisionSystem, Collision_ShouldPushEventForBothEntities) {
+TEST(CollisionSystemTests, Collision_ShouldPushEventForBothEntities) {
 	//Arrange
-	auto spyEventQueue = std::make_shared<SpyEventQueuePort>();
+	SpyEventQueuePort spyEventQueue;
 	CollisionSystem sut(spyEventQueue);
-	std::vector<std::shared_ptr<Component>> components1;
-	components1.push_back(std::make_shared<RigidBody>());
-	components1.push_back(std::make_shared<BoxCollider>(Position(0, 0), Vector2D(2, 2)));
-	auto entity1 = std::make_shared<Entity>(1, components1);
-	std::vector<std::shared_ptr<Component>> components2;
-	components2.push_back(std::make_shared<RigidBody>());
-	components2.push_back(std::make_shared<BoxCollider>(Position(1, 1), Vector2D(2, 2)));
-	auto entity2 = std::make_shared<Entity>(2, components2);
+	std::vector<std::unique_ptr<Component>> components1;
+	components1.push_back(std::make_unique<RigidBody>());
+	components1.push_back(std::make_unique<BoxCollider>(Position(0, 0), Vector2D(2, 2)));
+	Entity entity1(1, std::move(components1));
+	std::vector<std::unique_ptr<Component>> components2;
+	components2.push_back(std::make_unique<RigidBody>());
+	components2.push_back(std::make_unique<BoxCollider>(Position(1, 1), Vector2D(2, 2)));
+	Entity entity2(2, std::move(components2));
 	//Act
-	sut.run(std::vector<std::shared_ptr<Entity>> { entity1, entity2 });
+	auto entities = std::vector<Entity>();
+	entities.push_back(std::move(entity1));
+	entities.push_back(std::move(entity2));
+	sut.run(entities);
 	//Assert
-	ASSERT_EQ(spyEventQueue->getEvents().size(), 2);
+	ASSERT_EQ(spyEventQueue.getEvents().size(), 2);
 }
 
 
-TEST(CollisionSystem, Collision_IncludesEntityWithoutCollider_ShouldPushEventOnlyForEntitesWithColliders) {
+TEST(CollisionSystemTests, Collision_IncludesEntityWithoutCollider_ShouldPushEventOnlyForEntitesWithColliders) {
 	//Arrange
-	auto spyEventQueue = std::make_shared<SpyEventQueuePort>();
+	SpyEventQueuePort spyEventQueue;
 	CollisionSystem sut(spyEventQueue);
-	std::vector<std::shared_ptr<Component>> components_block;
-	auto entity_block = std::make_shared<Entity>(9999, components_block);
-	std::vector<std::shared_ptr<Component>> components1;
-	components1.push_back(std::make_shared<RigidBody>());
-	components1.push_back(std::make_shared<BoxCollider>(Position(0, 0), Vector2D(2, 2)));
-	auto entity1 = std::make_shared<Entity>(1, components1);
-	std::vector<std::shared_ptr<Component>> components2;
-	components2.push_back(std::make_shared<RigidBody>());
-	components2.push_back(std::make_shared<BoxCollider>(Position(1, 1), Vector2D(2, 2)));
-	auto entity2 = std::make_shared<Entity>(2, components2);
+	std::vector<std::unique_ptr<Component>> components_block;
+	Entity entity_block(9999, std::move(components_block));
+	std::vector<std::unique_ptr<Component>> components1;
+	components1.push_back(std::make_unique<RigidBody>());
+	components1.push_back(std::make_unique<BoxCollider>(Position(0, 0), Vector2D(2, 2)));
+	Entity entity1(1, std::move(components1));
+	std::vector<std::unique_ptr<Component>> components2;
+	components2.push_back(std::make_unique<RigidBody>());
+	components2.push_back(std::make_unique<BoxCollider>(Position(1, 1), Vector2D(2, 2)));
+	Entity entity2(2, std::move(components2));
 	//Act
-	sut.run(std::vector<std::shared_ptr<Entity>> { entity_block, entity1, entity2 });
+	auto entities = std::vector<Entity>();
+	entities.push_back(std::move(entity_block));
+	entities.push_back(std::move(entity1));
+	entities.push_back(std::move(entity2));
+	sut.run(entities);
 	//Assert
-	ASSERT_EQ(spyEventQueue->getEvents().size(), 2);
+	ASSERT_EQ(spyEventQueue.getEvents().size(), 2);
 }
 
 //TODO: Change the collision system to use dynamic angle
 //For now uses fixed values
-TEST(CollisionSystem, Collision_Always_ShouldPassCollisionAngleOf90) {
+TEST(CollisionSystemTests, Collision_Always_ShouldPassCollisionAngleOf90) {
 	//Arrange
-	auto spyEventQueue = std::make_shared<SpyEventQueuePort>();
+	SpyEventQueuePort spyEventQueue;
 	CollisionSystem sut(spyEventQueue);
-	std::vector<std::shared_ptr<Component>> components1;
-	components1.push_back(std::make_shared<RigidBody>());
-	components1.push_back(std::make_shared<BoxCollider>(Position(0, 0), Vector2D(2, 2)));
-	auto entity1 = std::make_shared<Entity>(1, components1);
-	std::vector<std::shared_ptr<Component>> components2;
-	components2.push_back(std::make_shared<RigidBody>());
-	components2.push_back(std::make_shared<BoxCollider>(Position(1, 1), Vector2D(2, 2)));
-	auto entity2 = std::make_shared<Entity>(2, components2);
+	std::vector<std::unique_ptr<Component>> components1;
+	components1.push_back(std::make_unique<RigidBody>());
+	components1.push_back(std::make_unique<BoxCollider>(Position(0, 0), Vector2D(2, 2)));
+	Entity entity1(1, std::move(components1));
+	std::vector<std::unique_ptr<Component>> components2;
+	components2.push_back(std::make_unique<RigidBody>());
+	components2.push_back(std::make_unique<BoxCollider>(Position(1, 1), Vector2D(2, 2)));
+	auto entity2 = Entity(2, std::move(components2));
 	//Act
-	sut.run(std::vector<std::shared_ptr<Entity>> { entity1, entity2 });
+	auto entities = std::vector<Entity>();
+	entities.push_back(std::move(entity1));
+	entities.push_back(std::move(entity2));
+	sut.run(entities);
 	//Assert
-	auto& event = dynamic_cast<CollisionEvent const&>(*spyEventQueue->getEvents().front());
+	auto& event = dynamic_cast<CollisionEvent const&>(*spyEventQueue.getEvents().front());
 	EXPECT_EQ(event.getAngle(), 90);
 }

@@ -21,10 +21,10 @@ private:
     int value;
 public:
     FakeSystem(int value) { this->value = value; };
-    void run(std::vector<std::shared_ptr<pong::world::Entity>> entities) {
+    void run(std::vector<pong::world::Entity>& entities) {
         for (auto& entity : entities) {
-            auto component = entity.get()->getComponent<FakeComponent>();
-            component.get()->setValue(value);
+            auto& component = entity.getComponent<FakeComponent>().value().get();
+            component.setValue(value);
         }
     }
 };

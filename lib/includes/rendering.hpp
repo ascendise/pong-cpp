@@ -19,7 +19,7 @@ namespace pong {
             static std::shared_ptr<Surface> getSurface(SDL_Renderer* renderer);
         public:
             RenderingSystem(SDL_Renderer *renderer);
-            void run(std::vector<std::shared_ptr<pong::world::Entity>> entities);
+            void run(std::vector<Entity>& entities);
         };
 
         class ITexture {

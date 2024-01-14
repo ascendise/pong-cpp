@@ -12,12 +12,13 @@ namespace pong {
         void CollisionEventProcessor::process(Event& event) {
             try {
                 auto& collision = dynamic_cast<CollisionEvent&>(event);
-                auto body = collision.getTarget()->getComponent<RigidBody>();
-                if (body == nullptr) {
+                auto bodyOption = collision.getTarget().getComponent<RigidBody>();
+                if (!bodyOption.has_value()) {
                     return;
                 }
+                auto& body = bodyOption.value().get();
                 auto newVelocity = calculateVelocityAfterCollision(collision);
-                body->setVelocity(newVelocity);
+                body.setVelocity(newVelocity);
             }
             catch (const std::bad_cast&) {
                 //Event is of different type than required by processor.
@@ -28,7 +29,9 @@ namespace pong {
 
         Vector2D calculateVelocityAfterCollision(const CollisionEvent& e) { 
             auto rotationAngleRadian = pong::math::toRadian(e.getAngle() * 2);
-            auto velocity = e.getTarget()->getComponent<RigidBody>()->getVelocity();
+            auto targetRigidBodyOption = e.getTarget().getComponent<RigidBody>();
+            auto& targetRigidBody = targetRigidBodyOption.value().get();
+            auto velocity = targetRigidBody.getVelocity();
             auto cos = std::cos(rotationAngleRadian);
             auto sin = std::sin(rotationAngleRadian);
             auto y = velocity->y * cos;

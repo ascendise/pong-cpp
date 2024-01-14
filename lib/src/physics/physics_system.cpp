@@ -8,21 +8,19 @@ using pong::physics::RigidBody;
 using pong::world::Entity;
 using pong::world::Position;
 
-PhysicsSystem::PhysicsSystem(std::shared_ptr<IReadOnlyClock> clock) {
-	this->clock = clock;
-}
-
-void PhysicsSystem::run(std::vector<std::shared_ptr<Entity>> entities) {
+void PhysicsSystem::run(std::vector<Entity>& entities) {
 	for (int i = 0; i <= entities.size() - 1; i++) {
 		auto& entity = entities[i];
-		auto position = entity->getComponent<Position>();
-		auto rigidBody = entity->getComponent<RigidBody>();
-		if(position && rigidBody) {
-			auto positionDifference = *rigidBody->getVelocity() * clock->getFrameTimeDelta();
-			*position += positionDifference;
-			auto collider = entity->getComponent<BoxCollider>();
-			if (collider) {
-				*collider->getPosition() += positionDifference;
+		auto positionOption = entity.getComponent<Position>();
+		auto rigidBodyOption = entity.getComponent<RigidBody>();
+		if(positionOption.has_value() && rigidBodyOption.has_value()) {
+			auto& position = positionOption.value().get();
+			auto& rigidBody = rigidBodyOption.value().get();
+			auto positionDifference = *rigidBody.getVelocity() * clock.getFrameTimeDelta();
+			position += positionDifference;
+			auto colliderOption = entity.getComponent<BoxCollider>();
+			if (colliderOption.has_value()) {
+				*colliderOption.value().get().getPosition() += positionDifference;
 			}
 		}
 	}

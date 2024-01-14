@@ -7,6 +7,7 @@
 #include <chrono>
 #include <type_traits>
 #include <events.hpp>
+#include <optional>
 
 using std::chrono::high_resolution_clock;
 using std::chrono::time_point;
@@ -23,25 +24,35 @@ namespace pong {
         class Entity {
         private:
             long id;
-            std::vector<std::shared_ptr<Component>> components;
+            std::vector<std::unique_ptr<Component>> components;
+            void moveComponents(std::vector<std::unique_ptr<Component>>&& components);
         public:
-            Entity(long id, std::vector<std::shared_ptr<Component>> components);
-            long getId();
+            Entity(long id, std::vector<std::unique_ptr<Component>>&& components)
+                : id(id), components(std::move(components)) {}
+            Entity(const Entity&) = delete;
+            Entity(Entity&&) noexcept;
+            Entity& operator=(const Entity&) = delete;
+            Entity& operator=(Entity&&) noexcept;
+            long getId() const;
             template<class T>
-            std::shared_ptr<T> getComponent() {
-                for (auto& componentPtr : this->components) {
-                    auto derived = std::dynamic_pointer_cast<T>(componentPtr);
-                    if (derived != nullptr) {
-                        return std::shared_ptr<T>(derived);
+            std::optional<std::reference_wrapper<T>> getComponent() {
+                for (const auto& component: this->components) {
+                    try {
+                        auto& derived = dynamic_cast<T&>(*component);
+                        return std::ref(derived);
+                    }
+                    catch (std::bad_cast&) {
+                        //Try next component
                     }
                 }
-                return std::shared_ptr<T>(nullptr);
+                return {};
             }
+            ~Entity() {}
         };
 
         class System {
         public:
-            virtual void run(std::vector<std::shared_ptr<Entity>> entities) = 0;
+            virtual void run(std::vector<Entity>& entities) = 0;
             virtual ~System() {};
         };
 
@@ -66,20 +77,20 @@ namespace pong {
         class World {
         private:
             long idCounter = 0;
-            std::vector<std::shared_ptr<Entity>> entities;
+            std::vector<Entity> entities;
             std::vector<std::unique_ptr<System>> systems;
-            std::shared_ptr<events::IEventQueue> eventQueue;
-            std::shared_ptr<Clock> clock;
+            std::unique_ptr<events::IEventQueue> eventQueue;
+            std::unique_ptr<Clock> clock;
         public: 
-            World(std::shared_ptr<events::IEventQueue>&& eventQueue);
-            std::shared_ptr<Entity> registerEntity(std::vector<std::shared_ptr<Component>> components);
+            World(std::unique_ptr<events::IEventQueue>&& eventQueue);
+            void registerEntity(std::vector<std::unique_ptr<Component>>&& components);
             void removeEntity(long entityId);
-            void registerSystem(std::unique_ptr<System> system);
-            std::shared_ptr<events::IEventQueuePort> getEventQueue();
-            std::shared_ptr<IReadOnlyClock> getClock();
+            std::optional<std::reference_wrapper<Entity>> findEntity(long entityId);
+            void registerSystem(std::unique_ptr<System>&& system);
+            events::IEventQueuePort& getEventQueue();
+            IReadOnlyClock& getClock();
             void run();
         };
-
     }
 }
 

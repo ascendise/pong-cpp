@@ -16,16 +16,16 @@ namespace pong {
 		class PhysicsSystem : public System 
 		{
 		private:
-			std::shared_ptr<IReadOnlyClock> clock;
+			IReadOnlyClock& clock;
 		public:
-			PhysicsSystem(std::shared_ptr<IReadOnlyClock> clock);
-			void run(std::vector<std::shared_ptr<Entity>> entities);
+			PhysicsSystem(IReadOnlyClock& clock) : clock(clock) {}
+			void run(std::vector<Entity>& entities);
 		};
 
 		class RigidBody : public Component {
 		private:
 			std::shared_ptr<Vector2D> velocity;
-			float bounce;
+			float bounce = 1;
 		public:
 			RigidBody();
 			void setVelocity(Vector2D v);
@@ -47,12 +47,13 @@ namespace pong {
 
 		class CollisionEvent : public Event {
 			private: 
-				std::shared_ptr<Entity> target;
+				Entity& target;
 				float angle;
 				float bounce;
 			public:
-				CollisionEvent(std::shared_ptr<Entity> target, float angle, float bounce);
-				std::shared_ptr<Entity> getTarget() const;
+				CollisionEvent(Entity& target, float angle, float bounce)
+					: target(target), angle(angle), bounce(bounce) {}
+				Entity& getTarget() const;
 				float getAngle() const;
 				/// <summary>
 				/// Returns how bouncy the surface is the target hit.
@@ -71,12 +72,11 @@ namespace pong {
 
 		class CollisionSystem : public System {
 		private:
-			std::shared_ptr<IEventQueuePort> eventQueue;
-			void pushCollisionEvent(std::shared_ptr<Entity> target, std::shared_ptr<Entity> hurdle);
-			float getAngle(std::shared_ptr<Entity> target, std::shared_ptr<BoxCollider> hurdleCollider);
+			IEventQueuePort& eventQueue;
+			void pushCollisionEvent(Entity& target, Entity& hurdle);
 		public:
-			CollisionSystem(std::shared_ptr<IEventQueuePort> eventQueue);
-			void run(std::vector<std::shared_ptr<Entity>> entities);
+			CollisionSystem(IEventQueuePort& eventQueue) : eventQueue(eventQueue) {}
+			void run(std::vector<Entity>& entities);
 		};
 	}
 }
