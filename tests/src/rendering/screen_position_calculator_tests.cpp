@@ -4,9 +4,17 @@
 
 using namespace pong::rendering;
 
+SDL_Surface createSurface(int w, int h) {
+	SDL_Surface surface;
+	surface.w = w;
+	surface.h = h;
+	return surface;
+}
+
 TEST(ScreenPositionCalculatorTests, toScreenPosition_middle_shouldReturnCorrectPosition) {
 	//Arrange
-	ScreenPositionCalculator sut(std::make_shared<FakeSurface>(1280, 720));
+	SDL_Surface window = createSurface(1280, 720);
+	ScreenPositionCalculator sut(&window);
 	//Act
 	auto middle = Position(0, 0);
 	auto screenPosition = sut.toScreenPosition(middle);
@@ -17,7 +25,8 @@ TEST(ScreenPositionCalculatorTests, toScreenPosition_middle_shouldReturnCorrectP
 
 TEST(ScreenPositionCalculatorTests, toScreenPosition_offset_shouldReturnCorrectPosition) {
 	//Arrange
-	ScreenPositionCalculator sut(std::make_shared<FakeSurface>(1280, 720));
+	SDL_Surface window = createSurface(1280, 720);
+	ScreenPositionCalculator sut(&window);
 	//Act
 	auto position = Position(-15, 200);
 	auto screenPosition = sut.toScreenPosition(position);
@@ -28,7 +37,8 @@ TEST(ScreenPositionCalculatorTests, toScreenPosition_offset_shouldReturnCorrectP
 
 TEST(ScreenPositionCalculatorTests, toWorldPosition_middle_shouldReturnCorrectPosition) {
 	//Arrange
-	ScreenPositionCalculator sut(std::make_shared<FakeSurface>(1280, 720));
+	SDL_Surface window = createSurface(1280, 720);
+	ScreenPositionCalculator sut(&window);
 	//Act
 	SDL_Rect middle;
 	middle.x = 640;
@@ -41,7 +51,8 @@ TEST(ScreenPositionCalculatorTests, toWorldPosition_middle_shouldReturnCorrectPo
 
 TEST(ScreenPositionCalculatorTests, toWorldPosition_offset_shouldReturnCorrectPosition) {
 	//Arrange
-	ScreenPositionCalculator sut(std::make_shared<FakeSurface>(1280, 720));
+	SDL_Surface window = createSurface(1280, 720);
+	ScreenPositionCalculator sut(&window);
 	//Act
 	SDL_Rect position;
 	position.x = 625;

@@ -16,7 +16,7 @@ namespace pong {
             SDL_Renderer *renderer;
             ScreenPositionCalculator screenCalc;
             const IReadOnlyClock& clock;
-            static std::shared_ptr<Surface> getSurface(SDL_Renderer* renderer);
+            static SDL_Surface* getSurface(SDL_Renderer* renderer);
         public:
             RenderingSystem(SDL_Renderer* renderer, const IReadOnlyClock& clock) :
                 renderer(renderer), clock(clock), screenCalc(getSurface(renderer)) {}

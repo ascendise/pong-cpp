@@ -6,10 +6,9 @@
 namespace pong {
     namespace rendering {
 
-        std::shared_ptr<Surface> RenderingSystem::getSurface(SDL_Renderer* renderer) {
+        SDL_Surface* RenderingSystem::getSurface(SDL_Renderer* renderer) {
             auto window = SDL_RenderGetWindow(renderer);
-            auto sdlSurface = SDL_GetWindowSurface(window);
-            return std::make_shared<Surface>(sdlSurface);
+            return SDL_GetWindowSurface(window);
         }
 
         void RenderingSystem::run(std::vector<Entity>& entities) {
