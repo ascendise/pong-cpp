@@ -49,8 +49,8 @@ int main(int argc, char* argv[]) {
     ballComponents.push_back(std::make_unique<Sprite>(std::move(ballTexture), 4, 0.1));
     RigidBody ballBody;
     ballBody.setBounce(1);
-    ballBody.getVelocity()->x = 250;
-    ballBody.getVelocity()->y = 250;
+    ballBody.getVelocity().x = 250;
+    ballBody.getVelocity().y = 250;
     ballComponents.push_back(std::make_unique<RigidBody>(std::move(ballBody)));
     ballComponents.push_back(std::make_unique<BoxCollider>(Position(0, 0), Vector2D(64, 64)));
     world.registerEntity(std::move(ballComponents));

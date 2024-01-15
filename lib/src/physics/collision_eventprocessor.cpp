@@ -34,12 +34,12 @@ namespace pong {
             auto velocity = targetRigidBody.getVelocity();
             auto cos = std::cos(rotationAngleRadian);
             auto sin = std::sin(rotationAngleRadian);
-            auto y = velocity->y * cos;
-            auto x = velocity->x * sin;
+            auto y = velocity.y * cos;
+            auto x = velocity.x * sin;
             auto res = y - x;
             Vector2D newVec(
-                velocity->x * std::cos(rotationAngleRadian) + velocity->y * std::sin(rotationAngleRadian),
-                velocity->y * std::cos(rotationAngleRadian) - velocity->x * std::sin(rotationAngleRadian)
+                velocity.x * std::cos(rotationAngleRadian) + velocity.y * std::sin(rotationAngleRadian),
+                velocity.y * std::cos(rotationAngleRadian) - velocity.x * std::sin(rotationAngleRadian)
             );
             return newVec * e.getBounce();
         }

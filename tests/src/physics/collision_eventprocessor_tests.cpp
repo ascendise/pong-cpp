@@ -15,8 +15,8 @@ TEST(CollisionEventProcessorTests, Process_FrontalCollisionAgainstStaticObject_S
     auto collider = std::make_unique<BoxCollider>(Position(0, 0), Vector2D(2, 2));
     components.push_back(std::move(collider));
     auto rigidBody = std::make_unique<RigidBody>();
-    rigidBody->getVelocity()->x = 1;
-    rigidBody->getVelocity()->y = 0;
+    rigidBody->getVelocity().x = 1;
+    rigidBody->getVelocity().y = 0;
     components.push_back(std::move(rigidBody));
     Entity entity(1, std::move(components));
     //Act
@@ -24,8 +24,8 @@ TEST(CollisionEventProcessorTests, Process_FrontalCollisionAgainstStaticObject_S
     sut.process(event);
     //Assert
     auto& newRigidbody = entity.getComponent<RigidBody>().value().get();
-    EXPECT_EQ(newRigidbody.getVelocity()->x, -1);
-    EXPECT_EQ(test_utility::roundTo(newRigidbody.getVelocity()->y, 4), 0);
+    EXPECT_EQ(newRigidbody.getVelocity().x, -1);
+    EXPECT_EQ(test_utility::roundTo(newRigidbody.getVelocity().y, 4), 0);
 }
 
 TEST(CollisionEventProcessorTests, Process_FrontalCollisionAgainstStickyObject_ShouldSlowVelocityOfEntity1) {
@@ -35,8 +35,8 @@ TEST(CollisionEventProcessorTests, Process_FrontalCollisionAgainstStickyObject_S
     auto collider = std::make_unique<BoxCollider>(Position(0, 0), Vector2D(2, 2));
     components.push_back(std::move(collider));
     auto rigidBody = std::make_unique<RigidBody>();
-    rigidBody->getVelocity()->x = 1;
-    rigidBody->getVelocity()->y = 0;
+    rigidBody->getVelocity().x = 1;
+    rigidBody->getVelocity().y = 0;
     components.push_back(std::move(rigidBody));
     Entity entity(1, std::move(components));
     //Act
@@ -44,8 +44,8 @@ TEST(CollisionEventProcessorTests, Process_FrontalCollisionAgainstStickyObject_S
     sut.process(event);
     //Assert
     auto& newRigidbody = entity.getComponent<RigidBody>().value().get();
-    EXPECT_EQ(newRigidbody.getVelocity()->x, -0.5);
-    EXPECT_EQ(test_utility::roundTo(newRigidbody.getVelocity()->y, 4), 0);
+    EXPECT_EQ(newRigidbody.getVelocity().x, -0.5);
+    EXPECT_EQ(test_utility::roundTo(newRigidbody.getVelocity().y, 4), 0);
 }
 
 TEST(CollisionEventProcessorTests, Process_FrontalCollisionAgainstStickyObject_ShouldSlowVelocityOfEntity2) {
@@ -55,8 +55,8 @@ TEST(CollisionEventProcessorTests, Process_FrontalCollisionAgainstStickyObject_S
     auto collider = std::make_unique<BoxCollider>(Position(0, 0), Vector2D(2, 2));
     components.push_back(std::move(collider));
     auto rigidBody = std::make_unique<RigidBody>();
-    rigidBody->getVelocity()->x = 10;
-    rigidBody->getVelocity()->y = 0;
+    rigidBody->getVelocity().x = 10;
+    rigidBody->getVelocity().y = 0;
     components.push_back(std::move(rigidBody));
     Entity entity(1, std::move(components));
     //Act
@@ -64,8 +64,8 @@ TEST(CollisionEventProcessorTests, Process_FrontalCollisionAgainstStickyObject_S
     sut.process(event);
     //Assert
     auto& newRigidBody = entity.getComponent<RigidBody>().value().get();
-    EXPECT_EQ(newRigidBody.getVelocity()->x, -2);
-    EXPECT_EQ(test_utility::roundTo(newRigidBody.getVelocity()->y, 4), 0);
+    EXPECT_EQ(newRigidBody.getVelocity().x, -2);
+    EXPECT_EQ(test_utility::roundTo(newRigidBody.getVelocity().y, 4), 0);
 }
 
 TEST(CollisionEventProcessorTests, Process_DifferentAngles_ShouldChangeVelocityAngleAccordingly) {
@@ -75,8 +75,8 @@ TEST(CollisionEventProcessorTests, Process_DifferentAngles_ShouldChangeVelocityA
     auto collider = std::make_unique<BoxCollider>(Position(0, 0), Vector2D(2, 2));
     components.push_back(std::move(collider));
     auto rigidBody = std::make_unique<RigidBody>();
-    rigidBody->getVelocity()->x = 0;
-    rigidBody->getVelocity()->y = 10;
+    rigidBody->getVelocity().x = 0;
+    rigidBody->getVelocity().y = 10;
     components.push_back(std::move(rigidBody));
     Entity entity(1, std::move(components));
     //Act
@@ -84,6 +84,6 @@ TEST(CollisionEventProcessorTests, Process_DifferentAngles_ShouldChangeVelocityA
     sut.process(event);
     auto newRigidBody = entity.getComponent<RigidBody>().value().get();
     //Assert
-    EXPECT_EQ(test_utility::roundTo(newRigidBody.getVelocity()->x, 6), 8.660254f);
-    EXPECT_EQ(test_utility::roundTo(newRigidBody.getVelocity()->y, 6), 5);
+    EXPECT_EQ(test_utility::roundTo(newRigidBody.getVelocity().x, 6), 8.660254f);
+    EXPECT_EQ(test_utility::roundTo(newRigidBody.getVelocity().y, 6), 5);
 }

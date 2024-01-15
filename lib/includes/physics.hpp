@@ -24,24 +24,25 @@ namespace pong {
 
 		class RigidBody : public Component {
 		private:
-			std::shared_ptr<Vector2D> velocity;
+			Vector2D velocity;
 			float bounce = 1;
 		public:
-			RigidBody();
+			RigidBody(): velocity(Vector2D(0,0)) {}
 			void setVelocity(Vector2D v);
-			std::shared_ptr<Vector2D> getVelocity();
+			Vector2D& getVelocity();
 			void setBounce(float bounce);
 			float getBounce();
 		};
 
 		class BoxCollider : public Component {
 		private:
-			std::shared_ptr<Position> position;
-			std::shared_ptr<Vector2D> area;
+			Position position;
+			Vector2D area;
 		public:
-			BoxCollider(Position position, Vector2D area);
-			std::shared_ptr<Position> getPosition();
-			std::shared_ptr<Vector2D> getArea();
+			BoxCollider(Position position, Vector2D area):
+				position(position), area(area) {}
+			Position& getPosition();
+			Vector2D& getArea();
 			bool intersects(const BoxCollider& collider);
 		};
 

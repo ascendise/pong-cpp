@@ -16,8 +16,8 @@ TEST(PhysicsSystemTests, Velocity_ShouldDisplaceEntity) {
 	std::vector<std::unique_ptr<Component>> components;
 	components.push_back(std::make_unique<Position>(Position(0, 0)));
 	RigidBody rigidBody;
-	rigidBody.getVelocity()->x = 1;
-	rigidBody.getVelocity()->y = 3;
+	rigidBody.getVelocity().x = 1;
+	rigidBody.getVelocity().y = 3;
 	components.push_back(std::make_unique<RigidBody>(rigidBody));
 	Entity entity(1, std::move(components));
 	std::vector<Entity> entities;
@@ -37,8 +37,8 @@ TEST(PhysicsSystemTests, Velocity_ShouldCalculateUsingTimestemp) {
 	std::vector<std::unique_ptr<Component>> components;
 	components.push_back(std::make_unique<Position>(0, 0));
 	RigidBody rigidBody;
-	rigidBody.getVelocity()->x = 1;
-	rigidBody.getVelocity()->y = 3;
+	rigidBody.getVelocity().x = 1;
+	rigidBody.getVelocity().y = 3;
 	components.push_back(std::make_unique<RigidBody>(rigidBody));
 	Entity entity(1, std::move(components));
 	std::vector<Entity> entities;
