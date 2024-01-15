@@ -7,20 +7,6 @@
 
 using namespace pong::rendering;
 
-class FakeSurface : public ISurface {
-private:
-	int width;
-	int height;
-public:
-	FakeSurface(int width, int height) : width(width), height(height) {}
-	SDL_Rect getWindowSize() {
-		SDL_Rect window{};
-		window.w = width;
-		window.h = height;
-		return window;
-	}
-};
-
 class FakeTexture : public ITexture {
 private:
     SDL_Rect size;

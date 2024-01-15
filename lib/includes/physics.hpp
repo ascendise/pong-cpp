@@ -16,43 +16,45 @@ namespace pong {
 		class PhysicsSystem : public System 
 		{
 		private:
-			std::shared_ptr<IReadOnlyClock> clock;
+			IReadOnlyClock& clock;
 		public:
-			PhysicsSystem(std::shared_ptr<IReadOnlyClock> clock);
-			void run(std::vector<std::shared_ptr<Entity>> entities);
+			PhysicsSystem(IReadOnlyClock& clock) : clock(clock) {}
+			void run(std::vector<Entity>& entities);
 		};
 
 		class RigidBody : public Component {
 		private:
-			std::shared_ptr<Vector2D> velocity;
-			float bounce;
+			Vector2D velocity;
+			float bounce = 1;
 		public:
-			RigidBody();
+			RigidBody(): velocity(Vector2D(0,0)) {}
 			void setVelocity(Vector2D v);
-			std::shared_ptr<Vector2D> getVelocity();
+			Vector2D& getVelocity();
 			void setBounce(float bounce);
 			float getBounce();
 		};
 
 		class BoxCollider : public Component {
 		private:
-			std::shared_ptr<Position> position;
-			std::shared_ptr<Vector2D> area;
+			Position position;
+			Vector2D area;
 		public:
-			BoxCollider(Position position, Vector2D area);
-			std::shared_ptr<Position> getPosition();
-			std::shared_ptr<Vector2D> getArea();
+			BoxCollider(Position position, Vector2D area):
+				position(position), area(area) {}
+			Position& getPosition();
+			Vector2D& getArea();
 			bool intersects(const BoxCollider& collider);
 		};
 
 		class CollisionEvent : public Event {
 			private: 
-				std::shared_ptr<Entity> target;
+				Entity& target;
 				float angle;
 				float bounce;
 			public:
-				CollisionEvent(std::shared_ptr<Entity> target, float angle, float bounce);
-				std::shared_ptr<Entity> getTarget() const;
+				CollisionEvent(Entity& target, float angle, float bounce)
+					: target(target), angle(angle), bounce(bounce) {}
+				Entity& getTarget() const;
 				float getAngle() const;
 				/// <summary>
 				/// Returns how bouncy the surface is the target hit.
@@ -66,17 +68,16 @@ namespace pong {
 
 		class CollisionEventProcessor : public EventProcessor {
 		public:
-			void process(std::shared_ptr<Event> event);
+			void process(Event& event);
 		};
 
 		class CollisionSystem : public System {
 		private:
-			std::shared_ptr<IEventQueuePort> eventQueue;
-			void pushCollisionEvent(std::shared_ptr<Entity> target, std::shared_ptr<Entity> hurdle);
-			float getAngle(std::shared_ptr<Entity> target, std::shared_ptr<BoxCollider> hurdleCollider);
+			IEventQueuePort& eventQueue;
+			void pushCollisionEvent(Entity& target, Entity& hurdle);
 		public:
-			CollisionSystem(std::shared_ptr<IEventQueuePort> eventQueue);
-			void run(std::vector<std::shared_ptr<Entity>> entities);
+			CollisionSystem(IEventQueuePort& eventQueue) : eventQueue(eventQueue) {}
+			void run(std::vector<Entity>& entities);
 		};
 	}
 }

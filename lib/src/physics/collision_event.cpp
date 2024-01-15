@@ -5,11 +5,7 @@
 namespace pong {
     namespace physics {
 
-        CollisionEvent::CollisionEvent(std::shared_ptr<Entity> target, float angle, float bounce) 
-            : target(target), angle(angle), bounce(bounce) {
-        }
-
-        std::shared_ptr<Entity> CollisionEvent::getTarget() const {
+        Entity& CollisionEvent::getTarget() const {
             return this->target;
         }
 

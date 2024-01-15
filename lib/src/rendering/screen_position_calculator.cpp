@@ -2,20 +2,24 @@
 
 namespace pong {
 	namespace rendering {
-
-		ScreenPositionCalculator::ScreenPositionCalculator(std::shared_ptr<ISurface> screenSurface) :
-			screenSurface(screenSurface) {}
 		
 		SDL_Rect ScreenPositionCalculator::toScreenPosition(Position position) {
-			auto window = screenSurface->getWindowSize();
+			auto window = getWindowSize();
 			SDL_Rect screenPosition{};
 			screenPosition.x = position.x + window.w / 2;
 			screenPosition.y = position.y + window.h / 2;
 			return screenPosition;
 		}
 
+		SDL_Rect ScreenPositionCalculator::getWindowSize() const {
+			SDL_Rect window{};
+			window.w = this->windowSurface->w;
+			window.h = this->windowSurface->h;
+			return window;
+		}
+
 		Position ScreenPositionCalculator::toWorldPosition(SDL_Rect screenPosition) {
-			auto window = screenSurface->getWindowSize();
+			auto window = getWindowSize();
 			return Position(
 				screenPosition.x - window.w / 2,
 				screenPosition.y - window.h / 2

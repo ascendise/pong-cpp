@@ -10,29 +10,12 @@ using namespace pong::world;
 namespace pong {
 	namespace rendering {
 
-		class ISurface {
-		public:
-			virtual SDL_Rect getWindowSize() = 0;
-		};
-
-		class Surface : public ISurface {
-		private:
-			SDL_Surface* surface;
-		public:
-			Surface(SDL_Surface* surface);
-			Surface(const Surface&) = delete;
-			Surface& operator=(const Surface&) = delete;
-			Surface(const Surface&&) noexcept;
-			Surface& operator=(const Surface&&) noexcept;
-			SDL_Rect getWindowSize();
-			~Surface();
-		};
-
 		class ScreenPositionCalculator {
 		private:
-			std::shared_ptr<ISurface> screenSurface;
+			SDL_Surface* windowSurface;
+			SDL_Rect getWindowSize() const;
 		public:
-			ScreenPositionCalculator(std::shared_ptr<ISurface> screenSurface);
+			ScreenPositionCalculator(SDL_Surface* windowSurface) : windowSurface(windowSurface) {}
 			SDL_Rect toScreenPosition(Position position);
 			Position toWorldPosition(SDL_Rect  screenPosition);
 		};

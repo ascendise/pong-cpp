@@ -20,7 +20,7 @@ namespace pong {
             return durationMillis.count() / 1000.0;
         }
 
-        time_point<high_resolution_clock, nanoseconds> Clock::now() {
+        time_point<high_resolution_clock, nanoseconds> Clock::now() const {
             return clock.now();
         }
 

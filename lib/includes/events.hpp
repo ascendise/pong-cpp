@@ -16,19 +16,18 @@ namespace pong {
 
             class EventProcessor {
                 public:
-                    virtual void process(std::shared_ptr<Event> event) = 0;
+                    virtual void process(Event& event) = 0;
                     virtual ~EventProcessor() {}
             };
 
             class IEventQueuePort {
             public:
-                virtual void enqueue(std::shared_ptr<Event> event) = 0;
+                virtual void enqueue(std::shared_ptr<Event>&& event) = 0;
             };
 
             class IEventQueue : public IEventQueuePort{
                 public:
-                    virtual void registerProcessor(std::unique_ptr<EventProcessor> processor) = 0;
-                    virtual void enqueue(std::shared_ptr<Event> event) = 0;
+                    virtual void registerProcessor(std::unique_ptr<EventProcessor>&& processor) = 0;
                     virtual void processEvents() = 0;
                     virtual ~IEventQueue() {}
             };
@@ -39,8 +38,8 @@ namespace pong {
                     std::vector<std::unique_ptr<EventProcessor>> processors;
                 public:
                     EventQueue() {}
-                    void registerProcessor(std::unique_ptr<EventProcessor> processor);
-                    void enqueue(std::shared_ptr<Event> event);
+                    void registerProcessor(std::unique_ptr<EventProcessor>&& processor);
+                    void enqueue(std::shared_ptr<Event>&& event);
                     void processEvents();
             };
         }

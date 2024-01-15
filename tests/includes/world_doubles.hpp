@@ -21,17 +21,17 @@ private:
     int value;
 public:
     FakeSystem(int value) { this->value = value; };
-    void run(std::vector<std::shared_ptr<pong::world::Entity>> entities) {
+    void run(std::vector<pong::world::Entity>& entities) {
         for (auto& entity : entities) {
-            auto component = entity.get()->getComponent<FakeComponent>();
-            component.get()->setValue(value);
+            auto& component = entity.getComponent<FakeComponent>().value().get();
+            component.setValue(value);
         }
     }
 };
 
 class StubEventQueue : public IEventQueue {
-    void registerProcessor(std::unique_ptr<EventProcessor> processor) { }
-    void enqueue(std::shared_ptr<Event> event) { }
+    void registerProcessor(std::unique_ptr<EventProcessor>&& processor) { }
+    void enqueue(std::shared_ptr<Event>&& event) { }
     void processEvents() { }
 };
 
@@ -46,7 +46,7 @@ public:
         return fixedTimeDelta;
     };
 
-    time_point<high_resolution_clock, nanoseconds> now() {
+    time_point<high_resolution_clock, nanoseconds> now() const{
         return time_point<high_resolution_clock, nanoseconds>();
     }
 };

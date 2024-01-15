@@ -9,30 +9,37 @@ namespace pong {
 
         Vector2D calculateVelocityAfterCollision(const CollisionEvent& e);
         
-        void CollisionEventProcessor::process(std::shared_ptr<Event> event) {
-            auto collision = std::dynamic_pointer_cast<CollisionEvent>(event);
-            if (collision == nullptr) {
+        void CollisionEventProcessor::process(Event& event) {
+            try {
+                auto& collision = dynamic_cast<CollisionEvent&>(event);
+                auto bodyOption = collision.getTarget().getComponent<RigidBody>();
+                if (!bodyOption.has_value()) {
+                    return;
+                }
+                auto& body = bodyOption.value().get();
+                auto newVelocity = calculateVelocityAfterCollision(collision);
+                body.setVelocity(newVelocity);
+            }
+            catch (const std::bad_cast&) {
+                //Event is of different type than required by processor.
+                //Not my business, just return
                 return;
             }
-            auto body = collision->getTarget()->getComponent<RigidBody>();
-            if (body == nullptr) {
-                return;
-            }
-            auto newVelocity = calculateVelocityAfterCollision(*collision);
-            body->setVelocity(newVelocity);
         }
 
         Vector2D calculateVelocityAfterCollision(const CollisionEvent& e) { 
             auto rotationAngleRadian = pong::math::toRadian(e.getAngle() * 2);
-            auto velocity = e.getTarget()->getComponent<RigidBody>()->getVelocity();
+            auto targetRigidBodyOption = e.getTarget().getComponent<RigidBody>();
+            auto& targetRigidBody = targetRigidBodyOption.value().get();
+            auto velocity = targetRigidBody.getVelocity();
             auto cos = std::cos(rotationAngleRadian);
             auto sin = std::sin(rotationAngleRadian);
-            auto y = velocity->y * cos;
-            auto x = velocity->x * sin;
+            auto y = velocity.y * cos;
+            auto x = velocity.x * sin;
             auto res = y - x;
             Vector2D newVec(
-                velocity->x * std::cos(rotationAngleRadian) + velocity->y * std::sin(rotationAngleRadian),
-                velocity->y * std::cos(rotationAngleRadian) - velocity->x * std::sin(rotationAngleRadian)
+                velocity.x * std::cos(rotationAngleRadian) + velocity.y * std::sin(rotationAngleRadian),
+                velocity.y * std::cos(rotationAngleRadian) - velocity.x * std::sin(rotationAngleRadian)
             );
             return newVec * e.getBounce();
         }

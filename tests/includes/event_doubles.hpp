@@ -8,43 +8,44 @@ using namespace pong::world::events;
 
 class FakeEvent : public Event {
 private:
-    int processCount;
+    int base = 0;
+    int* processCount;
 public:
+    FakeEvent(): processCount(&base) { }
+    FakeEvent(int* processCountSpy): processCount(processCountSpy) { }
+
     void process() {
-        processCount++;
-    }
-    bool isProcessed() const {
-        return processCount > 0;
+        (*processCount)++;
     }
 
     int getProcessCount() const {
-        return processCount;
+        return *processCount;
     }
 };
 
 class FakeEventProcessor : public EventProcessor {
 public:
-    virtual void process(std::shared_ptr<Event> event) {
-        auto fakeEvent = std::dynamic_pointer_cast<FakeEvent>(event);
-        if (fakeEvent == nullptr) {
+    virtual void process(Event& event) {
+        try {
+            auto& fakeEvent = dynamic_cast<FakeEvent&>(event);
+            fakeEvent.process();
+        }
+        catch (std::bad_cast&) {
+            //Not my event, return
             return;
         }
-        fakeEvent->process();
     }
 };
 
 class SpyEventQueuePort : public IEventQueuePort {
 private:
-    std::shared_ptr<std::vector<std::shared_ptr<Event>>> events;
+    std::vector<std::shared_ptr<Event>> events;
 public:
-    SpyEventQueuePort() {
-        events = std::make_shared<std::vector<std::shared_ptr<Event>>>(std::vector<std::shared_ptr<Event>>());
-    }
-    void enqueue(std::shared_ptr<Event> event) {
-        this->events->push_back(event);
+    void enqueue(std::shared_ptr<Event>&& event) {
+        this->events.push_back(std::move(event));
     }
 
-    std::shared_ptr<std::vector<std::shared_ptr<Event>>> getEvents() {
+    std::vector<std::shared_ptr<Event>> const& getEvents() const {
         return this->events;
     }
 };

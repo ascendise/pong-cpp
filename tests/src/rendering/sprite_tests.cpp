@@ -11,7 +11,7 @@ TEST(SpriteTests, GetNextRect_SingleImageRect_ShouldReturnCorrectSize) {
     SDL_Rect size{};
     size.w = 64;
     size.h = 64;
-    Sprite sut(std::make_shared<FakeTexture>(FakeTexture(size)), 1, 0);
+    Sprite sut(std::make_unique<FakeTexture>(FakeTexture(size)), 1, 0);
     //Act
     auto rect1 = sut.getNextRect(time_point<high_resolution_clock, nanoseconds>());
     auto rect2 = sut.getNextRect(time_point<high_resolution_clock, nanoseconds>());
@@ -38,7 +38,7 @@ TEST(SpriteTests, GetNextRect_SpriteSheet_ShouldReturnCorrectSizes) {
     SDL_Rect size{};
     size.w = 300;
     size.h = 50;
-    Sprite sut(std::make_shared<FakeTexture>(size), 3, 2);
+    Sprite sut(std::make_unique<FakeTexture>(size), 3, 2);
     //Act
     auto rect1 = sut.getNextRect(getTimePointFromZero(0));
     auto rect2 = sut.getNextRect(getTimePointFromZero(1));
@@ -66,7 +66,7 @@ TEST(SpriteTests, GetNextRec_LoopThroughSpriteSheet_ShouldStartAtBeginningAgain)
     SDL_Rect size = { };
     size.h = 50;
     size.w = 200;
-    Sprite sut(std::make_shared<FakeTexture>(FakeTexture(size)), 2, 0);
+    Sprite sut(std::make_unique<FakeTexture>(FakeTexture(size)), 2, 0);
     //Act
     sut.getNextRect(time_point<high_resolution_clock, nanoseconds>());
     sut.getNextRect(time_point<high_resolution_clock, nanoseconds>());

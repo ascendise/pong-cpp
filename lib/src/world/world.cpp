@@ -7,25 +7,33 @@
 namespace pong {
     namespace world {
 
-        World::World(std::shared_ptr<events::IEventQueue> eventQueue) {
-            this->clock = std::make_shared<Clock>(Clock());
+        World::World(std::unique_ptr<events::IEventQueue>&& eventQueue)
+            : eventQueue(std::move(eventQueue)), clock(std::make_unique<Clock>()) {
             this->clock->start();
-            this->eventQueue = std::move(eventQueue);
         }
 
-        std::shared_ptr<Entity> World::registerEntity(std::vector<std::shared_ptr<Component>> components) {
-            auto entity = std::make_shared<Entity>(Entity(this->idCounter++, components));
-            this->entities.push_back(std::shared_ptr<Entity>(entity));
-            return std::shared_ptr<Entity>(entity);
+        void World::registerEntity(std::vector<std::unique_ptr<Component>>&& components) {
+            Entity entity(this->idCounter++, std::move(components));
+            this->entities.push_back(std::move(entity));
         }
 
         void World::removeEntity(long entityId) {
-            auto has_id = [entityId](std::shared_ptr<Entity> e) { return e->getId() == entityId; };
+            auto has_id = [entityId](Entity& e) { return e.getId() == entityId; };
             auto remove_if_has_id = std::remove_if(this->entities.begin(), this->entities.end(), has_id);
             this->entities.erase(remove_if_has_id, this->entities.end());
         }
 
-        void World::registerSystem(std::unique_ptr<System> system) {
+        std::optional<std::reference_wrapper<Entity>> World::findEntity(long entityId) {
+            auto has_id = [entityId](Entity& e) { return e.getId() == entityId; };
+            auto entity_iterator = std::find_if(this->entities.begin(), this->entities.end(), has_id);
+            if (entity_iterator != this->entities.end()) {
+                return std::ref(*entity_iterator);
+            } else {
+                return {};
+            }
+        }
+
+        void World::registerSystem(std::unique_ptr<System>&& system) {
             this->systems.push_back(std::move(system));
         }
 
@@ -37,12 +45,12 @@ namespace pong {
             clock->nextFrame();
         }
 
-        std::shared_ptr<IReadOnlyClock> World::getClock() {
-            return this->clock;
+        IReadOnlyClock& World::getClock() {   
+            return *this->clock;
         }
 
-        std::shared_ptr<events::IEventQueuePort> World::getEventQueue() {
-            return this->eventQueue;
+        events::IEventQueuePort& World::getEventQueue() {
+            return *this->eventQueue;
         }
     }
 }
