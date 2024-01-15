@@ -5,7 +5,7 @@
 namespace pong {
     namespace physics {
 
-        Entity& CollisionEvent::getTarget() const {
+        world::Entity& CollisionEvent::getTarget() const {
             return this->target;
         }
 

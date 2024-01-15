@@ -3,7 +3,6 @@
 #include <chrono>
 #include <iostream>
 
-using std::chrono::milliseconds;
 
 namespace pong {
 	namespace rendering {
@@ -31,7 +30,9 @@ namespace pong {
 		}
 
 
-		const SDL_Rect Sprite::getNextRect(time_point<high_resolution_clock, nanoseconds> time) {
+		const SDL_Rect Sprite::getNextRect(
+			std::chrono::time_point<std::chrono::high_resolution_clock, std::chrono::nanoseconds> time
+		) {
 			if(isPastFrameTime(time)){
 				this->currentSprite++;
 				if (this->currentSprite >= this->spriteCount) {
@@ -43,9 +44,11 @@ namespace pong {
 			return rect;
 		}
 
-		bool Sprite::isPastFrameTime(time_point<high_resolution_clock, nanoseconds> time) {
+		bool Sprite::isPastFrameTime(
+			std::chrono::time_point<std::chrono::high_resolution_clock, std::chrono::nanoseconds> time
+		) {
 			auto duration = time - lastUpdate;
-			auto millis = std::chrono::duration_cast<milliseconds>(duration);
+			auto millis = std::chrono::duration_cast<std::chrono::milliseconds>(duration);
 			auto seconds = millis.count() / 1000.0;
 			return seconds > this->avgFrameTime;
 		}

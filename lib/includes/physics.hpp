@@ -2,59 +2,55 @@
 #define PHYSICS_HPP
 
 #include <world.hpp>
+#include <components.hpp>
 #include <rendering.hpp>
 #include <math.hpp>
-#include <components.hpp>
-
-using namespace pong::world;
-using namespace pong::world::events;
-using pong::math::Vector2D;
 
 namespace pong {
 	namespace physics {
 
-		class PhysicsSystem : public System 
+		class PhysicsSystem : public world::System 
 		{
 		private:
-			IReadOnlyClock& clock;
+			world::IReadOnlyClock& clock;
 		public:
-			PhysicsSystem(IReadOnlyClock& clock) : clock(clock) {}
-			void run(std::vector<Entity>& entities);
+			PhysicsSystem(world::IReadOnlyClock& clock) : clock(clock) {}
+			void run(std::vector<world::Entity>& entities);
 		};
 
-		class RigidBody : public Component {
+		class RigidBody : public world::Component {
 		private:
-			Vector2D velocity;
+			math::Vector2D velocity;
 			float bounce = 1;
 		public:
-			RigidBody(): velocity(Vector2D(0,0)) {}
-			void setVelocity(Vector2D v);
-			Vector2D& getVelocity();
+			RigidBody(): velocity(math::Vector2D(0,0)) {}
+			void setVelocity(math::Vector2D v);
+			math::Vector2D& getVelocity();
 			void setBounce(float bounce);
 			float getBounce();
 		};
 
-		class BoxCollider : public Component {
+		class BoxCollider : public world::Component {
 		private:
-			Position position;
-			Vector2D area;
+			world::Position position;
+			math::Vector2D area;
 		public:
-			BoxCollider(Position position, Vector2D area):
+			BoxCollider(world::Position position, math::Vector2D area):
 				position(position), area(area) {}
-			Position& getPosition();
-			Vector2D& getArea();
+			world::Position& getPosition();
+			math::Vector2D& getArea();
 			bool intersects(const BoxCollider& collider);
 		};
 
-		class CollisionEvent : public Event {
+		class CollisionEvent : public world::events::Event {
 			private: 
-				Entity& target;
+				world::Entity& target;
 				float angle;
 				float bounce;
 			public:
-				CollisionEvent(Entity& target, float angle, float bounce)
+				CollisionEvent(world::Entity& target, float angle, float bounce)
 					: target(target), angle(angle), bounce(bounce) {}
-				Entity& getTarget() const;
+				world::Entity& getTarget() const;
 				float getAngle() const;
 				/// <summary>
 				/// Returns how bouncy the surface is the target hit.
@@ -66,18 +62,18 @@ namespace pong {
 				float getBounce() const;
 		};
 
-		class CollisionEventProcessor : public EventProcessor {
+		class CollisionEventProcessor : public world::events::EventProcessor{
 		public:
-			void process(Event& event);
+			void process(world::events::Event& event);
 		};
 
-		class CollisionSystem : public System {
+		class CollisionSystem : public world::System {
 		private:
-			IEventQueuePort& eventQueue;
-			void pushCollisionEvent(Entity& target, Entity& hurdle);
+			world::events::IEventQueuePort& eventQueue;
+			void pushCollisionEvent(world::Entity& target, world::Entity& hurdle);
 		public:
-			CollisionSystem(IEventQueuePort& eventQueue) : eventQueue(eventQueue) {}
-			void run(std::vector<Entity>& entities);
+			CollisionSystem(world::events::IEventQueuePort& eventQueue) : eventQueue(eventQueue) {}
+			void run(std::vector<world::Entity>& entities);
 		};
 	}
 }

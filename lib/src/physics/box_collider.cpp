@@ -3,11 +3,11 @@
 namespace pong {
     namespace physics {
 
-        Position& BoxCollider::getPosition() {
+        world::Position& BoxCollider::getPosition() {
             return this->position;
         }
 
-        Vector2D& BoxCollider::getArea() {
+        math::Vector2D& BoxCollider::getArea() {
             return this->area;
         }
 

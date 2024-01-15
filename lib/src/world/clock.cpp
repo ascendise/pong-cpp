@@ -1,7 +1,6 @@
 #include <chrono>
 #include "world.hpp"
 
-using std::chrono::milliseconds;
 
 namespace pong {
     namespace world {
@@ -16,11 +15,11 @@ namespace pong {
 
         float Clock::getFrameTimeDelta() {
             auto duration = clock.now() - timeLastFrame;
-            auto durationMillis = std::chrono::duration_cast<milliseconds>(duration);
+            auto durationMillis = std::chrono::duration_cast<std::chrono::milliseconds>(duration);
             return durationMillis.count() / 1000.0;
         }
 
-        time_point<high_resolution_clock, nanoseconds> Clock::now() const {
+        std::chrono::time_point<std::chrono::high_resolution_clock, std::chrono::nanoseconds> Clock::now() const {
             return clock.now();
         }
 

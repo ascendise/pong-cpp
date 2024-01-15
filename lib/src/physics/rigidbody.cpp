@@ -1,20 +1,24 @@
 #include <physics.hpp>
 
-using pong::physics::RigidBody;
-using pong::math::Vector2D;
 
-float RigidBody::getBounce() {
-	return this->bounce;
+namespace pong {
+	namespace physics {
+
+		float RigidBody::getBounce() {
+			return this->bounce;
+		}
+
+		void RigidBody::setBounce(float bounce) {
+			this->bounce = bounce;
+		}
+
+		void RigidBody::setVelocity(math::Vector2D v) {
+			this->velocity = v;
+		}
+
+		math::Vector2D& RigidBody::getVelocity() {
+			return this->velocity;
+		}
+	}
 }
 
-void RigidBody::setBounce(float bounce) {
-	this->bounce = bounce;
-}
-
-void RigidBody::setVelocity(Vector2D v) {
-	this->velocity = v;
-}
-
-Vector2D& RigidBody::getVelocity() {
-	return this->velocity;
-}

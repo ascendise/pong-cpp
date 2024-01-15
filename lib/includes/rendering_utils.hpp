@@ -2,10 +2,10 @@
 #define RENDERING_UTILS_HPP
 
 #include <world.hpp>
+#include <rendering.hpp>
 #include <components.hpp>
 #include <SDL.h>
 
-using namespace pong::world;
 
 namespace pong {
 	namespace rendering {
@@ -16,8 +16,8 @@ namespace pong {
 			SDL_Rect getWindowSize() const;
 		public:
 			ScreenPositionCalculator(SDL_Surface* windowSurface) : windowSurface(windowSurface) {}
-			SDL_Rect toScreenPosition(Position position);
-			Position toWorldPosition(SDL_Rect  screenPosition);
+			SDL_Rect toScreenPosition(world::Position position);
+			world::Position toWorldPosition(SDL_Rect  screenPosition);
 		};
 
 	}
