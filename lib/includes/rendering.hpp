@@ -14,11 +14,12 @@ namespace pong {
         class RenderingSystem : public world::System { 
         private:
             SDL_Renderer *renderer;
-            std::unique_ptr<ScreenPositionCalculator> screenCalc;
-            Clock clock;
+            ScreenPositionCalculator screenCalc;
+            const IReadOnlyClock& clock;
             static std::shared_ptr<Surface> getSurface(SDL_Renderer* renderer);
         public:
-            RenderingSystem(SDL_Renderer *renderer);
+            RenderingSystem(SDL_Renderer* renderer, const IReadOnlyClock& clock) :
+                renderer(renderer), clock(clock), screenCalc(getSurface(renderer)) {}
             void run(std::vector<Entity>& entities);
         };
 
@@ -33,7 +34,7 @@ namespace pong {
             SDL_Texture* texture;
             Texture() { texture = nullptr; };
         public:
-            static std::shared_ptr<Texture> loadTexture(SDL_Renderer* renderer, std::string path);
+            static std::unique_ptr<Texture> loadTexture(SDL_Renderer* renderer, std::string path);
             Texture(const Texture&) = delete;
             Texture& operator=(const Texture&) = delete;
             Texture(const Texture&&) noexcept;
@@ -46,7 +47,7 @@ namespace pong {
 
         class Sprite : public world::Component {
         private:
-            std::shared_ptr<ITexture> texture;
+            std::unique_ptr<ITexture> texture;
             int spriteCount = 0;
             int currentSprite = 0;
             std::vector<SDL_Rect> sprites;
@@ -55,9 +56,9 @@ namespace pong {
             time_point<high_resolution_clock, nanoseconds> lastUpdate;
             bool isPastFrameTime(time_point<high_resolution_clock, nanoseconds> time);
         public:
-            Sprite(std::shared_ptr<ITexture> texture, int spriteCount, float duration);
+            Sprite(std::unique_ptr<ITexture>&& texture, int spriteCount, float duration);
             const SDL_Rect getNextRect(time_point<high_resolution_clock, nanoseconds> currentTime);
-            std::shared_ptr<ITexture> getTexture();
+            std::unique_ptr<ITexture>& getTexture();
         };
     }
 }

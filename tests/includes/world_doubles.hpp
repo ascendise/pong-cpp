@@ -46,7 +46,7 @@ public:
         return fixedTimeDelta;
     };
 
-    time_point<high_resolution_clock, nanoseconds> now() {
+    time_point<high_resolution_clock, nanoseconds> now() const{
         return time_point<high_resolution_clock, nanoseconds>();
     }
 };

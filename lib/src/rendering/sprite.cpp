@@ -8,10 +8,11 @@ using std::chrono::milliseconds;
 namespace pong {
 	namespace rendering {
 
-		Sprite::Sprite(std::shared_ptr<ITexture> texture, int spriteCount, float duration) {
-			this->texture = texture;
-			this->spriteCount = spriteCount;
-			this->currentSprite = 0;
+		Sprite::Sprite(std::unique_ptr<ITexture>&& texture, int spriteCount, float duration) :
+			texture(std::move(texture)),
+			spriteCount(spriteCount),
+			currentSprite(0)
+		{
 			this->sprites = getAnimationRects();
 			this->avgFrameTime = duration / (float)spriteCount;
 		}
@@ -49,7 +50,7 @@ namespace pong {
 			return seconds > this->avgFrameTime;
 		}
 
-		std::shared_ptr<ITexture> Sprite::getTexture() {
+		std::unique_ptr<ITexture>& Sprite::getTexture() {
 			return this->texture;
 		}
 
