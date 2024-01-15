@@ -9,9 +9,6 @@
 #include <events.hpp>
 #include <optional>
 
-using std::chrono::high_resolution_clock;
-using std::chrono::time_point;
-using std::chrono::nanoseconds;
 
 namespace pong {
     namespace world {
@@ -59,17 +56,17 @@ namespace pong {
         class IReadOnlyClock {
         public:
             virtual float getFrameTimeDelta() = 0;
-            virtual time_point<high_resolution_clock, nanoseconds> now() const = 0;
+            virtual std::chrono::time_point<std::chrono::high_resolution_clock, std::chrono::nanoseconds> now() const = 0;
             virtual ~IReadOnlyClock() {};
         };
         
         class Clock : public IReadOnlyClock {
         private:
-            high_resolution_clock clock;
-            time_point<high_resolution_clock, nanoseconds> timeLastFrame;
+            std::chrono::high_resolution_clock clock;
+            std::chrono::time_point<std::chrono::high_resolution_clock, std::chrono::nanoseconds> timeLastFrame;
         public:
             float getFrameTimeDelta();
-            time_point<high_resolution_clock, nanoseconds> now() const;
+            std::chrono::time_point<std::chrono::high_resolution_clock, std::chrono::nanoseconds> now() const;
             void start();
             void nextFrame();
         };

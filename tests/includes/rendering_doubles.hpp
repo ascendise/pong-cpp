@@ -5,21 +5,26 @@
 #include <rendering.hpp>
 #include <rendering_utils.hpp>
 
-using namespace pong::rendering;
+namespace pong {
+    namespace rendering {
+        namespace testing {
 
-class FakeTexture : public ITexture {
-private:
-    SDL_Rect size;
-public:
-    FakeTexture(SDL_Rect size) {
-        this->size = size;
+            class FakeTexture : public ITexture {
+            private:
+                SDL_Rect size;
+            public:
+                FakeTexture(SDL_Rect size) {
+                    this->size = size;
+                }
+                SDL_Texture* getSDLTexture() {
+                    return nullptr;
+                }
+                SDL_Rect getTextureSize() {
+                    return size;
+                }
+            };
+        }
     }
-    SDL_Texture* getSDLTexture() {
-        return nullptr;
-    };
-    SDL_Rect getTextureSize() {
-        return size;
-    };
-};
+}
 
 #endif

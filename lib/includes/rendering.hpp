@@ -7,24 +7,23 @@
 #include <string>
 #include <stdexcept>
 
-using pong::world::Clock;
-
 namespace pong {
     namespace rendering {
+
         class RenderingSystem : public world::System { 
         private:
             SDL_Renderer *renderer;
             ScreenPositionCalculator screenCalc;
-            const IReadOnlyClock& clock;
+            const world::IReadOnlyClock& clock;
             static SDL_Surface* getSurface(SDL_Renderer* renderer);
         public:
-            RenderingSystem(SDL_Renderer* renderer, const IReadOnlyClock& clock) :
+            RenderingSystem(SDL_Renderer* renderer, const world::IReadOnlyClock& clock) :
                 renderer(renderer), clock(clock), screenCalc(getSurface(renderer)) {}
-            void run(std::vector<Entity>& entities);
+            void run(std::vector<world::Entity>& entities);
         };
 
         class ITexture {
-            public:
+        public:
             virtual SDL_Texture* getSDLTexture() = 0;
             virtual SDL_Rect getTextureSize() = 0;
         };
@@ -53,11 +52,15 @@ namespace pong {
             std::vector<SDL_Rect> sprites;
             std::vector<SDL_Rect> getAnimationRects();
             float avgFrameTime = 0;
-            time_point<high_resolution_clock, nanoseconds> lastUpdate;
-            bool isPastFrameTime(time_point<high_resolution_clock, nanoseconds> time);
+            std::chrono::time_point<std::chrono::high_resolution_clock, std::chrono::nanoseconds> lastUpdate;
+            bool isPastFrameTime(
+                std::chrono::time_point<std::chrono::high_resolution_clock, std::chrono::nanoseconds> time
+            );
         public:
             Sprite(std::unique_ptr<ITexture>&& texture, int spriteCount, float duration);
-            const SDL_Rect getNextRect(time_point<high_resolution_clock, nanoseconds> currentTime);
+            const SDL_Rect getNextRect(
+                std::chrono::time_point<std::chrono::high_resolution_clock, std::chrono::nanoseconds> currentTime
+            );
             std::unique_ptr<ITexture>& getTexture();
         };
     }

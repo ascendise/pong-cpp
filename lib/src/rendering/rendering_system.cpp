@@ -11,7 +11,7 @@ namespace pong {
             return SDL_GetWindowSurface(window);
         }
 
-        void RenderingSystem::run(std::vector<Entity>& entities) {
+        void RenderingSystem::run(std::vector<world::Entity>& entities) {
             for(auto& entity : entities) {
                 auto positionOption = entity.getComponent<pong::world::Position>();
                 auto spriteOption = entity.getComponent<pong::rendering::Sprite>();
