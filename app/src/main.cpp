@@ -1,21 +1,26 @@
 #include <iostream>
 #include <memory>
-#include <stdexcept>
 #include <SDL.h>
-#include <SDL_image.h>
+#include <SDL_error.h>
+#include <SDL_events.h>
+#include <SDL_main.h>
+#include <SDL_render.h>
+#include <SDL_video.h>
 #include <world.hpp>
 #include <components.hpp>
 #include <rendering.hpp>   
 #include <physics.hpp>
 #include <events.hpp>
 #include <math.hpp>
+#include <type_traits>
+#include <vector>
 
 
 void runGameLoop(SDL_Renderer* renderer, pong::world::World& world);
 
 int main(int argc, char* argv[]) {
     SDL_Init(SDL_INIT_VIDEO|SDL_INIT_AUDIO);
-    auto window = SDL_CreateWindow("Pong", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1280, 720, 0);
+    auto* window = SDL_CreateWindow("Pong", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1280, 720, 0);
     if(!window) {
         std::cerr << SDL_GetError();
         return -1;
