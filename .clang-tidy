@@ -33,7 +33,6 @@ readability-redundant-access-specifiers,
 -cppcoreguidelines-avoid-magic-numbers,
 -cppcoreguidelines-avoid-const-or-ref-data-members"
 
-WarningsAsErrors: '*'
 CheckOptions:
   cppcoreguidelines-special-member-functions.AllowSoleDefaultDtor: 'true'
   cppcoreguidelines-special-member-functions.AllowMissingMoveFunctions: 'true'

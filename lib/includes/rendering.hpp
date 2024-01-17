@@ -2,13 +2,23 @@
 #define RENDERING_HPP
 
 #include <world.hpp>
-#include <rendering_utils.hpp>
+#include <components.hpp>
 
 #include <SDL.h>
 #include <string>
 #include <stdexcept>
 
 namespace pong::rendering {
+
+    class ScreenPositionCalculator {
+	private:
+		SDL_Surface* windowSurface;
+		SDL_Rect getWindowSize() const;
+	public:
+		ScreenPositionCalculator(SDL_Surface* windowSurface) : windowSurface(windowSurface) {}
+		SDL_Rect toScreenPosition(const world::Position& position);
+		world::Position toWorldPosition(const SDL_Rect&  screenPosition);
+	};
 
     class RenderingSystem : public world::System { 
     private:

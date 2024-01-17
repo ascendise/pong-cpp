@@ -3,7 +3,6 @@
 
 #include <SDL.h>
 #include <rendering.hpp>
-#include <rendering_utils.hpp>
 
 namespace pong {
     namespace rendering {

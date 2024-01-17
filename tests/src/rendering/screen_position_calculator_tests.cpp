@@ -1,6 +1,5 @@
 #include <gtest/gtest.h>
 #include <rendering.hpp>
-#include <rendering_utils.hpp>
 #include <rendering_doubles.hpp>
 
 
