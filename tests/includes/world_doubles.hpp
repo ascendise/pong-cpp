@@ -42,11 +42,11 @@ namespace pong {
                 ClockStub(float fixedTimeDelta) {
                     this->fixedTimeDelta = fixedTimeDelta;
                 }
-                float getFrameTimeDelta() {
+                float getFrameTimeDelta() const override {
                     return fixedTimeDelta;
                 };
 
-                std::chrono::time_point<std::chrono::high_resolution_clock, std::chrono::nanoseconds> now() const {
+                std::chrono::time_point<std::chrono::high_resolution_clock, std::chrono::nanoseconds> now() const override {
                     return std::chrono::time_point<std::chrono::high_resolution_clock, std::chrono::nanoseconds>();
                 }
             };

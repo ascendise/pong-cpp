@@ -3,7 +3,6 @@
 #include <world_doubles.hpp>
 #include <gtest/gtest.h>
 #include <memory>
-#include <event_doubles.hpp>
 
 namespace pong {
 	namespace physics {

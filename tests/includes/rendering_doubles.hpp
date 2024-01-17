@@ -19,7 +19,7 @@ namespace pong {
                 SDL_Texture* getSDLTexture() {
                     return nullptr;
                 }
-                SDL_Rect getTextureSize() {
+                SDL_Rect getTextureSize() const override {
                     return size;
                 }
             };

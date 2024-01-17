@@ -1,34 +1,35 @@
-#include "rendering.hpp"
+#include <rendering.hpp>
+
 #include <SDL_image.h>
+#include <SDL_rect.h>
+#include <SDL_render.h>
+#include <SDL_surface.h>
 
-namespace pong {
-	namespace rendering {
+#include <string>
 
-		std::unique_ptr<Texture> Texture::loadTexture(SDL_Renderer* renderer, std::string path) {
-			auto texture = std::make_unique<Texture>(Texture());
-			auto surface = IMG_Load(path.c_str());
-			texture->texture = SDL_CreateTextureFromSurface(renderer, surface);
-			SDL_FreeSurface(surface);
-			return texture;
-		}
+namespace pong::rendering {
 
-		SDL_Rect Texture::getTextureSize() {
-			SDL_Rect size = { 0, 0, 0, 0};
-			SDL_QueryTexture(texture, NULL, NULL, &size.w, &size.h);
-			return size;
-		}
-
-		Texture::Texture(const Texture&& other) noexcept { 
-                this->texture = other.texture; 
-            }
-		Texture& Texture::operator=(const Texture&& other) noexcept {
-			if (this != &other) {
-				this->texture = other.texture;
-			}
-			return *this;
-		}
-		Texture::~Texture() {
-			SDL_DestroyTexture(this->texture);
-		};
+	Texture Texture::loadTexture(SDL_Renderer* renderer, const std::string& path) {
+		auto* surface = IMG_Load(path.c_str());
+		auto* sdlTexture = SDL_CreateTextureFromSurface(renderer, surface);
+		SDL_FreeSurface(surface);
+		return Texture(sdlTexture);
 	}
+
+	SDL_Rect Texture::getTextureSize() const{
+		SDL_Rect size = { 0, 0, 0, 0};
+		SDL_QueryTexture(texture, nullptr, nullptr, &size.w, &size.h);
+		return size;
+	}
+
+	Texture& Texture::operator=(Texture&& other) noexcept {
+		if (this != &other) {
+			this->texture = other.texture;
+		}
+		return *this;
+	}
+
+	Texture::~Texture() {
+		SDL_DestroyTexture(this->texture);
+	};
 }

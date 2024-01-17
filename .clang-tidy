@@ -30,7 +30,8 @@ readability-redundant-control-flow,
 readability-redundant-declaration,
 readability-redundant-access-specifiers,
 -bugprone-easily-swappable-parameters,
--cppcoreguidelines-avoid-magic-numbers"
+-cppcoreguidelines-avoid-magic-numbers,
+-cppcoreguidelines-avoid-const-or-ref-data-members"
 
 WarningsAsErrors: '*'
 CheckOptions:
