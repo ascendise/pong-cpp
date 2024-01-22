@@ -5,8 +5,7 @@
 #include <components.hpp>
 #include <physics.hpp>
 
-namespace pong {
-	namespace physics {
+namespace pong::physics {
 
 		TEST(CollisionSystemTests, Collision_ShouldPushEventForBothEntities) {
 			//Arrange
@@ -74,8 +73,7 @@ namespace pong {
 			entities.push_back(std::move(entity2));
 			sut.run(entities);
 			//Assert
-			auto& event = dynamic_cast<CollisionEvent const&>(*spyEventQueue.getEvents().front());
+			const auto& event = dynamic_cast<CollisionEvent const&>(*spyEventQueue.getEvents().front());
 			EXPECT_EQ(event.getAngle(), 90);
 		}
 	}
-}

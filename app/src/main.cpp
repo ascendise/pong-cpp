@@ -27,7 +27,7 @@ int main(int argc, char* argv[]) {
         return -1;
     }
     auto rendererFlags = SDL_RENDERER_ACCELERATED|SDL_RENDERER_PRESENTVSYNC|SDL_RENDERER_TARGETTEXTURE;
-    auto renderer = SDL_CreateRenderer(window, -1, rendererFlags);
+    auto *renderer = SDL_CreateRenderer(window, -1, rendererFlags);
     if(!renderer) {
         std::cerr << SDL_GetError();
         SDL_DestroyWindow(window);
@@ -50,8 +50,7 @@ int main(int argc, char* argv[]) {
     ballComponents.push_back(std::make_unique<pong::rendering::Sprite>(std::make_unique<pong::rendering::Texture>(std::move(ballTexture)), 4, 0.1));
     pong::physics::RigidBody ballBody;
     ballBody.setBounce(1);
-    ballBody.getVelocity().x = 250;
-    ballBody.getVelocity().y = 250;
+	ballBody.setVelocity(pong::math::Vector2D(250, 250));
     ballComponents.push_back(std::make_unique<pong::physics::RigidBody>(std::move(ballBody)));
     ballComponents.push_back(std::make_unique<pong::physics::BoxCollider>(
         pong::world::Position(0, 0), 
@@ -73,7 +72,7 @@ int main(int argc, char* argv[]) {
     wallComponents.push_back(std::make_unique<pong::rendering::Sprite>(std::make_unique<pong::rendering::Texture>(std::move(wallTexture)), 1, 0));
     world.registerEntity(std::move(wallComponents));
         //Systems
-    world.registerSystem(std::make_unique<pong::physics::PhysicsSystem>(world.getClock()));
+    world.registerSystem(std::make_unique<pong::physics::MovementSystem>(world.getClock()));
     world.registerSystem(std::make_unique<pong::rendering::RenderingSystem>(renderer, world.getClock()));
     world.registerSystem(std::make_unique<pong::physics::CollisionSystem>(world.getEventQueue()));
     runGameLoop(renderer, world);

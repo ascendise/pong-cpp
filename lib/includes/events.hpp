@@ -14,7 +14,7 @@ namespace pong::world::events {
 
     class EventProcessor {
     public:
-        virtual void process(Event& event) = 0;
+        virtual void process(const Event& event) = 0;
         virtual ~EventProcessor() = default;
     };
 
