@@ -12,7 +12,7 @@ namespace pong::physics {
 			world::testing::ClockStub clockStub(1);
 			MovementSystem sut(clockStub);
 			std::vector<std::unique_ptr<world::Component>> components;
-			components.push_back(std::make_unique<world::Position>(world::Position(0, 0)));
+			components.push_back(std::make_unique<world::Position>(0, 0));
 			RigidBody rigidBody(math::Vector2D(1, 3), 1);
 			components.push_back(std::make_unique<RigidBody>(rigidBody));
 			world::Entity entity(1, std::move(components));
