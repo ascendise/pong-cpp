@@ -4,9 +4,7 @@
 #include <world.hpp>
 #include <events.hpp>	
 
-namespace pong {
-    namespace world {
-        namespace testing {
+namespace pong::world::testing {
 
             class FakeComponent : public Component {
             private:
@@ -20,28 +18,26 @@ namespace pong {
             private:
                 int value;
             public:
-                FakeSystem(int value) { this->value = value; };
-                void run(std::vector<Entity>& entities) {
+                FakeSystem(int value): value(value) {}
+                void run(std::vector<Entity>& entities) override {
                     for (auto& entity : entities) {
-                        auto& component = entity.getComponent<FakeComponent>().value().get();
+                        auto& component = entity.getComponent<FakeComponent>().value().get(); //NOLINT bugprone-unchecked-optional-access
                         component.setValue(value);
                     }
                 }
             };
 
             class StubEventQueue : public events::IEventQueue {
-                void registerProcessor(std::unique_ptr<pong::world::events::EventProcessor>&& processor) { }
-                void enqueue(std::shared_ptr<pong::world::events::Event>&& event) { }
-                void processEvents() { }
+                void registerProcessor(std::unique_ptr<pong::world::events::EventProcessor>&& processor) override { }
+                void enqueue(std::shared_ptr<pong::world::events::Event>&& event) override { }
+                void processEvents() override { }
             };
 
             class ClockStub : public IReadOnlyClock {
             private:
                 float fixedTimeDelta;
             public:
-                ClockStub(float fixedTimeDelta) {
-                    this->fixedTimeDelta = fixedTimeDelta;
-                }
+                ClockStub(float fixedTimeDelta) : fixedTimeDelta(fixedTimeDelta) {}
                 float getFrameTimeDelta() const override {
                     return fixedTimeDelta;
                 };
@@ -51,7 +47,5 @@ namespace pong {
                 }
             };
         }
-    }
-}
 
 #endif
