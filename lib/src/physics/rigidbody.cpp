@@ -1,10 +1,9 @@
 #include <physics.hpp>
 
 
-namespace pong {
-	namespace physics {
+namespace pong::physics {
 
-		float RigidBody::getBounce() {
+		float RigidBody::getBounce() const {
 			return this->bounce;
 		}
 
@@ -12,13 +11,12 @@ namespace pong {
 			this->bounce = bounce;
 		}
 
-		void RigidBody::setVelocity(math::Vector2D v) {
-			this->velocity = v;
+		void RigidBody::setVelocity(math::Vector2D velocity) {
+			this->velocity = velocity;
 		}
 
-		math::Vector2D& RigidBody::getVelocity() {
+		math::Vector2D RigidBody::getVelocity() const {
 			return this->velocity;
 		}
 	}
-}
 

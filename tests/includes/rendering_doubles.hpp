@@ -3,28 +3,21 @@
 
 #include <SDL.h>
 #include <rendering.hpp>
-#include <rendering_utils.hpp>
 
-namespace pong {
-    namespace rendering {
-        namespace testing {
+namespace pong::rendering::testing {
 
-            class FakeTexture : public ITexture {
-            private:
-                SDL_Rect size;
-            public:
-                FakeTexture(SDL_Rect size) {
-                    this->size = size;
-                }
-                SDL_Texture* getSDLTexture() {
-                    return nullptr;
-                }
-                SDL_Rect getTextureSize() {
-                    return size;
-                }
-            };
-        }
-    }
+	class FakeTexture : public ITexture {
+	private:
+	    SDL_Rect size;
+	public:
+	    FakeTexture(SDL_Rect size): size(size) {}
+	    SDL_Texture* getSDLTexture() override {
+	        return nullptr;
+	    }
+	    SDL_Rect getTextureSize() const override {
+	        return size;
+	    }
+	};
 }
 
 #endif
