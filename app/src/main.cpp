@@ -19,7 +19,7 @@
 
 void runGameLoop(SDL_Renderer* renderer, pong::world::World& world);
 
-int main(int argc, char* argv[]) {
+int main(int  /*argc*/, char*  /*argv*/[]) {
     SDL_Init(SDL_INIT_VIDEO|SDL_INIT_AUDIO);
     auto* window = SDL_CreateWindow("Pong", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1280, 720, 0);
     if(!window) {
