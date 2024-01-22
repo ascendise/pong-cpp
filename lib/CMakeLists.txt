@@ -8,7 +8,7 @@ add_library(PongLib STATIC
     "src/rendering/texture.cpp" 
     "src/rendering/sprite.cpp"
     "src/rendering/screen_position_calculator.cpp"
-    "src/physics/physics_system.cpp" 
+    "src/physics/movement_system.cpp" 
     "src/physics/rigidbody.cpp"
     "src/physics/box_collider.cpp"
     "src/physics/collision_event.cpp"
