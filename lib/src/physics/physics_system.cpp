@@ -17,7 +17,9 @@ namespace pong::physics {
 				position += positionDifference;
 				auto colliderOption = entity.getComponent<BoxCollider>();
 				if (colliderOption.has_value()) {
-					colliderOption.value().get().getPosition() += positionDifference;
+					auto& collider = colliderOption.value().get();
+					auto newColliderPosition = collider.getPosition() + positionDifference;
+					collider.setPosition(world::Position(newColliderPosition.x, newColliderPosition.y));
 				}
 			}
 		}
