@@ -1,10 +1,10 @@
 #include "math.hpp"
+
 #define _USE_MATH_DEFINES
 #include <cmath>
 #include <limits>
 
-namespace pong {
-	namespace math {
+namespace pong::math {
 
 		static const float halfCircleDegrees = 180;
 
@@ -92,4 +92,3 @@ namespace pong {
 			return static_cast<float>(degree / math::halfCircleDegrees * M_PI);
 		}
 	}
-}

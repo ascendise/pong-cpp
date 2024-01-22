@@ -1,13 +1,12 @@
 #ifndef MATH_HPP
 #define MATH_HPP
 
-namespace pong {
-	namespace math {
+namespace pong::math {
 
 		class Vector2D {
 		public:
-			float x = 0;
-			float y = 0;
+			float x = 0; //NOLINT misc-non-private-member-variables-in-classes; This class is designed to use public members
+			float y = 0; //NOLINT misc-non-private-member-variables-in-classes; This class is designed to use public members
 			Vector2D(float x, float y);
 			Vector2D operator+(const Vector2D& vec) const;
 			Vector2D& operator+=(const Vector2D&);
@@ -27,6 +26,5 @@ namespace pong {
 		float toRadian(float degree);
 
 	}
-}
 
 #endif
