@@ -16,7 +16,7 @@ jobs:
       - name: Install CMake
         uses: lukka/get-cmake@v3.25.2
       - name: Install Project Dependencies
-        run: sudo apt install -y gtest sdl2 sdl2-image
+        run: sudo apt install -y libgtest-dev libsdl2-dev libsdl2-image-dev
       - name: Create directory for build
         run: mkdir build
       - name: Create build files
