@@ -10,15 +10,6 @@ add_subdirectory(lib)
 enable_testing()
 add_subdirectory(tests)
 
-#SDL2
-find_package(SDL2 REQUIRED CONFIG REQUIRED COMPONENTS SDL2 SDL2main)
-target_link_libraries(Pong PRIVATE SDL2::SDL2 SDL2::SDL2main)
-target_link_libraries(PongLib PRIVATE SDL2::SDL2 SDL2::SDL2main)
-target_link_libraries(Tests PRIVATE SDL2::SDL2 SDL2::SDL2main)
-
-#SDL_Image
-find_package(SDL2_image)
-target_link_libraries(PongLib PRIVATE SDL2_image::SDL2_image)
 set(SDL2IMAGE_INSTALL OFF)
 set(BUILD_SHARED_LIBS FALSE)
 

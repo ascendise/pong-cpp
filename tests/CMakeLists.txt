@@ -15,12 +15,13 @@ add_executable(Tests
 
 target_include_directories(Tests PRIVATE includes/)
 
-#googletest
 find_package(GTest)
+find_package(SDL2 REQUIRED CONFIG REQUIRED COMPONENTS SDL2 SDL2main)
 
 target_link_libraries(Tests 
 	PRIVATE
 	PongLib 
+	SDL2::SDL2
 	GTest::gtest_main gmock_main
 )
 gtest_discover_tests(Tests)
