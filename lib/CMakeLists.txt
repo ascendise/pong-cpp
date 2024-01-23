@@ -16,7 +16,7 @@ add_library(PongLib STATIC
     "src/physics/collision_system.cpp")
 
 find_package(SDL2 REQUIRED CONFIG REQUIRED COMPONENTS SDL2 SDL2main)
-find_package(SDL2_image)
+find_package(SDL2_image REQUIRED)
 
 target_include_directories(PongLib PUBLIC 
     "includes/")

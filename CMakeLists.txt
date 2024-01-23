@@ -10,9 +10,6 @@ add_subdirectory(lib)
 enable_testing()
 add_subdirectory(tests)
 
-set(SDL2IMAGE_INSTALL OFF)
-set(BUILD_SHARED_LIBS FALSE)
-
 #Include assets in output
 add_custom_target(assets
     COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_CURRENT_LIST_DIR}/assets ${CMAKE_CURRENT_BINARY_DIR}/assets

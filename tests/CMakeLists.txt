@@ -15,7 +15,7 @@ add_executable(Tests
 
 target_include_directories(Tests PRIVATE includes/)
 
-find_package(GTest)
+find_package(GTest REQUIRED)
 find_package(SDL2 REQUIRED CONFIG REQUIRED COMPONENTS SDL2 SDL2main)
 
 target_link_libraries(Tests 
