@@ -14,19 +14,16 @@ jobs:
         with:
           submodules: 'true'
       - name: Install CMake
-        uses: lukka/get-cmake@v3.25.2
-      - name: Install Project Dependencies
-        run: sudo apt install -y libgtest-dev libsdl2-dev libsdl2-image-dev
-      - name: Create directory for build
-        run: mkdir build
-      - name: Create build files
-        working-directory: ./build
-        run: cmake ..
-      - name: Build project
-        working-directory: ./build 
-        run: make
-      - name: Run tests
-        working-directory: ./build 
-        run: ctest
+        uses: lukka/get-cmake@v3.21.2
+      - name: Setup vcpkg for dependencies
+        uses: lukka/run-vcpkg@v11
+        with:
+          vcpkgGitCommitId: 53bef8994c541b6561884a8395ea35715ece75db 
+      - name: Run CMake
+        uses: lukka/run-cmake@v10
+        with: 
+          configurePreset: ninja-multi-vcpkg
+          buildPreset: ninja-multi-vcpkg
+          testPreset: ninja-multi-vcpkg
 
       
