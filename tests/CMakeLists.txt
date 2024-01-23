@@ -16,19 +16,11 @@ add_executable(Tests
 target_include_directories(Tests PRIVATE includes/)
 
 #googletest
-FetchContent_Declare(
-        googletest
-        GIT_REPOSITORY https://github.com/google/googletest.git
-        GIT_TAG v1.13.0
-        SYSTEM
-)
-FetchContent_MakeAvailable(googletest)
+find_package(GTest)
 
 target_link_libraries(Tests 
 	PRIVATE
 	PongLib 
 	GTest::gtest_main gmock_main
 )
-
-include(GoogleTest)
 gtest_discover_tests(Tests)
