@@ -10,23 +10,11 @@ add_subdirectory(lib)
 enable_testing()
 add_subdirectory(tests)
 
-#googletest
-FetchContent_Declare(
-        googletest
-        GIT_REPOSITORY https://github.com/google/googletest.git
-        GIT_TAG v1.13.0
-        SYSTEM
-)
-FetchContent_MakeAvailable(googletest)
-
 #SDL2
-FetchContent_Declare(
-        SDL2
-        GIT_REPOSITORY https://github.com/libsdl-org/SDL.git
-        GIT_TAG release-2.26.4
-        SYSTEM
-)
-FetchContent_MakeAvailable(SDL2)
+find_package(SDL2 REQUIRED CONFIG REQUIRED COMPONENTS SDL2 SDL2main)
+target_link_libraries(Pong PRIVATE SDL2::SDL2 SDL2::SDL2main)
+target_link_libraries(PongLib PRIVATE SDL2::SDL2 SDL2::SDL2main)
+target_link_libraries(Tests PRIVATE SDL2::SDL2 SDL2::SDL2main)
 
 #SDL_Image
 FetchContent_Declare(
@@ -38,7 +26,6 @@ FetchContent_Declare(
 
 set(SDL2IMAGE_INSTALL OFF)
 set(BUILD_SHARED_LIBS FALSE)
-
 FetchContent_MakeAvailable(SDL_Image)
 
 #Include assets in output

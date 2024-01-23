@@ -17,4 +17,8 @@ add_library(PongLib STATIC
 
 target_include_directories(PongLib PUBLIC 
     "includes/")
-target_link_libraries(PongLib PRIVATE SDL2::SDL2-static SDL2_image::SDL2_image-static)
+
+target_link_libraries(PongLib 
+	PRIVATE
+	SDL2_image::SDL2_image-static
+)
