@@ -1,70 +1,91 @@
 {
-    "version": 3,
-    "cmakeMinimumRequired": {
-        "major": 3,
-        "minor": 21,
-        "patch": 0
+  "version": 3,
+  "cmakeMinimumRequired": {
+    "major": 3,
+    "minor": 21,
+    "patch": 0
+  },
+  "configurePresets": [
+    {
+      "name": "ubuntu-runner-config",
+      "displayName": "Github Ubuntu Runner",
+      "description": "Package Manager: vcpkg; Generator: Ninja; Expects vcpkg in source dir",
+      "binaryDir": "${sourceDir}/build/${presetName}",
+      "generator": "Ninja Multi-Config",
+      "cacheVariables": {
+        "CMAKE_TOOLCHAIN_FILE": {
+          "type": "FILEPATH",
+          "value": "${sourceDir}/vcpkg/scripts/buildsystems/vcpkg.cmake"
+        }
+      }
     },
-    "configurePresets": [
-        {
-            "name": "ninja-multi-vcpkg",
-            "displayName": "Ninja Multi-Config",
-            "description": "Configure with vcpkg toolchain and generate Ninja project files for all configurations",
-            "binaryDir": "${sourceDir}/builds/${presetName}",
-            "generator": "Ninja Multi-Config",
-            "cacheVariables": {
-                "CMAKE_TOOLCHAIN_FILE": {
-                    "type": "FILEPATH",
-                    "value": "${sourceDir}/vcpkg/scripts/buildsystems/vcpkg.cmake"
-                }
-            }
+    {
+      "name": "dev-vcpkg-ninja",
+      "displayName": "Windows (vcpkg/Ninja)",
+      "description": "Package Manager: vcpkg; Generator: Ninja; Uses %VCPKG_ROOT%",
+      "binaryDir": "${sourceDir}/build/${presetName}",
+      "generator": "Ninja Multi-Config",
+      "cacheVariables": {
+        "CMAKE_TOOLCHAIN_FILE": {
+          "type": "FILEPATH",
+          "value": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake"
         }
-    ],
-    "buildPresets": [
-        {
-            "name": "ninja-vcpkg-debug",
-            "configurePreset": "ninja-multi-vcpkg",
-            "displayName": "Build (Debug)",
-            "description": "Build with Ninja/vcpkg (Debug)",
-            "configuration": "Debug"
-        },
-        {
-            "name": "ninja-vcpkg-release",
-            "configurePreset": "ninja-multi-vcpkg",
-            "displayName": "Build (Release)",
-            "description": "Build with Ninja/vcpkg (Release)",
-            "configuration": "Release"
-        },
-        {
-            "name": "ninja-vcpkg",
-            "configurePreset": "ninja-multi-vcpkg",
-            "displayName": "Build",
-            "description": "Build with Ninja/vcpkg"
-        }
-    ],
-    "testPresets": [
-        {
-            "name": "test-ninja-vcpkg",
-            "configurePreset": "ninja-multi-vcpkg",
-            "hidden": true
-        },
-        {
-            "name": "test-debug",
-            "description": "Test (Debug)",
-            "displayName": "Test (Debug)",
-            "configuration": "Debug",
-            "inherits": [
-                "test-ninja-vcpkg"
-            ]
-        },
-        {
-            "name": "test-release",
-            "description": "Test (Release)",
-            "displayName": "Test (Release)",
-            "configuration": "Release",
-            "inherits": [
-                "test-ninja-vcpkg"
-            ]
-        }
-    ]
+      }
+    }
+  ],
+  "buildPresets": [
+    {
+      "name": "build-debug",
+      "displayName": "Build (Debug)",
+      "description": "Build Debug",
+      "configuration": "Debug",
+      "hidden": true
+    },
+    {
+      "name": "build-release",
+      "displayName": "Build (Release)",
+      "description": "Build Release",
+      "configuration": "Release",
+      "hidden": true
+    },
+    {
+      "name": "ubuntu-runner-debug",
+      "configurePreset": "ubuntu-runner-config",
+      "inherits": [ "build-debug" ]
+    },
+    {
+      "name": "ubuntu-runner-release",
+      "configurePreset": "ubuntu-runner-config",
+      "inherits": [ "build-release" ]
+    },
+    {
+      "name": "dev-vcpkg-debug",
+      "configurePreset": "dev-vcpkg-ninja",
+      "inherits": [ "build-debug" ]
+    },
+    {
+      "name": "dev-vcpkg-release",
+      "configurePreset": "dev-vcpkg-ninja",
+      "inherits": [ "build-release" ]
+    }
+  ],
+  "testPresets": [
+    {
+      "name": "test",
+      "description": "Test",
+      "displayName": "Test",
+      "configuration": "Debug",
+      "hidden": true
+    },
+    {
+      "name": "ubuntu-runner-test",
+      "configurePreset": "ubuntu-runner-config",
+      "inherits": [ "test" ]
+    },
+    {
+      "name": "dev-vcpkg-test",
+      "configurePreset": "dev-vcpkg-ninja",
+      "inherits": ["test"]
+    }
+  ]
 }

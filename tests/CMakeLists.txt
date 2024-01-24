@@ -22,6 +22,6 @@ target_link_libraries(Tests
 	PRIVATE
 	PongLib 
 	SDL2::SDL2
-	GTest::gtest_main gmock_main
+	GTest::gtest_main
 )
 gtest_discover_tests(Tests)
