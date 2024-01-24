@@ -21,7 +21,7 @@
     },
     {
       "name": "dev-vcpkg-ninja",
-      "displayName": "Windows (vcpkg/Ninja)",
+      "displayName": "Development with Ninja + vcpkg",
       "description": "Package Manager: vcpkg; Generator: Ninja; Uses %VCPKG_ROOT%",
       "binaryDir": "${sourceDir}/build/${presetName}",
       "generator": "Ninja Multi-Config",
