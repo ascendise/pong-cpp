@@ -1,7 +1,7 @@
 add_executable(Pong 
     "src/main.cpp")
 
-find_package(SDL2 REQUIRED CONFIG REQUIRED COMPONENTS SDL2 SDL2main)
+find_package(SDL2 REQUIRED CONFIG)
 
 target_link_libraries(Pong 
 	PRIVATE
