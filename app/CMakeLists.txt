@@ -1,12 +1,11 @@
 add_executable(Pong 
     "src/main.cpp")
 
-if (WIN32)
-    add_custom_command(
-        TARGET Pong POST_BUILD
-        COMMAND "${CMAKE_COMMAND}" -E copy_if_different "$<TARGET_FILE:SDL2::SDL2>" "$<TARGET_FILE_DIR:Pong>"
-        VERBATIM
-    )
-endif()
+find_package(SDL2 REQUIRED CONFIG)
 
-target_link_libraries(Pong PRIVATE PongLib SDL2::SDL2-static SDL2main SDL2_image::SDL2_image-static)
+target_link_libraries(Pong 
+	PRIVATE
+	PongLib 
+	$<TARGET_NAME_IF_EXISTS:SDL2::SDL2main>
+	$<IF:$<TARGET_EXISTS:SDL2::SDL2>,SDL2::SDL2,SDL2::SDL2-static>
+)

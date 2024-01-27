@@ -15,12 +15,13 @@ add_executable(Tests
 
 target_include_directories(Tests PRIVATE includes/)
 
-target_link_libraries(Tests 
-	PRIVATE PongLib 
-	SDL2::SDL2-static 
-	SDL2_image::SDL2_image-static 
-	GTest::gtest_main gmock_main
-)
+find_package(GTest REQUIRED)
+find_package(SDL2 REQUIRED CONFIG)
 
-include(GoogleTest)
+target_link_libraries(Tests 
+	PRIVATE
+	PongLib 
+	GTest::gtest_main
+	$<IF:$<TARGET_EXISTS:SDL2::SDL2>,SDL2::SDL2,SDL2::SDL2-static>
+)
 gtest_discover_tests(Tests)

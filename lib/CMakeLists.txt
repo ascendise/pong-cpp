@@ -15,6 +15,15 @@ add_library(PongLib STATIC
     "src/physics/collision_eventprocessor.cpp"
     "src/physics/collision_system.cpp")
 
+find_package(SDL2 REQUIRED CONFIG)
+find_package(SDL2_image REQUIRED)
+
 target_include_directories(PongLib PUBLIC 
     "includes/")
-target_link_libraries(PongLib PRIVATE SDL2::SDL2-static SDL2_image::SDL2_image-static)
+
+target_link_libraries(PongLib 
+	PRIVATE
+	$<IF:$<TARGET_EXISTS:SDL2::SDL2>,SDL2::SDL2,SDL2::SDL2-static>
+	$<IF:$<TARGET_EXISTS:SDL2_image::SDL2_image>,SDL2_image::SDL2_image,SDL2_image::SDL2_image-static>
+)
+
