@@ -23,6 +23,7 @@ target_include_directories(PongLib PUBLIC
 
 target_link_libraries(PongLib 
 	PRIVATE
-	SDL2::SDL2
-  SDL2_image::SDL2_image
+	$<IF:$<TARGET_EXISTS:SDL2::SDL2>,SDL2::SDL2,SDL2::SDL2-static>
+	$<IF:$<TARGET_EXISTS:SDL2_image::SDL2_image>,SDL2_image::SDL2_image,SDL2_image::SDL2_image-static>
 )
+

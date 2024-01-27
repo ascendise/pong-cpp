@@ -6,6 +6,6 @@ find_package(SDL2 REQUIRED CONFIG)
 target_link_libraries(Pong 
 	PRIVATE
 	PongLib 
-	SDL2::SDL2 
-	SDL2::SDL2main
+	$<TARGET_NAME_IF_EXISTS:SDL2::SDL2main>
+	$<IF:$<TARGET_EXISTS:SDL2::SDL2>,SDL2::SDL2,SDL2::SDL2-static>
 )

@@ -21,7 +21,7 @@ find_package(SDL2 REQUIRED CONFIG)
 target_link_libraries(Tests 
 	PRIVATE
 	PongLib 
-	SDL2::SDL2
 	GTest::gtest_main
+	$<IF:$<TARGET_EXISTS:SDL2::SDL2>,SDL2::SDL2,SDL2::SDL2-static>
 )
 gtest_discover_tests(Tests)
