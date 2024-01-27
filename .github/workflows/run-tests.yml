@@ -23,7 +23,7 @@ jobs:
         uses: lukka/run-cmake@v10
         with: 
           configurePreset: ubuntu-runner-config
-          buildPreset: ubuntu-runner-config
-          testPreset: ubuntu-runner-config
+          buildPreset: ubuntu-runner-debug
+          testPreset: ubuntu-runner-test
 
       
