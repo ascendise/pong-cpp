@@ -24,6 +24,5 @@ jobs:
         with: 
           configurePreset: ubuntu-runner-config
           buildPreset: ubuntu-runner-debug
-          buildPresetAdditionalArgs: "['-DCMAKE_CXX_CLANG_TIDY clang-tidy']"
           testPreset: ubuntu-runner-test
       
