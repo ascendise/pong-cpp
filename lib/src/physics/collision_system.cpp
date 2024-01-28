@@ -26,7 +26,7 @@ namespace pong::physics {
 	      auto &hurdle = entities[y];
 	      auto hurdleCollider = hurdle.getComponent<BoxCollider>();
 	      if (hurdleCollider.has_value() && targetCollider.intersects(hurdleCollider.value().get())) {
-					Collision collision(target, hurdle);
+					Collision const collision(target, hurdle);
 					collisions.push_back(collision);
 	      }
 	    }

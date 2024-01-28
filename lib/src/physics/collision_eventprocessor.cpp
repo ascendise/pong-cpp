@@ -31,7 +31,7 @@ namespace pong::physics {
         auto y = velocity.y * cos;
         auto x = velocity.x * sin;
         auto res = y - x;
-        math::Vector2D newVec(
+        math::Vector2D const newVec(
             velocity.x * std::cos(rotationAngleRadian) + velocity.y * std::sin(rotationAngleRadian),
             velocity.y * std::cos(rotationAngleRadian) - velocity.x * std::sin(rotationAngleRadian)
         );

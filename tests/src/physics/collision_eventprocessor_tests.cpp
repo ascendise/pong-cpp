@@ -16,7 +16,7 @@ namespace pong::physics {
 	    components.push_back(std::move(rigidBody));
 	    world::Entity entity(1, std::move(components));
 	    //Act
-	    CollisionEvent event(entity, 90, 1);
+	    CollisionEvent const event(entity, 90, 1);
 	    sut.process(event);
 	    //Assert
 	    auto& newRigidbody = entity.getComponent<RigidBody>().value().get(); //NOLINT bugprone-unchecked-optional-access
@@ -34,7 +34,7 @@ namespace pong::physics {
 	    components.push_back(std::move(rigidBody));
 	    world::Entity entity(1, std::move(components));
 	    //Act
-	    CollisionEvent event(entity, 90, 0.5);
+	    CollisionEvent const event(entity, 90, 0.5);
 	    sut.process(event);
 	    //Assert
 	    auto& newRigidbody = entity.getComponent<RigidBody>().value().get();  //NOLINT bugprone-unchecked-optional-access
@@ -52,7 +52,7 @@ namespace pong::physics {
 	    components.push_back(std::move(rigidBody));
 	    world::Entity entity(1, std::move(components));
 	    //Act
-	    CollisionEvent event(entity, 90, 0.2);
+	    CollisionEvent const event(entity, 90, 0.2);
 	    sut.process(event);
 	    //Assert
 	    auto& newRigidBody = entity.getComponent<RigidBody>().value().get();  //NOLINT bugprone-unchecked-optional-access
@@ -70,7 +70,7 @@ namespace pong::physics {
 	    components.push_back(std::move(rigidBody));
 	    world::Entity entity(1, std::move(components));
 	    //Act
-	    CollisionEvent event(entity, 30, 1);
+	    CollisionEvent const event(entity, 30, 1);
 	    sut.process(event);
 	    auto newRigidBody = entity.getComponent<RigidBody>().value().get(); //NOLINT bugprone-unchecked-optional-access
 	    //Assert
