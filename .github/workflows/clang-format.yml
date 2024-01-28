@@ -1,0 +1,23 @@
+name: clang-format
+on: 
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+jobs:
+  clang-format:
+    runs_on: ubuntu-latest
+    strategy:
+      matrix:
+        path:
+          - 'app'
+          - 'lib'
+          - 'tests'
+    steps:
+    - uses: actions/checkout@v3
+    - name: Run clang-format style check for C/C++/Protobuf programs.
+      uses: jidicula/clang-format-action@v4.11.0
+      with:
+        clang-format-version: '17'
+        check-path: ${{ matrix.path }}
+        
