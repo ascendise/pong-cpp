@@ -34,7 +34,9 @@ readability-redundant-access-specifiers,
 -cppcoreguidelines-avoid-const-or-ref-data-members"
 
 CheckOptions:
-  cppcoreguidelines-special-member-functions.AllowSoleDefaultDtor: 'true'
-  cppcoreguidelines-special-member-functions.AllowMissingMoveFunctions: 'true'
+  - key: 'cppcoreguidelines-special-member-functions.AllowSoleDefaultDtor'
+    value: true
+  - key: 'cppcoreguidelines-special-member-functions.AllowMissingMoveFunctions'
+    value: true
 
 WarningsAsErrors: "*"
