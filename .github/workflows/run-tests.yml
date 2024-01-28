@@ -26,5 +26,5 @@ jobs:
           buildPreset: ubuntu-runner-debug
           testPreset: ubuntu-runner-test
       - name: Linter
+        working-directory: ./build/ubuntu-runner-config
         run: run-clang-tidy
-
