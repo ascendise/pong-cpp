@@ -1,6 +1,6 @@
 #include "math.hpp"
 
-#define _USE_MATH_DEFINES //NOLINT Need to define this to get that sweet pi(e) 
+#define _USE_MATH_DEFINES 
 #include <cmath>
 #include <limits>
 
