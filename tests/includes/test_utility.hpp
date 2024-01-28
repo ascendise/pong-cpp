@@ -2,7 +2,7 @@
 #define TEST_UTILITY_HPP
 
 namespace test_utility {
-	float roundTo(float value, int precision);
+float roundTo(float value, int precision);
 }
 
 #endif

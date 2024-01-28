@@ -25,6 +25,11 @@ jobs:
           configurePreset: ubuntu-runner-config
           buildPreset: ubuntu-runner-debug
           testPreset: ubuntu-runner-test
+      - name: clang-format
+        uses: jidicula/clang-format-action@v4.11.0
+        with:
+          clang-format-version: '14'
+          check-path: './'
       - name: Linter
         working-directory: ./build/ubuntu-runner-config
         run: run-clang-tidy
