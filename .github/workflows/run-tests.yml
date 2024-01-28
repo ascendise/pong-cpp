@@ -19,10 +19,12 @@ jobs:
         uses: lukka/run-vcpkg@v11
         with:
           vcpkgGitCommitId: 53bef8994c541b6561884a8395ea35715ece75db 
-      - name: Build Lint Test
+      - name: Build and Test
         uses: lukka/run-cmake@v10
         with: 
           configurePreset: ubuntu-runner-config
           buildPreset: ubuntu-runner-debug
           testPreset: ubuntu-runner-test
-      
+      - name: Linter
+        run: run-clang-tidy
+
