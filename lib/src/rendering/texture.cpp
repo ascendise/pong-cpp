@@ -1,11 +1,10 @@
 #include <rendering.hpp>
 
-#include <string>
 #include <SDL_image.h>
 #include <SDL_rect.h>
 #include <SDL_render.h>
 #include <SDL_surface.h>
-
+#include <string>
 
 namespace pong::rendering {
 

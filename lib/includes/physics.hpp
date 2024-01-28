@@ -70,6 +70,7 @@ public:
 class CollisionEventProcessor : public world::events::EventProcessor {
 private:
   math::Vector2D calculateVelocityAfterCollision(float angle, const RigidBody &targetRigidBody, float bounce);
+
 public:
   void process(const world::events::Event &event) override;
 };
