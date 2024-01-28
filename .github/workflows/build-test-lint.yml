@@ -28,7 +28,7 @@ jobs:
       - name: clang-format
         uses: jidicula/clang-format-action@v4.11.0
         with:
-          clang-format-version: '14'
+          clang-format-version: '17'
           check-path: './'
       - name: Linter
         working-directory: ./build/ubuntu-runner-config
