@@ -12,7 +12,7 @@ namespace pong::world {
 	    auto component = testing::FakeComponent();
 	    auto components = std::vector<std::unique_ptr<Component>>();
 	    components.push_back(std::make_unique<testing::FakeComponent>());
-	    Entity sut(1, std::move(components));
+	    Entity const sut(1, std::move(components));
 	    //Act
 	    auto foundComponent = sut.getComponent<testing::FakeComponent>();
 	    //Assert
@@ -22,7 +22,7 @@ namespace pong::world {
 	TEST(EntityTests, GetComponent_ComponentDoesNotExist_ShouldReturnNullPtr) {
 	    //Arrange
 	    auto components = std::vector<std::unique_ptr<Component>>();
-	    Entity sut(1, std::move(components));
+	    Entity const sut(1, std::move(components));
 	    //Act
 	    auto foundComponent = sut.getComponent<testing::FakeComponent>();
 	    //Assert
@@ -43,7 +43,7 @@ namespace pong::world {
 	    components.push_back(std::make_unique<testing::FakeComponent>());
 	    components.push_back(std::make_unique<FakeComponent2>());
 	    components.push_back(std::make_unique<FakeComponent3>());
-	    Entity sut(1, std::move(components));
+	    Entity const sut(1, std::move(components));
 	    //Act
 	    auto foundComponent = sut.getComponent<FakeComponent3>();
 	    //Assert

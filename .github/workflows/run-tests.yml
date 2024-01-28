@@ -1,4 +1,4 @@
-name: run-tests
+name: lint-build-test
 on:
   push:
     branches: [main]
@@ -6,8 +6,10 @@ on:
     branches: [main]
 
 jobs:
-  tests:
+  lint-build-test:
     runs-on: ubuntu-latest
+    env:
+      CMAKE_CXX_CLANG_TIDY: clang-tidy
     steps:
       - name: Checkout project
         uses: actions/checkout@v3
@@ -19,11 +21,10 @@ jobs:
         uses: lukka/run-vcpkg@v11
         with:
           vcpkgGitCommitId: 53bef8994c541b6561884a8395ea35715ece75db 
-      - name: Run CMake
+      - name: Build Lint Test
         uses: lukka/run-cmake@v10
         with: 
           configurePreset: ubuntu-runner-config
           buildPreset: ubuntu-runner-debug
           testPreset: ubuntu-runner-test
-
       
