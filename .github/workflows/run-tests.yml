@@ -8,8 +8,6 @@ on:
 jobs:
   lint-build-test:
     runs-on: ubuntu-latest
-    env:
-      CMAKE_CXX_CLANG_TIDY: clang-tidy
     steps:
       - name: Checkout project
         uses: actions/checkout@v3
@@ -26,5 +24,6 @@ jobs:
         with: 
           configurePreset: ubuntu-runner-config
           buildPreset: ubuntu-runner-debug
+          buildPresetAdditionalArgs: "['-DCMAKE_CXX_CLANG_TIDY clang-tidy']"
           testPreset: ubuntu-runner-test
       
