@@ -17,22 +17,14 @@
 #include <utility>
 #include <vector>
 
-void runGameLoop(SDL_Renderer *renderer, pong::world::World &world);
+void runGameLoop(pong::world::World &world);
 
 int main(int /*argc*/, char * /*argv*/[]) {
   SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO);
-  auto *window = SDL_CreateWindow("Pong", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1280, 720, 0);
-  if (!window) {
-    std::cerr << SDL_GetError();
-    return -1;
-  }
   auto rendererFlags = SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC | SDL_RENDERER_TARGETTEXTURE;
-  auto *renderer = SDL_CreateRenderer(window, -1, rendererFlags);
-  if (!renderer) {
-    std::cerr << SDL_GetError();
-    SDL_DestroyWindow(window);
-    return -1;
-  }
+  pong::rendering::SDLWindow window(pong::math::Vector2D(1280, 720), pong::rendering::WindowPosition::Centered, "Pong");
+  pong::rendering::SDLRenderer rendererObj(std::move(window));
+	auto *renderer = *rendererObj;
   // World + EventQueue
   pong::world::events::EventQueue eventQueue;
   eventQueue.registerProcessor(std::make_unique<pong::physics::CollisionEventProcessor>());
@@ -72,16 +64,14 @@ int main(int /*argc*/, char * /*argv*/[]) {
   world.registerEntity(std::move(wallComponents));
   // Systems
   world.registerSystem(std::make_unique<pong::physics::MovementSystem>(world.getClock()));
-  world.registerSystem(std::make_unique<pong::rendering::RenderingSystem>(renderer, world.getClock()));
+  world.registerSystem(std::make_unique<pong::rendering::RenderingSystem>(std::move(rendererObj), world.getClock()));
   world.registerSystem(std::make_unique<pong::physics::CollisionSystem>(world.getEventQueue()));
-  runGameLoop(renderer, world);
-  SDL_DestroyWindow(window);
-  SDL_DestroyRenderer(renderer);
+  runGameLoop(world);
   SDL_Quit();
   return 0;
 }
 
-void runGameLoop(SDL_Renderer *renderer, pong::world::World &world) {
+void runGameLoop(pong::world::World &world) {
   SDL_Event event;
   while (true) {
     world.run();

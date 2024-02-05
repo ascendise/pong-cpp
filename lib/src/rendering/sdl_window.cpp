@@ -2,7 +2,7 @@
 
 namespace pong::rendering {
 
-SDLWindow::SDLWindow(math::Vector2D size, WindowPosition position, std::string &title) {
+SDLWindow::SDLWindow(math::Vector2D size, WindowPosition position, std::string title) {
   auto sdlPosition = getSDLWindowPosition(position);
   this->window =
       SDL_CreateWindow(title.data(), std::get<0>(sdlPosition), std::get<1>(sdlPosition), (int)size.x, (int)size.y, 0);

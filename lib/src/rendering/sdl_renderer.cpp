@@ -15,7 +15,7 @@ SDLRenderer &SDLRenderer::operator=(SDLRenderer &&renderer) noexcept {
 	return *this;
 }
 
-SDL_Renderer *SDLRenderer::operator*() {
+SDL_Renderer *SDLRenderer::operator*() noexcept {
 	return this->renderer;
 }
 
