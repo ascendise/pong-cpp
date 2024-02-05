@@ -1,7 +1,10 @@
 #ifndef RENDERING_HPP
 #define RENDERING_HPP
 
+#include "math.hpp"
+#include <SDL_video.h>
 #include <components.hpp>
+#include <tuple>
 #include <world.hpp>
 
 #include <SDL.h>
@@ -21,16 +24,50 @@ public:
   world::Position toWorldPosition(const SDL_Rect &screenPosition);
 };
 
+enum class WindowPosition { Centered };
+
+std::tuple<int, int> getSDLWindowPosition(WindowPosition position);
+
+class SDLWindow {
+private:
+  SDL_Window *window = nullptr;
+
+public:
+  SDLWindow(math::Vector2D size, WindowPosition position, std::string title);
+  SDLWindow(const SDLWindow &window) = delete;
+  SDLWindow(SDLWindow &&window) noexcept;
+  SDLWindow &operator=(const SDLWindow &window) = delete;
+  SDLWindow &operator=(SDLWindow &&window) noexcept;
+  SDL_Window *operator*() noexcept;
+  ~SDLWindow();
+};
+
+class SDLRenderer {
+private:
+  SDL_Renderer *renderer = nullptr;
+  SDLWindow window;
+
+public:
+  SDLRenderer(SDLWindow &&window);
+  SDLRenderer(const SDLRenderer &renderer) = delete;
+  SDLRenderer(SDLRenderer &&renderer) noexcept;
+  SDLRenderer &operator=(const SDLRenderer &renderer) = delete;
+  SDLRenderer &operator=(SDLRenderer &&renderer) noexcept;
+  SDL_Renderer *operator*() noexcept;
+  ~SDLRenderer();
+};
+
 class RenderingSystem : public world::System {
 private:
-  SDL_Renderer *renderer;
+  SDLRenderer renderer;
   ScreenPositionCalculator screenCalc;
   world::IReadOnlyClock &clock;
   static SDL_Surface *getSurface(SDL_Renderer *renderer);
+  static void centerOriginToTopLeftOrigin(SDL_Rect &rect);
 
 public:
-  RenderingSystem(SDL_Renderer *renderer, world::IReadOnlyClock &clock)
-      : renderer(renderer), clock(clock), screenCalc(getSurface(renderer)) {}
+  RenderingSystem(SDLRenderer &&renderer, world::IReadOnlyClock &clock)
+      : renderer(std::move(renderer)), clock(clock), screenCalc(getSurface(*renderer)) {}
   void run(std::vector<world::Entity> &entities) override;
 };
 
