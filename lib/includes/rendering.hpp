@@ -1,7 +1,10 @@
 #ifndef RENDERING_HPP
 #define RENDERING_HPP
 
+#include "math.hpp"
+#include <SDL_video.h>
 #include <components.hpp>
+#include <tuple>
 #include <world.hpp>
 
 #include <SDL.h>
@@ -19,6 +22,37 @@ public:
   ScreenPositionCalculator(SDL_Surface *windowSurface) : windowSurface(windowSurface) {}
   SDL_Rect toScreenPosition(const world::Position &position);
   world::Position toWorldPosition(const SDL_Rect &screenPosition);
+};
+
+enum class WindowPosition { Centered };
+
+std::tuple<int, int> getSDLWindowPosition(WindowPosition position);
+
+class SDLWindow {
+private:
+  SDL_Window *window = nullptr;
+public:
+  SDLWindow(math::Vector2D size, WindowPosition position, std::string &title);
+  SDLWindow(const SDLWindow &window) = delete;
+  SDLWindow(SDLWindow &&window) noexcept;
+  SDLWindow &operator=(const SDLWindow &window) = delete;
+  SDLWindow &operator=(SDLWindow &&window) noexcept;
+  SDL_Window *operator*() noexcept;
+  ~SDLWindow();
+};
+
+class SDLRenderer {
+private:
+  SDL_Renderer *renderer = nullptr;
+  SDLWindow window;
+public:
+  SDLRenderer(SDLWindow &&window);
+  SDLRenderer(const SDLRenderer &renderer) = delete;
+  SDLRenderer(SDLRenderer &&renderer) noexcept;
+  SDLRenderer &operator=(const SDLRenderer &renderer) = delete;
+  SDLRenderer &operator=(SDLRenderer &&renderer) noexcept;
+	SDL_Renderer *operator*();
+  ~SDLRenderer();
 };
 
 class RenderingSystem : public world::System {
