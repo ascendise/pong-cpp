@@ -15,6 +15,7 @@ SDL_Surface *RenderingSystem::getSurface(SDL_Renderer *renderer) {
 }
 
 void RenderingSystem::run(std::vector<world::Entity> &entities) {
+	SDL_RenderClear(renderer);
   for (auto &entity : entities) {
     auto positionOption = entity.getComponent<pong::world::Position>();
     auto spriteOption = entity.getComponent<pong::rendering::Sprite>();
@@ -31,6 +32,7 @@ void RenderingSystem::run(std::vector<world::Entity> &entities) {
       SDL_RenderCopy(renderer, sdlTexture, &textureRect, &renderRect);
     }
   }
+	SDL_RenderPresent(renderer);
 }
 
 } // namespace pong::rendering

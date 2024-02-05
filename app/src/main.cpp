@@ -84,9 +84,7 @@ int main(int /*argc*/, char * /*argv*/[]) {
 void runGameLoop(SDL_Renderer *renderer, pong::world::World &world) {
   SDL_Event event;
   while (true) {
-    SDL_RenderClear(renderer);
     world.run();
-    SDL_RenderPresent(renderer);
     while (SDL_PollEvent(&event)) {
       switch (event.type) {
       case SDL_QUIT:

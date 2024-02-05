@@ -61,7 +61,7 @@ class Clock : public IReadOnlyClock {
 private:
   std::chrono::high_resolution_clock clock;
   std::chrono::time_point<std::chrono::high_resolution_clock, std::chrono::nanoseconds> timeLastFrame;
-
+	float timeDiffNano;
 public:
   float getFrameTimeDelta() const override;
   std::chrono::time_point<std::chrono::high_resolution_clock, std::chrono::nanoseconds> now() const override;
