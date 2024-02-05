@@ -31,6 +31,7 @@ std::tuple<int, int> getSDLWindowPosition(WindowPosition position);
 class SDLWindow {
 private:
   SDL_Window *window = nullptr;
+
 public:
   SDLWindow(math::Vector2D size, WindowPosition position, std::string title);
   SDLWindow(const SDLWindow &window) = delete;
@@ -45,22 +46,24 @@ class SDLRenderer {
 private:
   SDL_Renderer *renderer = nullptr;
   SDLWindow window;
+
 public:
   SDLRenderer(SDLWindow &&window);
   SDLRenderer(const SDLRenderer &renderer) = delete;
   SDLRenderer(SDLRenderer &&renderer) noexcept;
   SDLRenderer &operator=(const SDLRenderer &renderer) = delete;
   SDLRenderer &operator=(SDLRenderer &&renderer) noexcept;
-	SDL_Renderer *operator*() noexcept;
+  SDL_Renderer *operator*() noexcept;
   ~SDLRenderer();
 };
 
 class RenderingSystem : public world::System {
 private:
-	SDLRenderer renderer;
+  SDLRenderer renderer;
   ScreenPositionCalculator screenCalc;
   world::IReadOnlyClock &clock;
   static SDL_Surface *getSurface(SDL_Renderer *renderer);
+  static void centerOriginToTopLeftOrigin(SDL_Rect &rect);
 
 public:
   RenderingSystem(SDLRenderer &&renderer, world::IReadOnlyClock &clock)

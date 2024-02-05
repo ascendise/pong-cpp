@@ -21,10 +21,8 @@ void runGameLoop(pong::world::World &world);
 
 int main(int /*argc*/, char * /*argv*/[]) {
   SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO);
-  auto rendererFlags = SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC | SDL_RENDERER_TARGETTEXTURE;
   pong::rendering::SDLWindow window(pong::math::Vector2D(1280, 720), pong::rendering::WindowPosition::Centered, "Pong");
-  pong::rendering::SDLRenderer rendererObj(std::move(window));
-	auto *renderer = *rendererObj;
+  pong::rendering::SDLRenderer renderer(std::move(window));
   // World + EventQueue
   pong::world::events::EventQueue eventQueue;
   eventQueue.registerProcessor(std::make_unique<pong::physics::CollisionEventProcessor>());
@@ -32,14 +30,14 @@ int main(int /*argc*/, char * /*argv*/[]) {
   // Background
   std::vector<std::unique_ptr<pong::world::Component>> backgroundComponents;
   backgroundComponents.push_back(std::make_unique<pong::world::Position>(0, 0));
-  auto texture = pong::rendering::Texture::loadTexture(renderer, "../assets/Background.png");
+  auto texture = pong::rendering::Texture::loadTexture(*renderer, "../assets/Background.png");
   backgroundComponents.push_back(
       std::make_unique<pong::rendering::Sprite>(std::make_unique<pong::rendering::Texture>(std::move(texture)), 1, 0));
   world.registerEntity(std::move(backgroundComponents));
   // Ball
   std::vector<std::unique_ptr<pong::world::Component>> ballComponents;
   ballComponents.push_back(std::make_unique<pong::world::Position>(0, 0));
-  auto ballTexture = pong::rendering::Texture::loadTexture(renderer, "../assets/anim_test.png");
+  auto ballTexture = pong::rendering::Texture::loadTexture(*renderer, "../assets/anim_test.png");
   ballComponents.push_back(std::make_unique<pong::rendering::Sprite>(
       std::make_unique<pong::rendering::Texture>(std::move(ballTexture)), 4, 0.1));
   pong::physics::RigidBody ballBody;
@@ -58,13 +56,13 @@ int main(int /*argc*/, char * /*argv*/[]) {
   wallComponents.push_back(std::make_unique<pong::physics::RigidBody>(std::move(wallBody)));
   wallComponents.push_back(
       std::make_unique<pong::physics::BoxCollider>(pong::world::Position(300, 0), pong::math::Vector2D(64, 64)));
-  auto wallTexture = pong::rendering::Texture::loadTexture(renderer, "../assets/wall.png");
+  auto wallTexture = pong::rendering::Texture::loadTexture(*renderer, "../assets/wall.png");
   wallComponents.push_back(std::make_unique<pong::rendering::Sprite>(
       std::make_unique<pong::rendering::Texture>(std::move(wallTexture)), 1, 0));
   world.registerEntity(std::move(wallComponents));
   // Systems
   world.registerSystem(std::make_unique<pong::physics::MovementSystem>(world.getClock()));
-  world.registerSystem(std::make_unique<pong::rendering::RenderingSystem>(std::move(rendererObj), world.getClock()));
+  world.registerSystem(std::make_unique<pong::rendering::RenderingSystem>(std::move(renderer), world.getClock()));
   world.registerSystem(std::make_unique<pong::physics::CollisionSystem>(world.getEventQueue()));
   runGameLoop(world);
   SDL_Quit();
