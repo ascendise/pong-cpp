@@ -10,6 +10,7 @@
 
 namespace pong::physics {
 
+/// @brief Responsible for updating the position of entities.
 class MovementSystem : public world::System {
 private:
   const world::IReadOnlyClock &clock;
@@ -19,6 +20,7 @@ public:
   void run(std::vector<world::Entity> &entities) override;
 };
 
+/// @brief Component that enables physics for an entity
 class RigidBody : public world::Component {
 private:
   math::Vector2D velocity;
@@ -33,6 +35,7 @@ public:
   float getBounce() const;
 };
 
+/// @brief a recangular Collider used to define collision borders
 class BoxCollider : public world::Component {
 private:
   world::Position position;
@@ -47,6 +50,7 @@ public:
   bool intersects(const BoxCollider &collider) const;
 };
 
+/// @brief Event emitted when a Collider intersects another collider
 class CollisionEvent : public world::events::Event {
 private:
   world::Entity &target;
@@ -56,17 +60,18 @@ private:
 public:
   CollisionEvent(world::Entity &target, float angle, float bounce) : target(target), angle(angle), bounce(bounce) {}
   world::Entity &getTarget() const;
+
+  /// @returns the collision angle in degrees
   float getAngle() const;
-  /// <summary>
-  /// Returns how bouncy the surface is the target hit.
-  /// 1 -> bouncy; target returns with full speed
-  /// 0.5 -> target returns with half speed
-  /// 0 -> target stops
-  /// </summary>
-  /// <returns></returns>
+
+  /// @returns how bouncy the surface is the target hit.
+  /// @n 1 -> bouncy; target returns with full speed
+  /// @n 0.5 -> target returns with half speed
+  /// @n 0 -> target velocity reduced to zero
   float getBounce() const;
 };
 
+/// @brief responsible for handling CollisionEvent. Calculates new velocity based on collision data
 class CollisionEventProcessor : public world::events::EventProcessor {
 private:
   math::Vector2D calculateVelocityAfterCollision(float angle, const RigidBody &targetRigidBody, float bounce);
@@ -75,12 +80,14 @@ public:
   void process(const world::events::Event &event) override;
 };
 
+/// @brief simple tuple of two Entities that collided with eachother.
 struct Collision {
   world::Entity &entity1; // NOLINT misc-non-private-member-variables-in-classes
   world::Entity &entity2; // NOLINT misc-non-private-member-variables-in-classes
   Collision(world::Entity &entity1, world::Entity &entity2) : entity1(entity1), entity2(entity2) {}
 };
 
+/// @brief System responsible for detecting collisions between Entities
 class CollisionSystem : public world::System {
 private:
   world::events::IEventQueuePort &eventQueue;
@@ -91,6 +98,7 @@ public:
   CollisionSystem(world::events::IEventQueuePort &eventQueue) : eventQueue(eventQueue) {}
   void run(std::vector<world::Entity> &entities) override;
 };
+
 } // namespace pong::physics
 
 #endif

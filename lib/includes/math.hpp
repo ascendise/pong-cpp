@@ -3,6 +3,9 @@
 
 namespace pong::math {
 
+/// @brief implementation of a vector with two elements
+/// @n used for calculations in 2D Space
+/// @n Includes (partial) support for vector arithmetic
 class Vector2D {
 public:
   float x = 0; // NOLINT misc-non-private-member-variables-in-classes; This
@@ -24,7 +27,10 @@ public:
   float angle(const Vector2D &other) const;
 };
 
+/// @brief Converts a value in radians to degrees
 float toDegree(float radian);
+
+/// @brief Converts avalue in degrees to radians
 float toRadian(float degree);
 
 } // namespace pong::math
