@@ -1,2 +1,0 @@
-# pong-cpp
-Pong game
