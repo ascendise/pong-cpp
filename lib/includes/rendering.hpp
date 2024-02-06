@@ -44,7 +44,7 @@ private:
   SDL_Window *window = nullptr;
 
 public:
-  /// Creates a new SDL_Window. 
+  /// Creates a new SDL_Window.
   SDLWindow(math::Vector2D size, WindowPosition position, std::string title);
   SDLWindow(const SDLWindow &window) = delete;
   SDLWindow(SDLWindow &&window) noexcept;
@@ -63,14 +63,14 @@ private:
   SDLWindow window;
 
 public:
-	/// Creates and SDL_Renderer with the passed SDLWindow.
+  /// Creates and SDL_Renderer with the passed SDLWindow.
   SDLRenderer(SDLWindow &&window);
   SDLRenderer(const SDLRenderer &renderer) = delete;
   SDLRenderer(SDLRenderer &&renderer) noexcept;
   SDLRenderer &operator=(const SDLRenderer &renderer) = delete;
   SDLRenderer &operator=(SDLRenderer &&renderer) noexcept;
 
-	/// @returns the internal pointer for SDL operations that require SDL_Renderer*.
+  /// @returns the internal pointer for SDL operations that require SDL_Renderer*.
   SDL_Renderer *operator*() noexcept;
   ~SDLRenderer();
 };
@@ -91,7 +91,6 @@ public:
   void run(std::vector<world::Entity> &entities) override;
 };
 
-
 class ITexture {
 public:
   virtual SDL_Texture *getSDLTexture() = 0;
@@ -107,15 +106,15 @@ private:
 public:
   Texture(SDL_Texture *texture) : texture(texture) {}
 
-	/// Utility function for loading an image from a path as a SDL_Texture
-	/// and wrapping it in a Texture
+  /// Utility function for loading an image from a path as a SDL_Texture
+  /// and wrapping it in a Texture
   static Texture loadTexture(SDL_Renderer *renderer, const std::string &path);
   Texture(const Texture &) = delete;
   Texture(const Texture &&texture) noexcept : texture(texture.texture) {}
   Texture &operator=(const Texture &) = delete;
   Texture &operator=(Texture &&) noexcept;
   ~Texture() override;
-	/// @returns the internal SDL_Texture*.
+  /// @returns the internal SDL_Texture*.
   SDL_Texture *getSDLTexture() override { return this->texture; }
   SDL_Rect getTextureSize() const override;
 };
@@ -136,14 +135,14 @@ private:
   isPastFrameTime(std::chrono::time_point<std::chrono::high_resolution_clock, std::chrono::nanoseconds> time) const;
 
 public:
-	/// @brief Creates a new Spritesheet with animation information
-	/// @param texture the spritesheet with all the animation frames
-	/// @param spriteCount count of all frames per sprite. Required to split the texture correctly
-	/// @param duration time in seconds. How fast the animation is played. 
+  /// @brief Creates a new Spritesheet with animation information
+  /// @param texture the spritesheet with all the animation frames
+  /// @param spriteCount count of all frames per sprite. Required to split the texture correctly
+  /// @param duration time in seconds. How fast the animation is played.
   Sprite(std::unique_ptr<ITexture> &&texture, int spriteCount, float duration);
 
-	/// @brief calculates the current section to be rendered inside the spritesheet
-	/// @returns either returns the current frame or the next frame, if enough time has passed
+  /// @brief calculates the current section to be rendered inside the spritesheet
+  /// @returns either returns the current frame or the next frame, if enough time has passed
   const SDL_Rect
   getNextRect(std::chrono::time_point<std::chrono::high_resolution_clock, std::chrono::nanoseconds> currentTime);
   std::unique_ptr<ITexture> &getTexture();
