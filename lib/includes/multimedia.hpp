@@ -15,6 +15,15 @@ public:
   void run(std::vector<world::Entity> &entities) override;
 };
 
+/// @brief Informs the World that the Player wants to exit the application
+class QuitAppEvent : world::events::Event {};
+
+/// @brief handles SystemEvents like exiting the application
+class SystemEventProcessor : public world::events::EventProcessor {
+public:
+  void process(const world::events::Event &event) override;
+};
+
 } // namespace pong::multimedia
 
 #endif

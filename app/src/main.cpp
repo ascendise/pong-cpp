@@ -27,6 +27,7 @@ int main(int /*argc*/, char * /*argv*/[]) {
   // World + EventQueue
   pong::world::events::EventQueue eventQueue;
   eventQueue.registerProcessor(std::make_unique<pong::physics::CollisionEventProcessor>());
+	eventQueue.registerProcessor(std::make_unique<pong::multimedia::SystemEventProcessor>());
   pong::world::World world(std::make_unique<pong::world::events::EventQueue>(std::move(eventQueue)));
   // Background
   std::vector<std::unique_ptr<pong::world::Component>> backgroundComponents;
