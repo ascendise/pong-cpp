@@ -17,6 +17,7 @@ add_library(PongLib STATIC
     "src/physics/collision_event.cpp"
     "src/physics/collision_eventprocessor.cpp"
     "src/physics/collision_system.cpp"
+		"src/multimedia/multimedia_system.cpp"
 )
 
 find_package(SDL2 REQUIRED CONFIG)

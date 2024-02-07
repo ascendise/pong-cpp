@@ -1,3 +1,4 @@
+#include "multimedia.hpp"
 #include <components.hpp>
 #include <events.hpp>
 #include <math.hpp>
@@ -64,6 +65,7 @@ int main(int /*argc*/, char * /*argv*/[]) {
   world.registerSystem(std::make_unique<pong::physics::MovementSystem>(world.getClock()));
   world.registerSystem(std::make_unique<pong::rendering::RenderingSystem>(std::move(renderer), world.getClock()));
   world.registerSystem(std::make_unique<pong::physics::CollisionSystem>(world.getEventQueue()));
+	world.registerSystem(std::make_unique<pong::multimedia::MultimediaSystem>(world.getEventQueue()));
   runGameLoop(world);
   SDL_Quit();
   return 0;
