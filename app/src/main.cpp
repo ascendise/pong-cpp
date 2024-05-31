@@ -1,3 +1,4 @@
+#include "multimedia.hpp"
 #include <components.hpp>
 #include <events.hpp>
 #include <math.hpp>
@@ -26,6 +27,8 @@ int main(int /*argc*/, char * /*argv*/[]) {
   // World + EventQueue
   pong::world::events::EventQueue eventQueue;
   eventQueue.registerProcessor(std::make_unique<pong::physics::CollisionEventProcessor>());
+  auto sdlSystemControl = std::make_unique<pong::multimedia::SDLSystemControl>();
+  eventQueue.registerProcessor(std::make_unique<pong::multimedia::SystemEventProcessor>(std::move(sdlSystemControl)));
   pong::world::World world(std::make_unique<pong::world::events::EventQueue>(std::move(eventQueue)));
   // Background
   std::vector<std::unique_ptr<pong::world::Component>> backgroundComponents;
@@ -64,6 +67,7 @@ int main(int /*argc*/, char * /*argv*/[]) {
   world.registerSystem(std::make_unique<pong::physics::MovementSystem>(world.getClock()));
   world.registerSystem(std::make_unique<pong::rendering::RenderingSystem>(std::move(renderer), world.getClock()));
   world.registerSystem(std::make_unique<pong::physics::CollisionSystem>(world.getEventQueue()));
+  world.registerSystem(std::make_unique<pong::multimedia::MultimediaSystem>(world.getEventQueue()));
   runGameLoop(world);
   SDL_Quit();
   return 0;
