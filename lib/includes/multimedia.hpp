@@ -3,6 +3,7 @@
 
 #include "events.hpp"
 #include "world.hpp"
+#include <SDL_events.h>
 #include <string>
 
 namespace pong::multimedia {
@@ -55,6 +56,34 @@ public:
 class SDLSystemControl : public ISystemControl {
 public:
   void exit() override;
+};
+
+/// @brief Runs KeyEvent handlers on entities based on incoming key events
+class KeyEventProcessor : public world::events::EventProcessor {
+private:
+  const std::vector<world::Entity> &entities;
+
+public:
+  KeyEventProcessor(const std::vector<world::Entity> &entities) : entities(entities) {}
+  void process(const world::events::Event &event) override;
+};
+
+/// @brief Event that summarizes the interaction of a user with their peripherals.
+/// e.g. pressing the 'P' on their keyboard
+class KeyEvent : public world::events::Event {
+private:
+  SDL_KeyboardEvent keyboardEvent;
+
+public:
+  KeyEvent(SDL_KeyboardEvent keyboardEvent) : keyboardEvent(keyboardEvent) {}
+  SDL_KeyboardEvent getSdlKeyboardEvent() const;
+};
+
+/// @brief Entity with this component can be mutated through keyboard events
+class IPlayerControl : public world::Component {
+public:
+  virtual void handleKeyEvent(const KeyEvent &keyEvent) = 0;
+  virtual ~IPlayerControl() = default;
 };
 
 } // namespace pong::multimedia

@@ -122,6 +122,9 @@ public:
   /// @brief Returns a read-only clock to get frame time information
   IReadOnlyClock &getClock() const;
 
+  /// @brief Returns a reference to the list of entities in the world
+  const std::vector<Entity> &getEntities() const;
+
   /// @brief Starts the game loop
   /// The list of registered entities gets passed to each system in order of registration. After all systems were run,
   /// the events get processed. After that, the game loop starts again.

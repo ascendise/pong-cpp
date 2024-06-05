@@ -12,7 +12,9 @@ add_executable(Tests
 "src/rendering/sprite_tests.cpp" 
 "src/radian_degree_tests.cpp"
 "src/multimedia/system_eventprocessor_tests.cpp"
-"src/test_utility.cpp")
+"src/test_utility.cpp" 
+"src/multimedia/key_eventprocessor_tests.cpp"
+)
 
 target_include_directories(Tests PRIVATE includes/)
 

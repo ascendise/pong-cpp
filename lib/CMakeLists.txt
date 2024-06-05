@@ -8,21 +8,22 @@ add_library(PongLib STATIC
     "src/rendering/texture.cpp" 
     "src/rendering/sprite.cpp"
     "src/rendering/screen_position_calculator.cpp"
-		"src/rendering/sdl_window.cpp"
-		"src/rendering/sdl_renderer.cpp"
-		"src/rendering/window_position.cpp"
+	"src/rendering/sdl_window.cpp"
+	"src/rendering/sdl_renderer.cpp"
+	"src/rendering/window_position.cpp"
     "src/physics/movement_system.cpp" 
     "src/physics/rigidbody.cpp"
     "src/physics/box_collider.cpp"
     "src/physics/collision_event.cpp"
     "src/physics/collision_eventprocessor.cpp"
     "src/physics/collision_system.cpp"
-		"src/multimedia/multimedia_system.cpp"
-		"src/multimedia/system_eventprocessor.cpp"
-		"src/multimedia/sdl_system_control.cpp"
-		"src/multimedia/quit_app_event.cpp"
-		"src/multimedia/system_event.cpp"
-)
+	"src/multimedia/multimedia_system.cpp"
+	"src/multimedia/system_eventprocessor.cpp"
+	"src/multimedia/sdl_system_control.cpp"
+	"src/multimedia/quit_app_event.cpp"
+	"src/multimedia/system_event.cpp"
+    "src/multimedia/key_eventprocessor.cpp"
+    "src/multimedia/key_event.cpp")
 
 find_package(SDL2 REQUIRED CONFIG)
 find_package(SDL2_image REQUIRED)
