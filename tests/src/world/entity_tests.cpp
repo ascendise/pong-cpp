@@ -10,9 +10,9 @@ namespace pong::world {
 TEST(EntityTests, GetComponent_ComponentExists_ShouldReturnComponent) {
   // Arrange
   auto component = testing::FakeComponent();
-  auto components = std::vector<std::unique_ptr<Component>>();
-  components.push_back(std::make_unique<testing::FakeComponent>());
-  Entity const sut(1, std::move(components));
+  auto components = std::vector<std::shared_ptr<Component>>();
+  components.push_back(std::make_shared<testing::FakeComponent>());
+  Entity const sut(1, components);
   // Act
   auto foundComponent = sut.getComponent<testing::FakeComponent>();
   // Assert
@@ -21,8 +21,8 @@ TEST(EntityTests, GetComponent_ComponentExists_ShouldReturnComponent) {
 
 TEST(EntityTests, GetComponent_ComponentDoesNotExist_ShouldReturnNullPtr) {
   // Arrange
-  auto components = std::vector<std::unique_ptr<Component>>();
-  Entity const sut(1, std::move(components));
+  auto components = std::vector<std::shared_ptr<Component>>();
+  Entity const sut(1, components);
   // Act
   auto foundComponent = sut.getComponent<testing::FakeComponent>();
   // Assert
@@ -39,11 +39,11 @@ TEST(EntityTests, GetComponent_MultipleComponents_ShouldReturnCorrectComponent) 
   public:
     int id3 = 3;
   };
-  auto components = std::vector<std::unique_ptr<Component>>();
-  components.push_back(std::make_unique<testing::FakeComponent>());
-  components.push_back(std::make_unique<FakeComponent2>());
-  components.push_back(std::make_unique<FakeComponent3>());
-  Entity const sut(1, std::move(components));
+  auto components = std::vector<std::shared_ptr<Component>>();
+  components.push_back(std::make_shared<testing::FakeComponent>());
+  components.push_back(std::make_shared<FakeComponent2>());
+  components.push_back(std::make_shared<FakeComponent3>());
+  Entity const sut(1, components);
   // Act
   auto foundComponent = sut.getComponent<FakeComponent3>();
   // Assert

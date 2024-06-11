@@ -12,15 +12,15 @@ namespace pong::world {
 TEST(WorldTests, RegisterEntity_ShouldCreateEntityWithUniqueId) {
   // Arrange
   auto component1 = std::make_unique<testing::FakeComponent>(testing::FakeComponent());
-  auto components1 = std::vector<std::unique_ptr<Component>>();
+  auto components1 = std::vector<std::shared_ptr<Component>>();
   components1.push_back(std::move(component1));
   auto component2 = std::make_unique<testing::FakeComponent>(testing::FakeComponent());
-  auto components2 = std::vector<std::unique_ptr<Component>>();
+  auto components2 = std::vector<std::shared_ptr<Component>>();
   components2.push_back(std::move(component2));
   auto world = World(std::make_unique<testing::StubEventQueue>());
   // Act
-  world.registerEntity(std::move(components1));
-  world.registerEntity(std::move(components2));
+  world.registerEntity(components1);
+  world.registerEntity(components2);
   // Assert
   auto entity1 = world.findEntity(0);
   auto entity2 = world.findEntity(1);
@@ -31,9 +31,9 @@ TEST(WorldTests, RegisterEntity_ShouldCreateEntityWithUniqueId) {
 TEST(WorldTests, RemoveEntity_ShouldRemoveEntity) {
   // Arrange
   auto world = World(std::make_unique<testing::StubEventQueue>());
-  auto components = std::vector<std::unique_ptr<Component>>();
-  components.push_back(std::make_unique<testing::FakeComponent>(testing::FakeComponent()));
-  world.registerEntity(std::move(components));
+  auto components = std::vector<std::shared_ptr<Component>>();
+  components.push_back(std::make_shared<testing::FakeComponent>(testing::FakeComponent()));
+  world.registerEntity((components));
   // Act
   world.removeEntity(0);
   // Assert
@@ -51,12 +51,12 @@ TEST(WorldTests, RemoveEntity_ShouldIgnoreWhenEntityDoesNotExist) {
 
 TEST(WorldTests, Run_ShouldRunSystemThatModifiesComponents) {
   // Arrange
-  auto components = std::vector<std::unique_ptr<Component>>();
-  components.push_back(std::make_unique<testing::FakeComponent>());
+  auto components = std::vector<std::shared_ptr<Component>>();
+  components.push_back(std::make_shared<testing::FakeComponent>());
   auto world = World(std::make_unique<testing::StubEventQueue>());
   // Act
   world.registerSystem(std::make_unique<testing::FakeSystem>(100));
-  world.registerEntity(std::move(components));
+  world.registerEntity(components);
   world.run();
   // Assert
   auto &entity = world.findEntity(0).value().get(); // NOLINT bugprone-unchecked-optional-access

@@ -58,25 +58,28 @@ public:
   void exit() override;
 };
 
-/// @brief Runs KeyEvent handlers on entities based on incoming key events
+/// @brief Handles KeyEvents raised by system
 class KeyEventProcessor : public world::events::EventProcessor {
-private:
-  const std::vector<world::Entity> &entities;
-
 public:
-  KeyEventProcessor(const std::vector<world::Entity> &entities) : entities(entities) {}
+  /// @brief Runs PlayerControl through incoming KeyEvents
+  /// @param event Preferably a KeyEvent, else returns instantly
   void process(const world::events::Event &event) override;
 };
+
+class IPlayerControl;
 
 /// @brief Event that summarizes the interaction of a user with their peripherals.
 /// e.g. pressing the 'P' on their keyboard
 class KeyEvent : public world::events::Event {
 private:
   SDL_KeyboardEvent keyboardEvent;
+  std::vector<std::reference_wrapper<IPlayerControl>> playerControls;
 
 public:
-  KeyEvent(SDL_KeyboardEvent keyboardEvent) : keyboardEvent(keyboardEvent) {}
+  KeyEvent(SDL_KeyboardEvent keyboardEvent, std::vector<std::reference_wrapper<IPlayerControl>> playerControls)
+      : keyboardEvent(keyboardEvent), playerControls(playerControls) {}
   SDL_KeyboardEvent getSdlKeyboardEvent() const;
+  std::vector<std::reference_wrapper<IPlayerControl>> getPlayerControls() const;
 };
 
 /// @brief Entity with this component can be mutated through keyboard events

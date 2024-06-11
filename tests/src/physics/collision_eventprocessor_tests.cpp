@@ -9,12 +9,12 @@ namespace pong::physics {
 TEST(CollisionEventProcessorTests, Process_FrontalCollisionAgainstStaticObject_ShouldChangeVelocityOfEntity) {
   // Arrange
   CollisionEventProcessor sut;
-  std::vector<std::unique_ptr<world::Component>> components;
+  std::vector<std::shared_ptr<world::Component>> components;
   auto collider = std::make_unique<BoxCollider>(world::Position(0, 0), math::Vector2D(2, 2));
   components.push_back(std::move(collider));
   auto rigidBody = std::make_unique<RigidBody>(math::Vector2D(1, 0), 1);
   components.push_back(std::move(rigidBody));
-  world::Entity entity(1, std::move(components));
+  world::Entity entity(1, components);
   // Act
   CollisionEvent const event(entity, 90, 1);
   sut.process(event);
@@ -27,12 +27,12 @@ TEST(CollisionEventProcessorTests, Process_FrontalCollisionAgainstStaticObject_S
 TEST(CollisionEventProcessorTests, Process_FrontalCollisionAgainstStickyObject_ShouldSlowVelocityOfEntity1) {
   // Arrange
   CollisionEventProcessor sut;
-  std::vector<std::unique_ptr<world::Component>> components;
+  std::vector<std::shared_ptr<world::Component>> components;
   auto collider = std::make_unique<BoxCollider>(world::Position(0, 0), math::Vector2D(2, 2));
   components.push_back(std::move(collider));
   auto rigidBody = std::make_unique<RigidBody>(math::Vector2D(1, 0), 1);
   components.push_back(std::move(rigidBody));
-  world::Entity entity(1, std::move(components));
+  world::Entity entity(1, components);
   // Act
   CollisionEvent const event(entity, 90, 0.5);
   sut.process(event);
@@ -45,12 +45,12 @@ TEST(CollisionEventProcessorTests, Process_FrontalCollisionAgainstStickyObject_S
 TEST(CollisionEventProcessorTests, Process_FrontalCollisionAgainstStickyObject_ShouldSlowVelocityOfEntity2) {
   // Arrange
   CollisionEventProcessor sut;
-  std::vector<std::unique_ptr<world::Component>> components;
+  std::vector<std::shared_ptr<world::Component>> components;
   auto collider = std::make_unique<BoxCollider>(world::Position(0, 0), math::Vector2D(2, 2));
   components.push_back(std::move(collider));
   auto rigidBody = std::make_unique<RigidBody>(math::Vector2D(10, 0), 1);
   components.push_back(std::move(rigidBody));
-  world::Entity entity(1, std::move(components));
+  world::Entity entity(1, components);
   // Act
   CollisionEvent const event(entity, 90, 0.2);
   sut.process(event);
@@ -63,12 +63,12 @@ TEST(CollisionEventProcessorTests, Process_FrontalCollisionAgainstStickyObject_S
 TEST(CollisionEventProcessorTests, Process_DifferentAngles_ShouldChangeVelocityAngleAccordingly) {
   // Arrange
   CollisionEventProcessor sut;
-  std::vector<std::unique_ptr<world::Component>> components;
+  std::vector<std::shared_ptr<world::Component>> components;
   auto collider = std::make_unique<BoxCollider>(world::Position(0, 0), math::Vector2D(2, 2));
   components.push_back(std::move(collider));
   auto rigidBody = std::make_unique<RigidBody>(math::Vector2D(0, 10), 1);
   components.push_back(std::move(rigidBody));
-  world::Entity entity(1, std::move(components));
+  world::Entity entity(1, components);
   // Act
   CollisionEvent const event(entity, 30, 1);
   sut.process(event);

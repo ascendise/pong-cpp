@@ -32,7 +32,7 @@ TEST(ScreenPositionCalculatorTests, toScreenPosition_offset_shouldReturnCorrectP
   auto screenPosition = sut.toScreenPosition(position);
   // Assert
   EXPECT_EQ(screenPosition.x, 625);
-  EXPECT_EQ(screenPosition.y, 560);
+  EXPECT_EQ(screenPosition.y, 160);
 }
 
 TEST(ScreenPositionCalculatorTests, toWorldPosition_middle_shouldReturnCorrectPosition) {
@@ -55,12 +55,12 @@ TEST(ScreenPositionCalculatorTests, toWorldPosition_offset_shouldReturnCorrectPo
   ScreenPositionCalculator sut(&window);
   // Act
   SDL_Rect position;
-  position.x = 625;
+  position.x = 655;
   position.y = 560;
   auto worldPosition = sut.toWorldPosition(position);
   // Assert
-  EXPECT_EQ(worldPosition.x, -15);
-  EXPECT_EQ(worldPosition.y, 200);
+  EXPECT_EQ(worldPosition.x, 15);
+  EXPECT_EQ(worldPosition.y, -200);
 }
 
 } // namespace pong::rendering

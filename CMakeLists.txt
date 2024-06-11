@@ -2,10 +2,11 @@ include(FetchContent)
 
 cmake_minimum_required(VERSION 3.21)
 set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_EXPORT_COMPILE_COMMANDS 1)
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 project(Pong)
 add_subdirectory(app)
-add_subdirectory(lib)
+add_subdirectory(lib-engine)
+add_subdirectory(lib-game)
 
 enable_testing()
 add_subdirectory(tests)
