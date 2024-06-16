@@ -8,6 +8,7 @@ jobs:
   clang-format:
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
         path:
           - 'app'

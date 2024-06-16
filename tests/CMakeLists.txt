@@ -4,7 +4,7 @@ add_executable(Tests
 "src/world/entity_tests.cpp"
 "src/world/events/eventqueue_tests.cpp"
 "src/vector2d_tests.cpp" 
-"src/physics/physics_tests.cpp"
+"src/physics/movement_system_tests.cpp"
 "src/physics/box_collider_tests.cpp"
 "src/physics/collision_eventprocessor_tests.cpp"
 "src/physics/collision_system_tests.cpp" 

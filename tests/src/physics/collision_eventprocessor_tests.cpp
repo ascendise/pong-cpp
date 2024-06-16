@@ -72,7 +72,7 @@ TEST(CollisionEventProcessorTests, Process_DifferentAngles_ShouldChangeVelocityA
   // Act
   CollisionEvent const event(entity, 30, 1);
   sut.process(event);
-  auto newRigidBody = entity.getComponent<RigidBody>().value().get(); // NOLINT bugprone-unchecked-optional-access
+  auto &newRigidBody = entity.getComponent<RigidBody>().value().get(); // NOLINT bugprone-unchecked-optional-access
   // Assert
   EXPECT_EQ(test_utility::roundTo(newRigidBody.getVelocity().x, 6), 8.660254f);
   EXPECT_EQ(test_utility::roundTo(newRigidBody.getVelocity().y, 6), 5);

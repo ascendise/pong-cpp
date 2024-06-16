@@ -41,10 +41,10 @@ public:
 /// Event Handling is done inside the EventProcessor, EventQueue is only responsible for storing the events
 class IEventQueue : public IEventQueuePort {
 public:
-  /// @brief Adds an EventProcessor that handles specific events.
+  /// @brief Adds a new strategy for handling events
   virtual void registerProcessor(std::unique_ptr<EventProcessor> &&processor) = 0;
   /// @brief Processes all queued events for this frame with the registered EventProcessors.
-  /// @n Note: EventProcessors may queue additional events that need to be handled in the same frame.
+  /// @n Note: EventProcessors may queue additional events that will be handled in the same frame.
   virtual void processEvents() = 0;
   ~IEventQueue() override = default;
 };

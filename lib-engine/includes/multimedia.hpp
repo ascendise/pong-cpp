@@ -25,13 +25,15 @@ private:
 
 public:
   SystemEvent(std::string actionName) : actionName(std::move(actionName)) {}
+  /// @brief Name of the system action.
+  /// @remark E.g. QUIT_APP for quitting the application
   const std::string &getAction() const;
 };
 
 /// @brief Informs the World that the Player wants to exit the application
 class QuitAppEvent : public SystemEvent {
 public:
-  static const std::string ACTION;
+  inline static const std::string ACTION = "QUIT_APP";
   QuitAppEvent() : SystemEvent(ACTION) {}
 };
 
@@ -62,14 +64,14 @@ public:
 class KeyEventProcessor : public world::events::EventProcessor {
 public:
   /// @brief Runs PlayerControl through incoming KeyEvents
-  /// @param event Preferably a KeyEvent, else returns instantly
+  /// @param event: Preferably a KeyEvent, else returns instantly
   void process(const world::events::Event &event) override;
 };
 
 class IPlayerControl;
 
 /// @brief Event that summarizes the interaction of a user with their peripherals.
-/// e.g. pressing the 'P' on their keyboard
+/// @remark e.g. pressing the 'P' on their keyboard
 class KeyEvent : public world::events::Event {
 private:
   SDL_KeyboardEvent keyboardEvent;
@@ -78,6 +80,7 @@ private:
 public:
   KeyEvent(SDL_KeyboardEvent keyboardEvent, std::vector<std::reference_wrapper<IPlayerControl>> playerControls)
       : keyboardEvent(keyboardEvent), playerControls(playerControls) {}
+  /// @brief Underlying event that contains the actual information about the keyboard interaction
   SDL_KeyboardEvent getSdlKeyboardEvent() const;
   std::vector<std::reference_wrapper<IPlayerControl>> getPlayerControls() const;
 };

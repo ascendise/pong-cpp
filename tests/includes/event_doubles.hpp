@@ -15,7 +15,6 @@ public:
   FakeEvent() : processCount(&base) {}
   FakeEvent(int *processCountSpy) : processCount(processCountSpy) {}
 
-  // Events are generally readonly, so we do a little lying here to spy on it
   void process() const { (*processCount)++; }
 
   int getProcessCount() const { return *processCount; }

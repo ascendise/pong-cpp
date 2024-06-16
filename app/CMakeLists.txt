@@ -1,5 +1,8 @@
 add_executable(Pong 
+	"src/prefabs.cpp"
     "src/main.cpp")
+
+target_include_directories(Pong PRIVATE includes/)
 
 find_package(SDL2 REQUIRED CONFIG)
 

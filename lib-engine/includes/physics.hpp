@@ -30,8 +30,12 @@ public:
   RigidBody() : velocity(math::Vector2D(0, 0)) {}
   RigidBody(math::Vector2D velocity, float bounce) : velocity(velocity), bounce(bounce) {}
   void setVelocity(math::Vector2D velocity);
+  /// @brief defines the base displacement of the entity per frame
   math::Vector2D getVelocity() const;
+  /// @brief set bounciness of the entity
+  /// @param bounce: 0 = sticky, stops entity completely -> 1 = bouncy, reflects entity back at full force
   void setBounce(float bounce);
+  /// @brief defines the bounciness of the entity
   float getBounce() const;
 };
 

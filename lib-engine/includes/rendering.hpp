@@ -47,9 +47,9 @@ public:
   /// Creates a new SDL_Window.
   SDLWindow(math::Vector2D size, WindowPosition position, std::string title);
   SDLWindow(const SDLWindow &window) = delete;
-  SDLWindow(SDLWindow &&window) noexcept;
+  SDLWindow(SDLWindow &&other) noexcept;
   SDLWindow &operator=(const SDLWindow &window) = delete;
-  SDLWindow &operator=(SDLWindow &&window) noexcept;
+  SDLWindow &operator=(SDLWindow &&other) noexcept;
 
   /// @returns the internal pointer for SDL operations that require SDL_Window*.
   SDL_Window *operator*() noexcept;
@@ -66,9 +66,9 @@ public:
   /// Creates and SDL_Renderer with the passed SDLWindow.
   SDLRenderer(SDLWindow &&window);
   SDLRenderer(const SDLRenderer &renderer) = delete;
-  SDLRenderer(SDLRenderer &&renderer) noexcept;
+  SDLRenderer(SDLRenderer &&other) noexcept;
   SDLRenderer &operator=(const SDLRenderer &renderer) = delete;
-  SDLRenderer &operator=(SDLRenderer &&renderer) noexcept;
+  SDLRenderer &operator=(SDLRenderer &&other) noexcept;
 
   /// @returns the internal pointer for SDL operations that require SDL_Renderer*.
   SDL_Renderer *operator*() noexcept;
@@ -83,11 +83,11 @@ private:
   ScreenPositionCalculator screenCalc;
   world::IReadOnlyClock &clock;
   static SDL_Surface *getSurface(SDL_Renderer *renderer);
-  static void centerOriginToTopLeftOrigin(SDL_Rect &rect);
+  static SDL_Rect centerOriginToTopLeftOrigin(const SDL_Rect &rect);
 
 public:
   RenderingSystem(SDLRenderer &&renderer, world::IReadOnlyClock &clock)
-      : renderer(std::move(renderer)), clock(clock), screenCalc(getSurface(*renderer)) {}
+      : screenCalc(getSurface(*this->renderer)), renderer(std::move(renderer)), clock(clock) {}
   void run(std::vector<world::Entity> &entities) override;
 };
 
@@ -102,6 +102,7 @@ public:
 class Texture : public ITexture {
 private:
   SDL_Texture *texture = nullptr;
+  static void colorTexture(SDL_Texture *texture, const std::array<unsigned char, 4> rgba, math::Vector2D size);
 
 public:
   Texture(SDL_Texture *texture) : texture(texture) {}
@@ -109,8 +110,10 @@ public:
   /// Utility function for loading an image from a path as a SDL_Texture
   /// and wrapping it in a Texture
   static Texture loadTexture(SDL_Renderer *renderer, const std::string &path);
+  static Texture createTexture(SDL_Renderer *renderer, const std::array<unsigned char, 4> rgba,
+                               const math::Vector2D size);
   Texture(const Texture &) = delete;
-  Texture(const Texture &&texture) noexcept : texture(texture.texture) {}
+  Texture(Texture &&other) noexcept;
   Texture &operator=(const Texture &) = delete;
   Texture &operator=(Texture &&) noexcept;
   ~Texture() override;

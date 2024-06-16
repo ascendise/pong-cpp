@@ -1,4 +1,5 @@
 #include <events.hpp>
+#include <iostream>
 #include <physics.hpp>
 #include <utility>
 #include <world.hpp>
@@ -25,6 +26,7 @@ std::vector<Collision> CollisionSystem::findCollisions(std::vector<world::Entity
       auto &hurdle = entities[y];
       auto hurdleCollider = hurdle.getComponent<BoxCollider>();
       if (hurdleCollider.has_value() && targetCollider.intersects(hurdleCollider.value().get())) {
+        std::cout << "Collision between entities " << i << " and " << y << "\n";
         Collision const collision(target, hurdle);
         collisions.push_back(collision);
       }

@@ -14,9 +14,11 @@ SDL_Surface *RenderingSystem::getSurface(SDL_Renderer *renderer) {
   return SDL_GetWindowSurface(window);
 }
 
-void RenderingSystem::centerOriginToTopLeftOrigin(SDL_Rect &rect) {
-  rect.x -= rect.w / 2;
-  rect.y -= rect.h / 2;
+SDL_Rect RenderingSystem::centerOriginToTopLeftOrigin(const SDL_Rect &rect) {
+  SDL_Rect newRect = rect;
+  newRect.x -= rect.w / 2;
+  newRect.y -= rect.h / 2;
+  return newRect;
 }
 
 void RenderingSystem::run(std::vector<world::Entity> &entities) {
@@ -31,7 +33,7 @@ void RenderingSystem::run(std::vector<world::Entity> &entities) {
       auto textureRect = sprite.getNextRect(clock.now());
       renderRect.w = textureRect.w;
       renderRect.h = textureRect.h;
-      centerOriginToTopLeftOrigin(renderRect);
+      renderRect = centerOriginToTopLeftOrigin(renderRect);
       auto *sdlTexture = sprite.getTexture()->getSDLTexture();
       SDL_RenderCopy(*renderer, sdlTexture, &textureRect, &renderRect);
     }

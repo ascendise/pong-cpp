@@ -22,4 +22,15 @@ TEST(BoxColliderTests, Intersects_CollidersDontIntersect_ShouldReturnFalse) {
   // Assert
   EXPECT_FALSE(res);
 }
+
+TEST(BoxColliderTests, Intersects_BothCollidersDontIntersect_ShouldReturnFalse2) {
+  // Arrange
+  BoxCollider const collider1(world::Position(0, 360), math::Vector2D(1280, 10));
+  BoxCollider const collider2(world::Position(640, 0), math::Vector2D(10, 708));
+  // Act
+  bool const res = collider1.intersects(collider2);
+  // Assert
+  EXPECT_FALSE(res);
+}
+
 } // namespace pong::physics

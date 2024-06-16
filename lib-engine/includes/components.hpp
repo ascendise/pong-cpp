@@ -10,6 +10,7 @@ namespace pong::world {
 class Position : public Component, public math::Vector2D {
 public:
   Position(float x, float y) : math::Vector2D(x, y) {}
+  Position(const Vector2D &vector) : math::Vector2D(vector) {}
 };
 
 } // namespace pong::world
