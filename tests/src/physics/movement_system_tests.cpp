@@ -12,8 +12,8 @@ TEST(MovementSystemTests, Velocity_ShouldDisplaceEntity) {
   world::testing::ClockStub clockStub(1);
   MovementSystem sut(clockStub);
   std::vector<std::shared_ptr<world::Component>> components;
-  components.push_back(std::make_shared<world::Position>(0, 0));
-  RigidBody const rigidBody(math::Vector2D(1, 3), 1);
+  components.push_back(std::make_shared<world::Position>(0.0f, 0.0f));
+  RigidBody const rigidBody(math::Vector2D(1.0f, 3.0f), 1.0f);
   components.push_back(std::make_shared<RigidBody>(rigidBody));
   world::Entity entity(1, components);
   std::vector<world::Entity> entities;
@@ -32,8 +32,8 @@ TEST(MovementSystemTests, Velocity_ShouldCalculateUsingTimestemp) {
   world::testing::ClockStub clock(0.005f);
   MovementSystem sut(clock);
   std::vector<std::shared_ptr<world::Component>> components;
-  components.push_back(std::make_shared<world::Position>(0, 0));
-  RigidBody const rigidBody(math::Vector2D(1, 3), 1);
+  components.push_back(std::make_shared<world::Position>(0.0f, 0.0f));
+  RigidBody const rigidBody(math::Vector2D(1.0f, 3.0f), 1.0f);
   components.push_back(std::make_shared<RigidBody>(rigidBody));
   world::Entity entity(1, components);
   std::vector<world::Entity> entities;
@@ -50,12 +50,12 @@ TEST(MovementSystemTests, Velocity_ShouldCalculateUsingTimestemp) {
 
 TEST(MovementSystemTests, EntityHasColliders_ShouldDisplaceCollider) {
   // Arrange
-  world::testing::ClockStub clockStub(1);
+  world::testing::ClockStub clockStub(1.0f);
   MovementSystem sut(clockStub);
   std::vector<std::shared_ptr<world::Component>> components;
-  components.push_back(std::make_shared<world::Position>(0, 0));
-  components.push_back(std::make_shared<RigidBody>(math::Vector2D(1, 3), 1));
-  components.push_back(std::make_shared<BoxCollider>(world::Position(1, 1), math::Vector2D(5, 10)));
+  components.push_back(std::make_shared<world::Position>(0.0f, 0.0f));
+  components.push_back(std::make_shared<RigidBody>(math::Vector2D(1.0f, 3.0f), 1.0f));
+  components.push_back(std::make_shared<BoxCollider>(world::Position(1.0f, 1.0f), math::Vector2D(5.0f, 10.0f)));
   world::Entity entity(1, components);
   std::vector<world::Entity> entities;
   entities.push_back(std::move(entity));

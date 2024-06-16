@@ -38,6 +38,6 @@ std::vector<Collision> CollisionSystem::findCollisions(std::vector<world::Entity
 void CollisionSystem::pushCollisionEvent(world::Entity &target, world::Entity &hurdle) {
   auto hurdleRigidBodyOption = hurdle.getComponent<RigidBody>();
   auto bounce = hurdleRigidBodyOption.has_value() ? hurdleRigidBodyOption.value().get().getBounce() : 0;
-  eventQueue.enqueue(std::make_shared<CollisionEvent>(target, 90, bounce));
+  eventQueue.enqueue(std::make_shared<CollisionEvent>(target, 90.0f, bounce));
 }
 } // namespace pong::physics

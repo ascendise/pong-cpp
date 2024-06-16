@@ -65,7 +65,7 @@ Vector2D &Vector2D::operator/=(float i) {
 }
 
 float Vector2D::magnitude() const {
-  const auto res = std::pow(this->x, 2.0f) + std::pow<float>(this->y, 2.0f);
+  const float res = std::pow(this->x, 2.0f) + std::pow(this->y, 2.0f);
   return std::sqrt(res);
 }
 
