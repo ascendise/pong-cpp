@@ -23,7 +23,7 @@ add_library(PongLib STATIC
 	
 	"src/multimedia/system_event.cpp"
     "src/multimedia/key_eventprocessor.cpp"
-    "src/multimedia/key_event.cpp")
+    "src/multimedia/key_event.cpp" "src/physics/polygon.cpp")
 
 find_package(SDL2 REQUIRED CONFIG)
 find_package(SDL2_image REQUIRED)

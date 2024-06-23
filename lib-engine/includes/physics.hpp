@@ -54,6 +54,15 @@ public:
   bool intersects(const BoxCollider &collider) const;
 };
 
+class Polygon {
+private:
+  std::vector<math::Vector2D> vertices;
+public:
+  Polygon(std::vector<math::Vector2D> vertices);
+  const std::vector<math::Vector2D>& getVertices() const;
+  Polygon clip(const Polygon& clippingPolygon) const; 
+};
+
 /// @brief Event emitted when a Collider intersects another collider
 class CollisionEvent : public world::events::Event {
 private:
