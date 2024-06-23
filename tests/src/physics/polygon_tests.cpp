@@ -7,9 +7,9 @@ namespace pong::physics {
 TEST(PolygonTests, Polygon_CreateWithThreeVertices_ShouldCreatePolygon) {
 	// Arrange
 	std::vector<math::Vector2D> vertices;
-	vertices.push_back(math::Vector2D(-1, 0));
-	vertices.push_back(math::Vector2D(1, 0));
-	vertices.push_back(math::Vector2D(0, 1));
+	vertices.push_back(math::Vector2D(-1.0f, 0.0f));
+	vertices.push_back(math::Vector2D(1.0f, 0.0f));
+	vertices.push_back(math::Vector2D(0.0f, 1.0f));
 	// Act
 	// Assert
 	ASSERT_NO_THROW({
@@ -20,8 +20,8 @@ TEST(PolygonTests, Polygon_CreateWithThreeVertices_ShouldCreatePolygon) {
 TEST(PolygonTests, Polygon_CreateWithLessThanThreeVertices_ShouldThrowException) {
 	// Arrange
 	std::vector<math::Vector2D> vertices;
-	vertices.push_back(math::Vector2D(-1, 0));
-	vertices.push_back(math::Vector2D(1, 0));
+	vertices.push_back(math::Vector2D(-1.0f, 0.0f));
+	vertices.push_back(math::Vector2D(1.0f, 0.0f));
 	// Act
 	// Assert
 	ASSERT_THROW({
