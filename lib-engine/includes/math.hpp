@@ -1,12 +1,17 @@
 #ifndef MATH_HPP
 #define MATH_HPP
 
+#include <ostream>
+
 namespace pong::math {
 
 /// @brief implementation of a vector with two elements
 /// @n used for calculations in 2D Space
 /// @n Includes (partial) support for vector arithmetic
 class Vector2D {
+
+  friend void PrintTo(const Vector2D &vec, std::ostream *os) { *os << "(x: " << vec.x << ", y: " << vec.y << ")"; }
+
 public:
   float x = 0; // NOLINT misc-non-private-member-variables-in-classes; This
                // class is designed to use public members
@@ -21,6 +26,7 @@ public:
   Vector2D &operator*=(float i);
   Vector2D operator/(float i) const;
   Vector2D &operator/=(float i);
+  bool operator==(const Vector2D &vec) const;
   float dot(const Vector2D &v) const;
   float magnitude() const;
   Vector2D normalize() const;

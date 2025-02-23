@@ -208,4 +208,25 @@ TEST(Vector2DTests, Angle3) {
   // Assert
   EXPECT_EQ(result, 135);
 }
+
+TEST(Vector2DTests, Equal_IsEqual_ShouldReturnTrue) {
+  // Arrange
+  Vector2D const vec1(1, 0);
+  Vector2D const vec2(1, 0);
+  // Act
+  bool isEqual = vec1 == vec2;
+  // Assert
+  EXPECT_TRUE(isEqual);
+}
+
+TEST(Vector2DTests, Equal_IsNotEqual_ShouldReturnFalse) {
+  // Arrange
+  Vector2D const vec1(1, 2);
+  Vector2D const vec2(1, 0);
+  // Act
+  bool isEqual = vec1 == vec2;
+  // Assert
+  EXPECT_FALSE(isEqual);
+}
+
 } // namespace pong::math

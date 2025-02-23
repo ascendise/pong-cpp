@@ -2,7 +2,6 @@
 
 #define _USE_MATH_DEFINES // NOLINT; Need to define this to get sweet pi(e)
 #include <cmath>
-#include <limits>
 
 namespace pong::math {
 
@@ -62,6 +61,12 @@ Vector2D &Vector2D::operator/=(float i) {
   this->x /= i;
   this->y /= i;
   return *this;
+}
+
+bool Vector2D::operator==(const Vector2D &vec) const {
+  if (this == &vec)
+    return true;
+  return this->x == vec.x && this->y == vec.y;
 }
 
 float Vector2D::magnitude() const {
