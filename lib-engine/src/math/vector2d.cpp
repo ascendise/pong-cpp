@@ -1,11 +1,6 @@
 #include "math.hpp"
 
-#define _USE_MATH_DEFINES // NOLINT; Need to define this to get sweet pi(e)
-#include <cmath>
-
 namespace pong::math {
-
-static const float halfCircleDegrees = 180;
 
 Vector2D::Vector2D(float x, float y) : x(x), y(y) {}
 
@@ -83,8 +78,4 @@ float Vector2D::angle(const Vector2D &other) const {
   auto angle = this->dot(other) / (this->magnitude() * other.magnitude());
   return toDegree(std::acos(angle));
 }
-
-float toDegree(float radian) { return static_cast<float>(radian * math::halfCircleDegrees / M_PI); }
-
-float toRadian(float degree) { return static_cast<float>(degree / math::halfCircleDegrees * M_PI); }
 } // namespace pong::math

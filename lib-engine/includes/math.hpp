@@ -1,6 +1,7 @@
 #ifndef MATH_HPP
 #define MATH_HPP
 
+#include <cmath>
 #include <ostream>
 
 namespace pong::math {
@@ -38,6 +39,20 @@ float toDegree(float radian);
 
 /// @brief Converts avalue in degrees to radians
 float toRadian(float degree);
+
+struct Edge {
+private:
+  const Vector2D vertex1;
+  const Vector2D vertex2;
+  float slope() const;
+  float slopeIntercept(float slope) const;
+
+public:
+  Edge(const Vector2D vertex1, const Vector2D vertex2);
+  const Vector2D &getVertex1() const;
+  const Vector2D &getVertex2() const;
+  Vector2D solvePoint(float x) const;
+};
 
 } // namespace pong::math
 

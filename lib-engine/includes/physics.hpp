@@ -1,6 +1,7 @@
 #ifndef PHYSICS_HPP
 #define PHYSICS_HPP
 
+#include <SDL_version.h>
 #include <components.hpp>
 #include <math.hpp>
 #include <rendering.hpp>
@@ -57,10 +58,11 @@ public:
 class Polygon {
 private:
   std::vector<math::Vector2D> vertices;
+
 public:
-  Polygon(std::vector<math::Vector2D> vertices);
-  const std::vector<math::Vector2D>& getVertices() const;
-  Polygon clip(const Polygon& clippingPolygon) const; 
+  Polygon(const std::vector<math::Vector2D> &vertices);
+  const std::vector<math::Vector2D> &getVertices() const;
+  Polygon clip(const Polygon &clip) const;
 };
 
 /// @brief Event emitted when a Collider intersects another collider
