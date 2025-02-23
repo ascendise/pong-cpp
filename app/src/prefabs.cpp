@@ -11,7 +11,7 @@ void Prefabs::registerBackground(world::World &world, rendering::SDLRenderer &re
   std::vector<std::shared_ptr<world::Component>> components;
   components.push_back(std::make_shared<world::Position>(0.0f, 0.0f));
   rendering::Texture texture = rendering::Texture::loadTexture(
-      *renderer, "../../assets/Background.png"); // TODO: Fix assets being in deeper directory on Windows build
+      *renderer, "../assets/Background.png"); // TODO: Fix assets being in deeper directory on Windows build
   rendering::Sprite sprite(std::make_unique<rendering::Texture>(std::move(texture)), 1.0f, 0.0f);
   components.push_back(std::make_shared<rendering::Sprite>(std::move(sprite)));
   world.registerEntity(components);
@@ -21,7 +21,7 @@ void Prefabs::registerBall(world::World &world, rendering::SDLRenderer &renderer
   std::vector<std::shared_ptr<world::Component>> components;
   auto position = std::make_shared<world::Position>(0.0f, 0.0f);
   components.push_back(position);
-  rendering::Texture texture = rendering::Texture::loadTexture(*renderer, "../../assets/anim_test.png");
+  rendering::Texture texture = rendering::Texture::loadTexture(*renderer, "../assets/anim_test.png");
   rendering::Sprite sprite(std::make_unique<rendering::Texture>(std::move(texture)), 4.0f, 0.1f);
   components.push_back(std::make_shared<rendering::Sprite>(std::move(sprite)));
   auto rigidBody = std::make_shared<physics::RigidBody>(math::Vector2D(200.0f, 100.0f), 0.0f);
@@ -40,7 +40,7 @@ void Prefabs::registerPaddle(world::World &world, rendering::SDLRenderer &render
   components.push_back(std::make_shared<game::controls::PaddlePlayerControl>(*rigidBody));
   auto collider = std::make_shared<physics::BoxCollider>(*position, math::Vector2D(50.0f, 400.0f));
   components.push_back(collider);
-  auto texture = rendering::Texture::loadTexture(*renderer, "../../assets/wall.png");
+  auto texture = rendering::Texture::loadTexture(*renderer, "../assets/wall.png");
   auto sprite = std::make_shared<rendering::Sprite>(std::make_unique<rendering::Texture>(std::move(texture)), 1, 0.0f);
   components.push_back(std::move(sprite));
   world.registerEntity(components);

@@ -16,10 +16,8 @@
 #include <SDL_render.h>
 #include <SDL_video.h>
 
-#include <iostream>
 #include <memory>
 #include <utility>
-#include <vector>
 
 int main(int /*argc*/, char * /*argv*/[]) {
   SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO);
