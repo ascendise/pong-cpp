@@ -18,10 +18,12 @@ Polygon Polygon::clip(const Polygon &clip) const {
     int i2 = i + 1;
     if (i2 == clip.vertices.size())
       i2 = 0;
-    math::Edge edge(clip.vertices[i1], clip.vertices[i2]);
+    math::Vector2D vertex1 = clip.vertices[i1];
+    math::Vector2D vertex2 = clip.vertices[i2];
+    math::Vector2D edge(vertex2.x - vertex1.x, vertex2.y - vertex1.y);
     for (const auto &vertex : this->vertices) {
-      math::Vector2D point = edge.solvePoint(vertex.x);
-      if (point == vertex)
+      math::Vector2D positionVector(vertex1.x + edge.x, vertex1.y + edge.y);
+      if (positionVector.normalize() == edge.normalize())
         intersections.push_back(vertex);
     }
   }
