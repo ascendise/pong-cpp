@@ -39,20 +39,30 @@ public:
 /// @brief Converts a value in radians to degrees
 float toDegree(float radian);
 
-/// @brief Converts avalue in degrees to radians
+/// @brief Converts a value in degrees to radians
 float toRadian(float degree);
 
 /// @brief implementation of a 2x2 matrix
 /// @n used for calculations in 2D Space
 /// @n Includes (partial) support for matrix arithmetic
 class Matrix2D {
+
+  friend void PrintTo(const Matrix2D &matrix, std::ostream *os) {
+    *os << "\n"
+        << "[" << matrix.data[0][0] << ", " << matrix.data[0][1] << "],\n"
+        << "[" << matrix.data[1][0] << ", " << matrix.data[1][1] << "]";
+  }
+
 public:
   std::array<std::array<float, 2>, 2> data; // NOLINT misc-non-private-member-variables-in-classes; This
                                             // class is designed to use public members
 
   Matrix2D(std::array<std::array<float, 2>, 2> data);
+  Matrix2D operator*(float scalar) const;
   Vector2D operator*(const Vector2D &vector) const;
-  Matrix2D invert() const;
+  bool operator==(const Matrix2D &other) const;
+  /// @brief returns the inverted matrix or nothing if the matrix is singular
+  std::optional<Matrix2D> invert() const;
 };
 
 class Line {
