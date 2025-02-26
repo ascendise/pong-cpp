@@ -46,8 +46,15 @@ TEST(Matrix2DTests, Invert_AnyMatrix_ShouldReturnInvertedMatrix) {
 
 TEST(Matrix2DTests, MultiplyWithVector_Any_ShouldReturnResultAsVector) {
   // Arrange
+  Matrix2D matrix({2, 3, 5, 7});
+  Vector2D vector(3, 4);
   // Act
+  Vector2D result = matrix * vector;
   // Assert
+  // x = 2 * 3 + 3 * 4 = 18
+  // x = 5 * 3 + 4 * 7 = 43
+  Vector2D expected(18, 43);
+  ASSERT_EQ(result, expected);
 }
 
 } // namespace pong::math
