@@ -40,6 +40,19 @@ float toDegree(float radian);
 /// @brief Converts avalue in degrees to radians
 float toRadian(float degree);
 
+class Line {
+private:
+  const Vector2D basePoint;
+  const Vector2D direction;
+
+public:
+  Line(const Vector2D basePoint, const Vector2D direction);
+  /// @brief calculates a point on the line given the scalar parameter
+  Vector2D pointAt(float scalar);
+  Vector2D getBasePoint() const;
+  Vector2D getDirection() const;
+};
+
 } // namespace pong::math
 
 #endif

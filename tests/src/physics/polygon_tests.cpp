@@ -29,12 +29,12 @@ TEST(PolygonTests, Polygon_CreateWithLessThanThreeVertices_ShouldThrowException)
 
 TEST(PolygonTests, Clip_ClippingPolygons_ShouldReturnClippingSection) {
   // Arrange
-  Polygon polygon1(
+  Polygon square1(
       {math::Vector2D(0.0f, 0.0f), math::Vector2D(0.0f, 2.0f), math::Vector2D(2.0f, 2.0f), math::Vector2D(2.0f, 0.0f)});
-  Polygon polygon2(
+  Polygon square2(
       {math::Vector2D(1.0f, 1.0f), math::Vector2D(1.0f, 3.0f), math::Vector2D(3.0f, 3.0f), math::Vector2D(3.0f, 1.0f)});
   // Act
-  Polygon clip = polygon1.clip(polygon2);
+  Polygon clip = square1.clip(square2);
   const std::vector<math::Vector2D> &actual = clip.getVertices();
   std::vector<math::Vector2D> expected = {math::Vector2D(1.0f, 2.0f), math::Vector2D(2.0f, 2.0f),
                                           math::Vector2D(2.0f, 1.0f), math::Vector2D(1.0f, 1.0f)};

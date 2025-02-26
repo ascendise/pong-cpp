@@ -18,15 +18,20 @@ Polygon Polygon::clip(const Polygon &clip) const {
     int i2 = i + 1;
     if (i2 == clip.vertices.size())
       i2 = 0;
-    math::Vector2D vertex1 = clip.vertices[i1];
-    math::Vector2D vertex2 = clip.vertices[i2];
-    math::Vector2D edge(vertex2.x - vertex1.x, vertex2.y - vertex1.y);
-    for (const auto &vertex : this->vertices) {
-      math::Vector2D positionVector(vertex1.x + edge.x, vertex1.y + edge.y);
-      if (positionVector.normalize() == edge.normalize())
-        intersections.push_back(vertex);
+    math::Vector2D clipVertex1 = clip.vertices[i1];
+    math::Vector2D clipVertex2 = clip.vertices[i2];
+    math::Line clipLine(clipVertex1, clipVertex2 - clipVertex1);
+    for (int y = 0; y < this->vertices.size(); y++) {
+      int y1 = y;
+      int y2 = y + 1;
+      if (y2 == this->vertices.size())
+        y2 = 0;
+      math::Vector2D srcVertex1 = this->vertices[i1];
+      math::Vector2D srcVertex2 = this->vertices[i2];
+      math::Line srcLine(srcVertex1, srcVertex2 - srcVertex1);
     }
   }
+  return Polygon(intersections);
 }
 
 } // namespace pong::physics
