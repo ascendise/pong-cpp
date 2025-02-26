@@ -1,6 +1,8 @@
 add_library(PongLib STATIC
     "src/math/math.cpp"
+    "src/math/line.cpp"
     "src/math/vector2d.cpp"
+    "src/math/matrix2d.cpp"
     "src/world/clock.cpp"
     "src/world/entity.cpp"
     "src/world/world.cpp"

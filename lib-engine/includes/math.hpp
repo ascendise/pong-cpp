@@ -1,7 +1,9 @@
 #ifndef MATH_HPP
 #define MATH_HPP
 
+#include <array>
 #include <cmath>
+#include <optional>
 #include <ostream>
 
 namespace pong::math {
@@ -40,6 +42,19 @@ float toDegree(float radian);
 /// @brief Converts avalue in degrees to radians
 float toRadian(float degree);
 
+/// @brief implementation of a 2x2 matrix
+/// @n used for calculations in 2D Space
+/// @n Includes (partial) support for matrix arithmetic
+class Matrix2D {
+public:
+  std::array<std::array<float, 2>, 2> data; // NOLINT misc-non-private-member-variables-in-classes; This
+                                            // class is designed to use public members
+
+  Matrix2D(std::array<std::array<float, 2>, 2> data);
+  Vector2D operator*(const Vector2D &vector) const;
+  Matrix2D invert() const;
+};
+
 class Line {
 private:
   const Vector2D basePoint;
@@ -47,10 +62,11 @@ private:
 
 public:
   Line(const Vector2D basePoint, const Vector2D direction);
-  /// @brief calculates a point on the line given the scalar parameter
-  Vector2D pointAt(float scalar);
   Vector2D getBasePoint() const;
   Vector2D getDirection() const;
+  /// @brief calculates a point on the line given the scalar parameter
+  Vector2D getPointAt(float scalar) const;
+  std::optional<Vector2D> findIntersect(const Line &other) const;
 };
 
 } // namespace pong::math
