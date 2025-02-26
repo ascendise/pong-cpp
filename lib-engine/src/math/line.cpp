@@ -12,8 +12,14 @@ Vector2D Line::getDirection() const { return direction; }
 Vector2D Line::getPointAt(float scalar) const { return (basePoint + direction) * scalar; }
 
 std::optional<Vector2D> Line::findIntersect(const Line &other) const {
-  int a = 0;
-  return {};
+  Matrix2D directions(
+      {-1 * this->getDirection().x, other.getDirection().x, -1 * this->getDirection().y, other.getDirection().y});
+  Vector2D difference = this->getBasePoint() - other.getBasePoint();
+  auto invert = directions.invert();
+  if (!invert.has_value())
+    return {};
+  Vector2D scalars = *invert * difference;
+  return Vector2D(this->getPointAt(scalars.x));
 }
 
 } // namespace pong::math
