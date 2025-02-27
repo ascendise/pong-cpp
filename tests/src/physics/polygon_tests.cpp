@@ -27,12 +27,7 @@ TEST(PolygonTests, Polygon_CreateWithLessThanThreeVertices_ShouldThrowException)
   ASSERT_THROW({ Polygon polygon(vertices); }, std::invalid_argument);
 }
 
-// TODO: Enable when working on polygons.
-//
-// To find polygon intersections, one first has to master
-// the intersection of lines
-//  - Sun Tzu
-TEST(PolygonTests, DISABLED_Clip_ClippingPolygons_ShouldReturnClippingSection) {
+TEST(PolygonTests, Clip_ClippingPolygons_ShouldReturnClippingSection) {
   // Arrange
   Polygon square1(
       {math::Vector2D(0.0f, 0.0f), math::Vector2D(0.0f, 2.0f), math::Vector2D(2.0f, 2.0f), math::Vector2D(2.0f, 0.0f)});
