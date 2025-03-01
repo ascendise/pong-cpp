@@ -13,11 +13,11 @@ const std::vector<math::Vector2D> &Polygon::getVertices() const { return this->v
 
 Polygon Polygon::clip(const Polygon &clip) const {
   std::vector<math::Vector2D> intersections;
-  for (int i = 1; i < clip.vertices.size(); i++) {
+  for (int i = 1; i <= clip.vertices.size(); i++) {
     math::Vector2D clipVertex1 = clip.vertices[i - 1];
     math::Vector2D clipVertex2 = clip.vertices[i];
     math::Line clipLine(clipVertex1, clipVertex2 - clipVertex1);
-    for (int y = 1; y < this->vertices.size(); y++) {
+    for (int y = 1; y <= this->vertices.size(); y++) {
       math::Vector2D srcVertex1 = this->vertices[y - 1];
       math::Vector2D srcVertex2 = this->vertices[y];
       math::Vector2D srcVector = srcVertex2 - srcVertex1;
@@ -28,9 +28,6 @@ Polygon Polygon::clip(const Polygon &clip) const {
       }
     }
   }
-  intersections.push_back(math::Vector2D(99, 99));
-  intersections.push_back(math::Vector2D(99, 99));
-  intersections.push_back(math::Vector2D(99, 99));
   return Polygon(intersections);
 }
 
