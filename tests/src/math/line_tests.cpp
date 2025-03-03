@@ -47,4 +47,24 @@ TEST(LineTests, FindIntersect_InEachother_ShouldReturnNothing) {
   ASSERT_FALSE(intersect.has_value());
 }
 
+TEST(LineTests, FindIntersect_NoIntersect_ShouldReturnNothing) {
+  // Arrange
+  Line line1(Vector2D(0, 0), Vector2D(3, 0));
+  Line line2(Vector2D(2, 3), Vector2D(0, 1));
+  // Act
+  std::optional<Vector2D> intersect = line1.findIntersect(line2);
+  // Assert
+  ASSERT_FALSE(intersect.has_value());
+}
+
+TEST(LineTests, FindIntersect_NoIntersect_ShouldReturnNothing2) {
+  // Arrange
+  Line line1(Vector2D(1, 3), Vector2D(2, 0));
+  Line line2(Vector2D(3, 0), Vector2D(0, 2));
+  // Act
+  std::optional<Vector2D> intersect = line1.findIntersect(line2);
+  // Assert
+  ASSERT_FALSE(intersect.has_value());
+}
+
 } // namespace pong::math

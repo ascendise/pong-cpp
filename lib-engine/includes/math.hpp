@@ -5,8 +5,28 @@
 #include <cmath>
 #include <optional>
 #include <ostream>
+#include <type_traits>
 
 namespace pong::math {
+
+/** @defgroup math_functions Math functions
+ * Free functions found in the pong::math namespace
+ * @{
+ */
+
+/// @brief Converts a value in radians to degrees
+float toDegree(float radian);
+
+/// @brief Converts a value in degrees to radians
+float toRadian(float degree);
+
+/// @brief Returns true if the given numeric value is between \p min and \p max including \p min and \p max
+template <typename T, typename = typename std::enable_if<std::is_arithmetic<T>::value, T>::type>
+bool inRange(T value, T min, T max) {
+  return value >= min && value <= max;
+}
+
+/// @}
 
 /// @brief implementation of a vector with two elements
 /// @n used for calculations in 2D Space
@@ -35,12 +55,6 @@ public:
   Vector2D normalize() const;
   float angle(const Vector2D &other) const;
 };
-
-/// @brief Converts a value in radians to degrees
-float toDegree(float radian);
-
-/// @brief Converts a value in degrees to radians
-float toRadian(float degree);
 
 /// @brief implementation of a 2x2 matrix
 /// @n used for calculations in 2D Space

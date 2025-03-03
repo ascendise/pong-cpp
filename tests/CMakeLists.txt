@@ -15,7 +15,7 @@ add_executable(Tests
   "src/math/vector2d_tests.cpp" 
   "src/math/matrix2d_tests.cpp" 
   "src/math/line_tests.cpp" 
-  "src/math/radian_degree_tests.cpp"
+  "src/math/math_tests.cpp"
   "src/test_utility.cpp" 
 )
 

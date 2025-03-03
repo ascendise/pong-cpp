@@ -19,6 +19,8 @@ std::optional<Vector2D> Line::findIntersect(const Line &other) const {
     return {};
   Vector2D difference = other.getBasePoint() - this->getBasePoint();
   Vector2D scalars = *invert * difference;
+  if (!math::inRange(scalars.x, 0.0f, 1.0f) || !math::inRange(scalars.y, 0.0f, 1.0f))
+    return {};
   return this->getPointAt(scalars.x);
 }
 
