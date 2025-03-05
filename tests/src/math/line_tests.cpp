@@ -67,4 +67,16 @@ TEST(LineTests, FindIntersect_NoIntersect_ShouldReturnNothing2) {
   ASSERT_FALSE(intersect.has_value());
 }
 
+TEST(LineTests, FindIntersectInfinite_IntersectsExtended_ShouldReturnPoint) {
+
+  // Arrange
+  Line line1(Vector2D(0, 6), Vector2D(1, 0));
+  Line line2(Vector2D(2, 0), Vector2D(0, 3));
+  // Act
+  std::optional<Vector2D> intersect = line1.findIntersectInfinite(line2);
+  // Assert
+  ASSERT_TRUE(intersect.has_value());
+  ASSERT_EQ(*intersect, Vector2D(2, 6));
+}
+
 } // namespace pong::math

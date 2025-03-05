@@ -84,13 +84,19 @@ private:
   const Vector2D basePoint;
   const Vector2D direction;
 
+  std::optional<Vector2D> findIntersectPointArgs(const Line &other) const;
+
 public:
   Line(const Vector2D basePoint, const Vector2D direction);
   Vector2D getBasePoint() const;
   Vector2D getDirection() const;
   /// @brief calculates a point on the line given the scalar parameter
   Vector2D getPointAt(float scalar) const;
+  /// @brief calculates the intersection point between this line and another
   std::optional<Vector2D> findIntersect(const Line &other) const;
+  /// @brief calculates the intersection point between this line and another
+  /// but treats both lines as infinitly extending
+  std::optional<Vector2D> findIntersectInfinite(const Line &other) const;
 };
 
 } // namespace pong::math
