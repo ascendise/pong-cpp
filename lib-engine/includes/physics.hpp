@@ -58,6 +58,8 @@ public:
 class Polygon {
 private:
   std::vector<math::Vector2D> vertices;
+  bool point_is_inside_polygon(const math::Vector2D &point, const math::Vector2D &edgePoint1,
+                               const math::Vector2D &edgePoint2) const;
 
 public:
   Polygon(const std::vector<math::Vector2D> &vertices);

@@ -32,6 +32,8 @@ Vector2D &Vector2D::operator-=(const Vector2D &v) {
 
 float Vector2D::dot(const Vector2D &vec) const { return this->x * vec.x + this->y * vec.y; }
 
+float Vector2D::cross(const Vector2D &vec) const { return this->x * vec.y - this->y * vec.x; }
+
 Vector2D Vector2D::operator*(float i) const {
   Vector2D result = *this;
   result.x *= i;

@@ -51,6 +51,7 @@ public:
   Vector2D &operator/=(float i);
   bool operator==(const Vector2D &vec) const;
   float dot(const Vector2D &v) const;
+  float cross(const Vector2D &v) const;
   float magnitude() const;
   Vector2D normalize() const;
   float angle(const Vector2D &other) const;

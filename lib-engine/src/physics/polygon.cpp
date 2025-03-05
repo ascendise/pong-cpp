@@ -13,25 +13,23 @@ const std::vector<math::Vector2D> &Polygon::getVertices() const { return this->v
 
 Polygon Polygon::clip(const Polygon &clip) const {
   std::vector<math::Vector2D> intersections;
-  for (int i = 1; i <= clip.vertices.size(); i++) {
-    math::Vector2D clipVertex1 = clip.vertices[i - 1];
-    math::Vector2D clipVertex2 = clip.vertices[i];
-    if (i == clip.vertices.size())
-      clipVertex2 = clip.vertices[0];
-    math::Line clipLine(clipVertex1, clipVertex2 - clipVertex1);
-    for (int y = 1; y <= this->vertices.size(); y++) {
-      math::Vector2D srcVertex1 = this->vertices[y - 1];
-      math::Vector2D srcVertex2 = this->vertices[y];
-      if (y == this->vertices.size())
-        srcVertex2 = this->vertices[0];
-      math::Line srcLine(srcVertex1, srcVertex2 - srcVertex1);
-      auto intersect = clipLine.findIntersect(srcLine);
-      if (intersect.has_value()) {
-        intersections.push_back(*intersect);
-      }
+  for (int i = 0; i < clip.vertices.size(); i++) {
+    math::Vector2D clipCurrent = clip.vertices[i];
+    math::Vector2D clipLast = clip.vertices[(i - 1) % clip.vertices.size()];
+    math::Line clipLine(clipCurrent, clipLast - clipCurrent);
+    for (int j = 0; j < this->vertices.size(); j++) {
+      math::Vector2D currentPoint = this->vertices[j];
+      math::Vector2D lastPoint = this->vertices[(j - 1) % this->vertices.size()];
+      math::Line edge(currentPoint, lastPoint - currentPoint);
+      auto intersect = clipLine.findIntersect(edge);
+      if (!intersect.has_value())
+        continue;
     }
   }
   return Polygon(intersections);
 }
+
+bool Polygon::point_is_inside_polygon(const math::Vector2D &point, const math::Vector2D &edgePoint1,
+                                      const math::Vector2D &edgePoint2) const {}
 
 } // namespace pong::physics

@@ -99,6 +99,16 @@ TEST(Vector2DTests, DotProduct3) {
   EXPECT_EQ(result, 8);
 }
 
+TEST(Vector2DTests, CrossProduct1) {
+  // Arrange
+  Vector2D const vec1(-5, 3);
+  Vector2D const vec2(2, 4);
+  // Act
+  float const result = vec1.cross(vec2);
+  // Assert
+  EXPECT_EQ(result, -26);
+}
+
 TEST(Vector2DTests, DivideVector_PositiveNumbers) {
   // Arrange
   Vector2D const vec(15, 3);
