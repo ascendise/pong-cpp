@@ -41,4 +41,18 @@ TEST(PolygonTests, Clip_ClippingPolygons_ShouldReturnClippingSection) {
   ASSERT_THAT(actual, expected);
 }
 
+TEST(PolygonTests, Clip_ClippingPolygons_ShouldReturnClippingSection2) {
+  // Arrange
+  Polygon rhombus(
+      {math::Vector2D(1.0f, 0.0f), math::Vector2D(2.0f, 1.0f), math::Vector2D(1.0f, 2.0f), math::Vector2D(0.0f, 1.0f)});
+  Polygon square(
+      {math::Vector2D(0.0f, 0.0f), math::Vector2D(1.0f, 0.0f), math::Vector2D(1.0f, 1.0f), math::Vector2D(0.0f, 1.0f)});
+  // Act
+  Polygon clip = rhombus.clip(square);
+  const std::vector<math::Vector2D> &actual = clip.getVertices();
+  std::vector<math::Vector2D> expected = {math::Vector2D(1.0f, 0.0f), math::Vector2D(1.0f, 1.0f),
+                                          math::Vector2D(0.0f, 1.0f)};
+  ASSERT_THAT(actual, expected);
+}
+
 } // namespace pong::physics

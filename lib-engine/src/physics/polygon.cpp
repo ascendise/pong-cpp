@@ -12,6 +12,7 @@ Polygon::Polygon(const std::vector<math::Vector2D> &vertices) : vertices(vertice
 const std::vector<math::Vector2D> &Polygon::getVertices() const { return this->vertices; }
 
 Polygon Polygon::clip(const Polygon &clip) const {
+  // Sutherland-Hodgman
   std::vector<math::Vector2D> output = this->getVertices();
   for (int i = 0; i < clip.vertices.size(); i++) {
     std::vector<math::Vector2D> input = output;
@@ -32,6 +33,11 @@ Polygon Polygon::clip(const Polygon &clip) const {
         output.push_back(*intersect);
       }
     }
+  }
+  // Merge vertices in each other
+  for (long i = (long)output.size(); i >= 1; i--) {
+    if (output[i] == output[i - 1])
+      output.erase(output.begin() + --i);
   }
   return Polygon(output);
 }
