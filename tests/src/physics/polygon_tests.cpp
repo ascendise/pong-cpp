@@ -48,10 +48,10 @@ TEST(PolygonTests, Clip_ClippingPolygons_ShouldReturnClippingSection2) {
   Polygon square(
       {math::Vector2D(0.0f, 0.0f), math::Vector2D(1.0f, 0.0f), math::Vector2D(1.0f, 1.0f), math::Vector2D(0.0f, 1.0f)});
   // Act
-  Polygon clip = rhombus.clip(square);
+  Polygon clip = square.clip(rhombus);
   const std::vector<math::Vector2D> &actual = clip.getVertices();
-  std::vector<math::Vector2D> expected = {math::Vector2D(1.0f, 0.0f), math::Vector2D(1.0f, 1.0f),
-                                          math::Vector2D(0.0f, 1.0f)};
+  std::vector<math::Vector2D> expected = {math::Vector2D(0.0f, 1.0f), math::Vector2D(1.0f, 0.0f),
+                                          math::Vector2D(1.0f, 1.0f)};
   ASSERT_THAT(actual, expected);
 }
 

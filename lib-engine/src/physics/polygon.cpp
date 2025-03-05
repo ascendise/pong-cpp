@@ -35,9 +35,12 @@ Polygon Polygon::clip(const Polygon &clip) const {
     }
   }
   // Merge vertices in each other
-  for (long i = (long)output.size(); i >= 1; i--) {
-    if (output[i] == output[i - 1])
-      output.erase(output.begin() + --i);
+  for (long i = (long)output.size() - 1; i >= 0; i--) {
+    auto last = (i - 1) % output.size();
+    if (output[i] == output[last]) {
+      output.erase(output.begin() + (long)last);
+      i--;
+    }
   }
   return Polygon(output);
 }
