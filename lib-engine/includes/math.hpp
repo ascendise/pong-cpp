@@ -81,6 +81,7 @@ public:
   std::optional<Matrix2D> invert() const;
 };
 
+/// @brief Represents a line in 2D space as a base point and direction
 class Line {
 private:
   const Vector2D basePoint;
@@ -101,6 +102,7 @@ public:
   std::optional<Vector2D> findIntersectInfinite(const Line &other) const;
 };
 
+/// @brief Represents a shape with n points listed counter-clockwise.
 class Polygon {
 private:
   std::vector<Vector2D> vertices;
@@ -109,7 +111,9 @@ private:
 
 public:
   Polygon(const std::vector<math::Vector2D> &vertices);
+  /// @brief Returns all vertices of the polygon in counter-clockwise direction
   const std::vector<math::Vector2D> &getVertices() const;
+  /// @brief Takes two polygons and returns their clipping area
   Polygon clip(const Polygon &clip) const;
 };
 
