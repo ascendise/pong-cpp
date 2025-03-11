@@ -6,6 +6,7 @@
 #include <optional>
 #include <ostream>
 #include <type_traits>
+#include <vector>
 
 namespace pong::math {
 
@@ -98,6 +99,18 @@ public:
   /// @brief calculates the intersection point between this line and another
   /// but treats both lines as infinitly extending
   std::optional<Vector2D> findIntersectInfinite(const Line &other) const;
+};
+
+class Polygon {
+private:
+  std::vector<Vector2D> vertices;
+  bool is_inside_edge(const math::Vector2D &point, const math::Vector2D &edgePoint1,
+                      const math::Vector2D &edgePoint2) const;
+
+public:
+  Polygon(const std::vector<math::Vector2D> &vertices);
+  const std::vector<math::Vector2D> &getVertices() const;
+  Polygon clip(const Polygon &clip) const;
 };
 
 } // namespace pong::math

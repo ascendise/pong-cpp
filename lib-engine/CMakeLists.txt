@@ -3,6 +3,7 @@ add_library(PongLib STATIC
     "src/math/line.cpp"
     "src/math/vector2d.cpp"
     "src/math/matrix2d.cpp"
+    "src/math/polygon.cpp"
     "src/world/clock.cpp"
     "src/world/entity.cpp"
     "src/world/world.cpp"
@@ -26,7 +27,7 @@ add_library(PongLib STATIC
     "src/multimedia/system_event.cpp"
     "src/multimedia/key_eventprocessor.cpp"
     "src/multimedia/key_event.cpp" 
-    "src/physics/polygon.cpp")
+)
 
 find_package(SDL2 REQUIRED CONFIG)
 find_package(SDL2_image REQUIRED)

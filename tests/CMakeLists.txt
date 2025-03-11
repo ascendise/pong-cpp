@@ -7,7 +7,6 @@ add_executable(Tests
   "src/physics/box_collider_tests.cpp"
   "src/physics/collision_eventprocessor_tests.cpp"
   "src/physics/collision_system_tests.cpp" 
-  "src/physics/polygon_tests.cpp"
   "src/rendering/screen_position_calculator_tests.cpp"
   "src/rendering/sprite_tests.cpp" 
   "src/multimedia/system_eventprocessor_tests.cpp"
@@ -16,6 +15,7 @@ add_executable(Tests
   "src/math/matrix2d_tests.cpp" 
   "src/math/line_tests.cpp" 
   "src/math/math_tests.cpp"
+  "src/math/polygon_tests.cpp"
   "src/test_utility.cpp" 
 )
 
