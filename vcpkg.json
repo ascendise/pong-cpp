@@ -1,8 +1,8 @@
 {
-	"builtin-baseline": "099fb9250d916511782bf5215f01f2e7141beb3a",
-	"dependencies": [
-		"sdl2",
-		"sdl2-image",
-		"gtest"
-	]
+  "builtin-baseline": "7bf1ffa00322ad68ee0970b83de1c2182c6d5b9e",
+  "dependencies": [
+    "sdl2",
+    "sdl2-image",
+    "gtest"
+  ]
 }
