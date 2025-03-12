@@ -14,7 +14,7 @@ jobs:
         with:
           submodules: 'true'
       - name: Setup container
-        run: apt-get install ninja-build
+        run: apt-get update && apt-get upgrade && apt-get install ninja-build
       - name: Install CMake
         uses: lukka/get-cmake@v3.21.2
       - name: Setup vcpkg for dependencies
