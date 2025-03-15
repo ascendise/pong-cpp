@@ -8,6 +8,9 @@ on:
 jobs:
   lint-build-test:
     runs-on: ubuntu-cmake
+    credentials:
+      username: ${{ secrets.DOCKER_USER }}
+      password: ${{ secrets.DOCKER_PASS }}
     steps:
       - name: Checkout project
         uses: actions/checkout@v3
