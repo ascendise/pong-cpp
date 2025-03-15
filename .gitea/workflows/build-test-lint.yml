@@ -7,7 +7,8 @@ on:
 
 jobs:
   lint-build-test:
-    runs-on: ubuntu-cmake
+    runs-on: ubuntu-latest
+    container: docker.ascendise.ch/ascendise/cmake-runner:latest
     credentials:
       username: ${{ secrets.DOCKER_USER }}
       password: ${{ secrets.DOCKER_PASS }}
