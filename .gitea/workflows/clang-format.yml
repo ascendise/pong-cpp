@@ -6,7 +6,7 @@ on:
     branches: [main]
 jobs:
   clang-format:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-cmake
     strategy:
       fail-fast: false
       matrix:
