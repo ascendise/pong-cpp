@@ -1,5 +1,8 @@
 #include <math.hpp>
 #define _USE_MATH_DEFINES // NOLINT; Need to define this to get sweet pi(e)
+#ifndef M_PI
+#define M_PI 3.1415926
+#endif
 
 namespace pong::math {
 
