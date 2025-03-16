@@ -8,10 +8,11 @@ on:
 jobs:
   lint-build-test:
     runs-on: ubuntu-latest
-    container: docker.ascendise.ch/ascendise/cmake-runner:latest
-    credentials:
-      username: test #${{ secrets.DOCKER_USER }}
-      password: test #${{ secrets.DOCKER_PASS }}
+    container: 
+      image: docker.ascendise.ch/ascendise/cmake-runner:latest
+      credentials:
+        username: ${{ secrets.DOCKER_USER }}
+        password: ${{ secrets.DOCKER_PASS }}
     steps:
       - name: Checkout project
         uses: actions/checkout@v3
