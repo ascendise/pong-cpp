@@ -6,7 +6,12 @@ on:
     branches: [main]
 jobs:
   clang-format:
-    runs-on: ubuntu-cmake
+    runs-on: ubuntu-latest
+    container: 
+      image: docker.ascendise.ch/ascendise/cmake-runner:latest
+      credentials:
+        username: ${{ secrets.DOCKER_USER }}
+        password: ${{ secrets.DOCKER_PASS }}
     strategy:
       fail-fast: false
       matrix:

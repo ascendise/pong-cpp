@@ -19,7 +19,7 @@ jobs:
         with:
           submodules: 'true'
       - name: Install build dependencies
-        run: apt-get istall python3-jinja2
+        run: apt-get install python3-jinja2
       - name: Build and Test
         uses: lukka/run-cmake@v10.7
         with: 
