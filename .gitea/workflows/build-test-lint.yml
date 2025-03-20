@@ -26,6 +26,12 @@ jobs:
           configurePreset: dev-vcpkg-ninja
           buildPreset: dev-vcpkg-debug
           testPreset: dev-vcpkg-test
+      - name: Cache build output ($GITEA_REF)
+        id: build-cache
+        uses: actions/cache@v4
+        with:
+          path: ./build
+          key: $GITEA_REF
       - name: Linter
         working-directory: ./build/dev-vcpkg-ninja
         run: run-clang-tidy
