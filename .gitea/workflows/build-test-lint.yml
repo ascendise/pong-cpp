@@ -19,11 +19,11 @@ jobs:
         with:
           submodules: 'true'
       - name: Cache build output
-        id: build-cache (${{ env.GITEA_REF }})
+        id: build-cache 
         uses: actions/cache@v4
         with:
           path: ./build
-          key: ${{ env.GITEA_REF }}
+          key: build-output
           restore-keys: ${{ env.GITEA_REF }}
       - name: Install build dependencies
         run: apt-get -y install python3-jinja2
